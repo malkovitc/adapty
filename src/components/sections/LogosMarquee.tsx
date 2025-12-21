@@ -3,19 +3,21 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/adapty' : '';
+
 const logos = [
-  { name: 'Feeld', logo: '/logos/logo-feeld-gray.svg' },
-  { name: 'Bumble', logo: '/logos/logo-bumble-gray.svg' },
-  { name: 'HubX', logo: '/logos/logo-hubx-gray.svg' },
-  { name: 'AppNation', logo: '/logos/appnation.webp' },
-  { name: 'Impala Studios', logo: '/logos/logo-text-impala-studios-gray.svg' },
-  { name: 'Smartist', logo: '/logos/smartist.png' },
-  { name: 'Smitten', logo: '/logos/smitten.webp' },
-  { name: 'Moonly', logo: '/logos/moonly.svg' },
-  { name: 'SocialKit', logo: '/logos/socialkit.svg' },
-  { name: 'Bickster', logo: '/logos/bickster.png' },
-  { name: 'Going Merry', logo: '/logos/going-merry.webp' },
-  { name: 'Fotorama', logo: '/logos/fotorama.webp' },
+  { name: 'Feeld', logo: `${basePath}/logos/logo-feeld-gray.svg` },
+  { name: 'Bumble', logo: `${basePath}/logos/logo-bumble-gray.svg` },
+  { name: 'HubX', logo: `${basePath}/logos/logo-hubx-gray.svg` },
+  { name: 'AppNation', logo: `${basePath}/logos/appnation.webp` },
+  { name: 'Impala Studios', logo: `${basePath}/logos/logo-text-impala-studios-gray.svg` },
+  { name: 'Smartist', logo: `${basePath}/logos/smartist.png` },
+  { name: 'Smitten', logo: `${basePath}/logos/smitten.webp` },
+  { name: 'Moonly', logo: `${basePath}/logos/moonly.svg` },
+  { name: 'SocialKit', logo: `${basePath}/logos/socialkit.svg` },
+  { name: 'Bickster', logo: `${basePath}/logos/bickster.png` },
+  { name: 'Going Merry', logo: `${basePath}/logos/going-merry.webp` },
+  { name: 'Fotorama', logo: `${basePath}/logos/fotorama.webp` },
 ];
 
 export default function LogosMarquee() {

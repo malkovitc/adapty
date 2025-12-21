@@ -3,19 +3,21 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/adapty' : '';
+
 const integrations = [
-  { name: 'Stripe', logo: '/logos/stripe.svg' },
-  { name: 'Apple', logo: '/logos/apple.svg' },
-  { name: 'Google Play', logo: '/logos/google-play.svg' },
-  { name: 'Firebase', logo: '/logos/firebase.svg' },
-  { name: 'Mixpanel', logo: '/logos/mixpanel.svg' },
-  { name: 'Amplitude', logo: '/logos/amplitude.svg' },
-  { name: 'Branch', logo: '/logos/branch.svg' },
-  { name: 'AppsFlyer', logo: '/logos/appsflyer.svg' },
-  { name: 'Braze', logo: '/logos/braze.svg' },
-  { name: 'Adjust', logo: '/logos/adjust.svg' },
-  { name: 'Slack', logo: '/logos/slack.svg' },
-  { name: 'Segment', logo: '/logos/segment.svg' },
+  { name: 'Stripe', logo: `${basePath}/logos/stripe.svg` },
+  { name: 'Apple', logo: `${basePath}/logos/apple.svg` },
+  { name: 'Google Play', logo: `${basePath}/logos/google-play.svg` },
+  { name: 'Firebase', logo: `${basePath}/logos/firebase.svg` },
+  { name: 'Mixpanel', logo: `${basePath}/logos/mixpanel.svg` },
+  { name: 'Amplitude', logo: `${basePath}/logos/amplitude.svg` },
+  { name: 'Branch', logo: `${basePath}/logos/branch.svg` },
+  { name: 'AppsFlyer', logo: `${basePath}/logos/appsflyer.svg` },
+  { name: 'Braze', logo: `${basePath}/logos/braze.svg` },
+  { name: 'Adjust', logo: `${basePath}/logos/adjust.svg` },
+  { name: 'Slack', logo: `${basePath}/logos/slack.svg` },
+  { name: 'Segment', logo: `${basePath}/logos/segment.svg` },
 ];
 
 export default function Integrations() {
