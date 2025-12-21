@@ -18,7 +18,11 @@
       "Bash(find:*)",
       "mcp__playwright__browser_close",
       "Bash(pkill:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nMajor UI improvements: typography, spacing, and premium polish\n\n- Fix vertical text display issue with inline styles\n- Add new sections: Features, HowItWorks, Pricing, FAQ, CTA, Testimonials\n- Improve Pricing section with proper card alignment and toggle styling\n- Polish CTA buttons with fixed height, proper gaps, and premium shadows\n- Enhance Footer with better spacing, contrast, and visual hierarchy\n- Add LogosMarquee and Integrations sections\n- Update typography rhythm across all sections\n- Add BackToTop and ScrollIndicator components\n- Include brand logos and integration icons\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit --amend -m \"$\\(cat <<''EOF''\nMajor UI improvements: typography, spacing, and premium polish\n\n- Fix vertical text display issue with inline styles\n- Add new sections: Features, HowItWorks, Pricing, FAQ, CTA, Testimonials\n- Improve Pricing section with proper card alignment and toggle styling\n- Polish CTA buttons with fixed height, proper gaps, and premium shadows\n- Enhance Footer with better spacing, contrast, and visual hierarchy\n- Add LogosMarquee and Integrations sections\n- Update typography rhythm across all sections\n- Add BackToTop and ScrollIndicator components\n- Include brand logos and integration icons\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
