@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:adapty.io)",
+      "Bash(npm run build:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_press_key",
+      "WebSearch",
+      "Bash(grep:*)",
+      "Bash(npx tailwindcss --help:*)",
+      "Bash(find:*)",
+      "mcp__playwright__browser_close",
+      "Bash(pkill:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

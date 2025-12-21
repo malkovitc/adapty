@@ -4,3 +4,5 @@ export { default as Button } from './Button';
 export { default as Badge } from './Badge';
 export { default as AnimatedCounter } from './AnimatedCounter';
 export { default as Container } from './Container';
+export { default as ScrollIndicator } from './ScrollIndicator';
+export { default as BackToTop } from './BackToTop';
