@@ -1,0 +1,4 @@
+Contact: mailto:security@adapty.io
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, ru
+Canonical: https://adapty.io/.well-known/security.txt
