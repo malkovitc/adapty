@@ -1,28 +1,65 @@
 'use client';
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-
-const basePath = process.env.NODE_ENV === 'production' ? '/adapty' : '';
+import Link from 'next/link';
 
 const integrations = [
-  { name: 'Stripe', logo: `${basePath}/logos/stripe.svg` },
-  { name: 'Apple', logo: `${basePath}/logos/apple.svg` },
-  { name: 'Google Play', logo: `${basePath}/logos/google-play.svg` },
-  { name: 'Firebase', logo: `${basePath}/logos/firebase.svg` },
-  { name: 'Mixpanel', logo: `${basePath}/logos/mixpanel.svg` },
-  { name: 'Amplitude', logo: `${basePath}/logos/amplitude.svg` },
-  { name: 'Branch', logo: `${basePath}/logos/branch.svg` },
-  { name: 'AppsFlyer', logo: `${basePath}/logos/appsflyer.svg` },
-  { name: 'Braze', logo: `${basePath}/logos/braze.svg` },
-  { name: 'Adjust', logo: `${basePath}/logos/adjust.svg` },
-  { name: 'Slack', logo: `${basePath}/logos/slack.svg` },
-  { name: 'Segment', logo: `${basePath}/logos/segment.svg` },
+  { name: 'Stripe', icon: '/logos/icon-stripe-logo.svg', href: 'https://adapty.io/integrations/stripe/' },
+  { name: 'Apple Ads', icon: '/logos/icon-apple-ads-text.svg', href: 'https://adapty.io/integrations/apple-search-ads/' },
+  { name: 'PostHog', icon: '/logos/posthog-logo-colorfull.svg', href: 'https://adapty.io/integrations/posthog/' },
+  { name: 'Branch', icon: '/logos/logo-branch.svg', href: 'https://adapty.io/integrations/branch/' },
+  { name: 'Braze', icon: '/logos/logo-braze.svg', href: 'https://adapty.io/integrations/braze/' },
+  { name: 'Amazon S3', icon: '/logos/logo-amazon-s3.svg', href: 'https://adapty.io/integrations/amazon-s3/' },
+  { name: 'Firebase', icon: '/logos/logo-firebase-and-ga.svg', href: 'https://adapty.io/integrations/google-analytics-firebase/' },
+  { name: 'Mixpanel', icon: '/logos/logo-mixpanel.svg', href: 'https://adapty.io/integrations/mixpanel/' },
+  { name: 'Airbridge', icon: '/logos/logo-airbridge.svg', href: 'https://adapty.io/integrations/airbridge/' },
+  { name: 'Facebook', icon: '/logos/logo-facebook-blue-text.svg', href: 'https://adapty.io/integrations/facebook-ads/' },
+  { name: 'AppsFlyer', icon: '/logos/logo-appsflyer.svg', href: 'https://adapty.io/integrations/appsflyer/' },
+  { name: 'Adjust', icon: '/logos/logo-adjust.svg', href: 'https://adapty.io/integrations/adjust/' },
 ];
+
+// Memoized Integration Card Component
+const IntegrationCard = memo(function IntegrationCard({
+  integration,
+  index,
+}: {
+  integration: typeof integrations[0];
+  index: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.05,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+    >
+      <Link
+        href={integration.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex flex-col items-center justify-center p-6 sm:p-8 bg-white rounded-2xl border border-neutral-200 hover:shadow-xl hover:border-violet-300 hover:-translate-y-1 transition-all duration-300 cursor-pointer touch-manipulation min-h-[120px] sm:min-h-[140px]"
+      >
+        <div className="h-12 sm:h-14 flex items-center justify-center w-full">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={integration.icon}
+            alt={integration.name}
+            className="object-contain max-h-12 sm:max-h-14 max-w-[140px] sm:max-w-[160px] w-auto"
+          />
+        </div>
+      </Link>
+    </motion.div>
+  );
+});
 
 export default function Integrations() {
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 bg-[#F5F5F7] overflow-hidden">
+    <section id="integrations" className="relative py-12 sm:py-16 md:py-20 bg-[#FAFAFA] overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <motion.p
@@ -41,7 +78,7 @@ export default function Integrations() {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4"
           >
-            Works with your favorite tools
+            Sync purchase data with other services
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -51,7 +88,7 @@ export default function Integrations() {
             className="text-base sm:text-lg text-slate-600"
             style={{ maxWidth: '42rem', margin: '0 auto' }}
           >
-            Connect Adapty with the tools you already use for analytics, attribution, and marketing
+            Forward subscription events to analytics and attribution services without coding.
           </motion.p>
         </div>
 
@@ -61,35 +98,10 @@ export default function Integrations() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6"
         >
           {integrations.map((integration, index) => (
-            <motion.div
-              key={integration.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.05,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{ scale: 1.05, y: -4 }}
-              className="flex flex-col items-center justify-center gap-2 p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-slate-200 transition-all duration-300 cursor-pointer group touch-manipulation min-h-[80px] sm:min-h-[100px]"
-            >
-              <div className="w-10 h-10 flex items-center justify-center">
-                <Image
-                  src={integration.logo}
-                  alt={integration.name}
-                  width={40}
-                  height={40}
-                  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
-                />
-              </div>
-              <span className="text-xs font-medium text-slate-500 group-hover:text-slate-900 transition-colors">
-                {integration.name}
-              </span>
-            </motion.div>
+            <IntegrationCard key={integration.name} integration={integration} index={index} />
           ))}
         </motion.div>
 
@@ -101,11 +113,13 @@ export default function Integrations() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center mt-10"
         >
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 text-[#7C3AED] hover:text-[#6D28D9] font-semibold transition-colors group min-h-[44px] py-2 touch-manipulation"
+          <Link
+            href="https://adapty.io/integrations/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-violet-600 hover:text-violet-700 font-semibold transition-colors group min-h-[44px] py-2 touch-manipulation"
           >
-            See all 30+ integrations
+            Explore integrations
             <svg
               className="w-4 h-4 group-hover:translate-x-1 transition-transform"
               fill="none"
@@ -114,7 +128,7 @@ export default function Integrations() {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

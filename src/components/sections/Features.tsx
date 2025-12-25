@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import {
   BarChart3,
@@ -11,7 +12,6 @@ import {
   FlaskConical,
   Globe
 } from 'lucide-react';
-import { useState } from 'react';
 
 const features = [
   {
@@ -80,10 +80,8 @@ const features = [
   },
 ];
 
-// Feature Card Component with advanced hover effects
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
-
+// Feature Card Component with premium Attio/Linear style hover effects
+const FeatureCard = memo(function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -94,155 +92,29 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
         delay: index * 0.08,
         ease: [0.16, 1, 0.3, 1],
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative"
+      className="group relative h-full p-6 rounded-xl border border-neutral-200 bg-white hover:shadow-lg hover:border-neutral-300 hover:-translate-y-1 transition-all duration-200"
     >
-      {/* Animated glow background on hover */}
-      <motion.div
-        className="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-700"
-        style={{
-          background: `linear-gradient(135deg, ${feature.iconGradient.start}, ${feature.iconGradient.end})`,
-        }}
-        animate={{
-          opacity: isHovered ? 0.6 : 0,
-        }}
-        transition={{ duration: 0.7 }}
-      />
+      {/* Icon with background color change on hover */}
+      <div className="w-10 h-10 rounded-lg bg-neutral-100 grid place-items-center group-hover:bg-neutral-900 transition-colors duration-200 mb-4">
+        <feature.icon className="w-5 h-5 text-neutral-600 group-hover:text-white transition-colors duration-200" />
+      </div>
 
-      {/* Card content */}
-      <motion.div
-        className="relative h-full p-8 bg-white rounded-2xl border border-slate-200/80 backdrop-blur-sm overflow-hidden"
-        whileHover={{
-          y: -8,
-          transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
-        }}
-      >
-        {/* Gradient overlay on hover */}
-        <motion.div
-          className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-        />
-
-        {/* Animated border gradient */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl"
-          style={{
-            background: `linear-gradient(135deg, ${feature.iconGradient.start}, ${feature.iconGradient.end})`,
-            opacity: 0,
-          }}
-          animate={{
-            opacity: isHovered ? 0.15 : 0,
-          }}
-          transition={{ duration: 0.5 }}
-        />
-
-        {/* Icon with gradient and glow */}
-        <div className="relative mb-6">
-          <motion.div
-            className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100/50 backdrop-blur-sm relative overflow-hidden"
-            whileHover={{
-              scale: 1.05,
-              rotate: [0, -5, 5, 0],
-              transition: { duration: 0.5 }
-            }}
-          >
-            {/* Icon glow effect */}
-            <motion.div
-              className="absolute inset-0 rounded-2xl blur-lg"
-              style={{
-                background: `linear-gradient(135deg, ${feature.iconGradient.start}, ${feature.iconGradient.end})`,
-              }}
-              animate={{
-                opacity: isHovered ? 0.4 : 0,
-                scale: isHovered ? 1.2 : 1,
-              }}
-              transition={{ duration: 0.5 }}
-            />
-
-            {/* Gradient icon */}
-            <div className="relative">
-              <svg width="0" height="0" className="absolute">
-                <defs>
-                  <linearGradient id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: feature.iconGradient.start }} />
-                    <stop offset="100%" style={{ stopColor: feature.iconGradient.end }} />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <feature.icon
-                className="w-7 h-7 relative z-10"
-                style={{
-                  stroke: `url(#gradient-${index})`,
-                  strokeWidth: 2,
-                }}
-              />
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Content with improved hierarchy */}
-        <div className="relative z-10">
-          <motion.h3
-            className="text-xl font-bold text-slate-900 mb-3 group-hover:bg-gradient-to-r group-hover:from-slate-900 group-hover:to-slate-700 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300"
-            animate={{
-              y: isHovered ? -2 : 0,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            {feature.title}
-          </motion.h3>
-          <p className="text-slate-600 text-[15px] leading-relaxed mb-4">
-            {feature.description}
-          </p>
-
-          {/* Animated "Learn more" link */}
-          <motion.div
-            className="flex items-center gap-2 text-sm font-semibold"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{
-              opacity: isHovered ? 1 : 0,
-              x: isHovered ? 0 : -10,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: `linear-gradient(135deg, ${feature.iconGradient.start}, ${feature.iconGradient.end})`,
-              }}
-            >
-              Learn more
-            </span>
-            <motion.svg
-              className="w-4 h-4"
-              style={{ stroke: feature.iconGradient.end }}
-              fill="none"
-              viewBox="0 0 24 24"
-              animate={{
-                x: isHovered ? 4 : 0,
-              }}
-              transition={{ duration: 0.3, repeat: Infinity, repeatType: 'reverse', repeatDelay: 0.5 }}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-            </motion.svg>
-          </motion.div>
-        </div>
-
-        {/* Corner accent */}
-        <motion.div
-          className="absolute top-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: `radial-gradient(circle at top right, ${feature.glowColor}, transparent 70%)`,
-          }}
-        />
-      </motion.div>
+      {/* Content */}
+      <div>
+        <h3 className="text-lg font-medium text-slate-900 mb-2">
+          {feature.title}
+        </h3>
+        <p className="text-neutral-600 text-[15px] leading-relaxed">
+          {feature.description}
+        </p>
+      </div>
     </motion.div>
   );
-}
+});
 
 export default function Features() {
   return (
-    <section className="relative py-24 sm:py-28 md:py-32 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+    <section id="features" className="relative py-24 sm:py-28 md:py-32 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
       {/* Enhanced background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-purple-100/40 via-indigo-50/30 to-transparent rounded-full blur-3xl animate-pulse"

@@ -1,28 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:adapty.io)",
-      "Bash(npm run build:*)",
-      "Bash(lsof:*)",
-      "Bash(kill:*)",
-      "Bash(npm run dev:*)",
-      "Bash(curl:*)",
-      "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_take_screenshot",
-      "mcp__playwright__browser_press_key",
-      "WebSearch",
-      "Bash(grep:*)",
-      "Bash(npx tailwindcss --help:*)",
-      "Bash(find:*)",
-      "mcp__playwright__browser_close",
-      "Bash(pkill:*)",
-      "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nMajor UI improvements: typography, spacing, and premium polish\n\n- Fix vertical text display issue with inline styles\n- Add new sections: Features, HowItWorks, Pricing, FAQ, CTA, Testimonials\n- Improve Pricing section with proper card alignment and toggle styling\n- Polish CTA buttons with fixed height, proper gaps, and premium shadows\n- Enhance Footer with better spacing, contrast, and visual hierarchy\n- Add LogosMarquee and Integrations sections\n- Update typography rhythm across all sections\n- Add BackToTop and ScrollIndicator components\n- Include brand logos and integration icons\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git commit --amend -m \"$\\(cat <<''EOF''\nMajor UI improvements: typography, spacing, and premium polish\n\n- Fix vertical text display issue with inline styles\n- Add new sections: Features, HowItWorks, Pricing, FAQ, CTA, Testimonials\n- Improve Pricing section with proper card alignment and toggle styling\n- Polish CTA buttons with fixed height, proper gaps, and premium shadows\n- Enhance Footer with better spacing, contrast, and visual hierarchy\n- Add LogosMarquee and Integrations sections\n- Update typography rhythm across all sections\n- Add BackToTop and ScrollIndicator components\n- Include brand logos and integration icons\nEOF\n\\)\")",
-      "Bash(git push:*)",
-      "Bash(git commit:*)"
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_console_messages",
+      "Bash(tree:*)",
+      "Bash(npm run:*)",
+      "mcp__chrome-devtools__fill",
+      "Bash(for file in CmsHeader.tsx CmsLayout.tsx index.ts)",
+      "Bash(do cp \"/Users/evgeny/Desktop/02/ adapty/adapty-website/src/components/cms/$file\" \"/Users/evgeny/Desktop/ adapty/adapty-website/src/components/cms/$file\")",
+      "Bash(for file in SetupGuideModal.tsx ShortcutsModal.tsx)",
+      "Bash(do cp \"/Users/evgeny/Desktop/02/ adapty/adapty-website/src/components/cms/Modals/$file\" \"/Users/evgeny/Desktop/ adapty/adapty-website/src/components/cms/Modals/$file\")",
+      "WebFetch(domain:funnelfox.io)",
+      "WebFetch(domain:funnelfox.com)",
+      "Bash(cd /Users/evgeny/Desktop/ adapty/adapty-website)",
+      "Bash(rsync:*)"
     ]
   }
 }

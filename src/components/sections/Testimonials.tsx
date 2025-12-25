@@ -1,39 +1,56 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import Image from 'next/image';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 
 const testimonials = [
   {
-    quote: "Adapty helped us increase our subscription revenue by 40% in just 3 months. The A/B testing tools are incredibly powerful.",
-    author: "Sarah Chen",
-    role: "Head of Growth",
-    company: "FitLife App",
-    avatar: "SC",
-    rating: 5,
+    quote: "Migrating off RevenueCat was not an easy decision for us. We've chosen Adapty because we believe they are a better partner as we grow. Looking back it was the right call. Despite some hiccups, the Adapty team was always there to help us during the migration and afterward, and their support is top-notch. I recommend Adapty as a reliable partner.",
+    author: "Cem Ortabas",
+    role: "Co-founder and CEO",
+    company: "HubX",
+    photo: "/images/testimonials/cem-ortabas.webp",
+    logo: "/images/testimonials/logo-hubx.svg",
   },
   {
-    quote: "We switched from a homegrown solution and saved our engineering team hundreds of hours. The analytics are best-in-class.",
-    author: "Marcus Williams",
-    role: "CTO",
-    company: "MindfulMe",
-    avatar: "MW",
-    rating: 5,
+    quote: "We've been working with Adapty since 2021 and I couldn't be happier about it. We've tried other subscription management platforms in the past so I can compare. Adapty introduced numerous features over the years and constantly helped us grow. They have the best analytics on the market and all the integrations you can think of. If you looking to boost the revenue of your app, I definitely recommend Adapty.",
+    author: "Chris Bick",
+    role: "Founder and CEO",
+    company: "Bickster",
+    photo: "/images/testimonials/chris-bick.webp",
+    logo: "/images/testimonials/logo-bickster.png",
   },
   {
-    quote: "The no-code paywall builder is a game-changer. We can iterate on pricing and design without waiting for app updates.",
-    author: "Elena Rodriguez",
-    role: "Product Manager",
-    company: "PhotoEditor Pro",
-    avatar: "ER",
-    rating: 5,
+    quote: "We chose Adapty for its powerful paywall A/B testing capabilities, which helped us optimize our monetization strategy effectively. The user-friendly platform, flexible pricing, and exceptional customer support make Adapty a superior choice over competitors.",
+    author: "Yalçın Özdemir",
+    role: "Founder & CEO",
+    company: "AppNation",
+    photo: "/images/testimonials/yalcin-ozdemir.webp",
+    logo: "/images/testimonials/logo-appnation.png",
+  },
+  {
+    quote: "Adapty's platform makes it easy for non-developers to create and manage A/B tests, paywalls, product mix and pricing structure. They have a great external API that makes it easy to pass related events to other analytics tools like Amplitude and Mixpanel.",
+    author: "Kyle Smith",
+    role: "Head of Data",
+    company: "Smitten Dating",
+    photo: "/images/testimonials/kyle-smith.webp",
+    logo: "/images/testimonials/logo-smitten.webp",
+  },
+  {
+    quote: "We've tested more than three hundred paywalls in the space of four months. Adapty allows testing basically any element of the paywall, and we took advantage of that. We've tested them all: products, title text, CTA buttons, images, videos etc. With Adapty's A/B testing, we managed to double our monthly revenue. I wasn't sure if one instrument could make such an impact, but I witnessed it myself.",
+    author: "Roi Mulia",
+    role: "Founder & CEO",
+    company: "SocialKit",
+    photo: "/images/testimonials/roi-mulia.webp",
+    logo: "/images/testimonials/logo-socialkit.svg",
   },
 ];
 
 const stats = [
   {
-    value: '15,000+',
     numericValue: 15000,
     prefix: '',
     suffix: '+',
@@ -41,23 +58,20 @@ const stats = [
     label: 'Apps powered'
   },
   {
-    value: '$2B+',
-    numericValue: 2,
+    numericValue: 1.9,
     prefix: '$',
     suffix: 'B+',
-    decimals: 0,
+    decimals: 1,
     label: 'Revenue tracked'
   },
   {
-    value: '99.9%',
-    numericValue: 99.9,
+    numericValue: 99.99,
     prefix: '',
     suffix: '%',
-    decimals: 1,
+    decimals: 2,
     label: 'Uptime SLA'
   },
   {
-    value: '4.8',
     numericValue: 4.8,
     prefix: '',
     suffix: '',
@@ -68,179 +82,170 @@ const stats = [
 ];
 
 export default function Testimonials() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrevious = useCallback(() => {
+    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  }, []);
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  }, []);
+
+  const currentTestimonial = testimonials[currentIndex];
+
   return (
-    <section className="relative py-16 sm:py-20 md:py-24 bg-[#0F172A] overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[150px]" />
-
-        {/* Animated grid pattern */}
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: 'linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px)',
-          backgroundSize: '50px 50px',
-        }} />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 pb-20 border-b border-white/10"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.8,
-                delay: index * 0.1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{ scale: 1.05 }}
-              className="text-center"
-            >
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <AnimatedCounter
-                  value={stat.numericValue}
-                  prefix={stat.prefix}
-                  suffix={stat.suffix}
-                  decimals={stat.decimals}
-                  useCommas={stat.numericValue >= 1000}
-                  className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-white via-white to-purple-200 bg-clip-text text-transparent"
-                />
-                {stat.icon && (
-                  <motion.div
-                    initial={{ rotate: 0 }}
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <stat.icon className="w-8 h-8 text-yellow-400 fill-yellow-400" />
-                  </motion.div>
-                )}
-              </div>
-              <p className="text-slate-400 font-medium">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.p
+    <>
+      {/* Stats Section - Light background */}
+      <section className="relative py-16 sm:py-20 bg-[#F8F9FA]">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm font-semibold uppercase tracking-wider text-purple-400 mb-4"
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
           >
-            Testimonials
-          </motion.p>
+            {stats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.8,
+                  delay: index * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="text-center"
+              >
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <AnimatedCounter
+                    value={stat.numericValue}
+                    prefix={stat.prefix}
+                    suffix={stat.suffix}
+                    decimals={stat.decimals}
+                    useCommas={stat.numericValue >= 1000}
+                    className="text-4xl md:text-5xl font-bold text-slate-900"
+                  />
+                  {stat.icon && (
+                    <stat.icon className="w-8 h-8 text-yellow-500 fill-yellow-500" />
+                  )}
+                </div>
+                <p className="text-slate-500 font-medium">{stat.label}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Testimonials Slider - Dark background */}
+      <section id="testimonials" className="relative py-16 sm:py-20 md:py-24 bg-[#0F172A] overflow-hidden">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-16"
           >
-            Loved by app developers{' '}
-            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              worldwide
-            </span>
+            Developers from all kind of apps move to Adapty to grow their revenue
           </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg text-slate-400"
-            style={{ maxWidth: '42rem', margin: '0 auto' }}
-          >
-            Join thousands of successful apps that trust Adapty to power their subscription business
-          </motion.p>
-        </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.author}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{
-                y: -12,
-                scale: 1.02,
-                transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-              }}
-              className="group relative p-8 rounded-2xl bg-gradient-to-br from-white/[0.08] via-white/[0.05] to-transparent border border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-500"
+          {/* Testimonial Slider */}
+          <div className="relative">
+            {/* Navigation Arrows */}
+            <button
+              onClick={goToPrevious}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 text-white/60 hover:text-white transition-colors"
+              aria-label="Previous testimonial"
             >
-              {/* Glassmorphism overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <ChevronLeft className="w-10 h-10 sm:w-12 sm:h-12" strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={goToNext}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 text-white/60 hover:text-white transition-colors"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="w-10 h-10 sm:w-12 sm:h-12" strokeWidth={1.5} />
+            </button>
 
-              {/* Animated border glow */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/50 via-cyan-500/50 to-blue-500/50 blur-xl" />
-              </div>
-
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-              {/* Content */}
-              <div className="relative z-10">
-                {/* Stars */}
-                <div className="flex gap-1 mb-6">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.15 + i * 0.1, duration: 0.3 }}
-                      whileHover={{ scale: 1.2, rotate: 10 }}
-                    >
-                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <p className="text-white/90 text-lg leading-relaxed mb-8 group-hover:text-white transition-colors duration-300">
-                  "{testimonial.quote}"
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center gap-4">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-purple-500/50 transition-shadow duration-300"
-                  >
-                    {testimonial.avatar}
-                  </motion.div>
-                  <div>
-                    <p className="font-semibold text-white group-hover:text-purple-300 transition-colors duration-300">
-                      {testimonial.author}
-                    </p>
-                    <p className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
-                      {testimonial.role} at {testimonial.company}
-                    </p>
+            {/* Testimonial Content */}
+            <div className="px-12 sm:px-16 md:px-20">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+                >
+                  {/* Photo */}
+                  <div className="relative flex justify-center md:justify-start">
+                    <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-2xl overflow-hidden">
+                      <Image
+                        src={currentTestimonial.photo}
+                        alt={currentTestimonial.author}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 256px, 288px"
+                      />
+                    </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+
+                  {/* Quote and Author */}
+                  <div className="flex flex-col">
+                    <blockquote className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-8 min-h-[180px] sm:min-h-[200px] md:min-h-[220px]">
+                      &ldquo;{currentTestimonial.quote}&rdquo;
+                    </blockquote>
+
+                    <div className="mb-4">
+                      <p className="text-xl font-semibold text-white">
+                        {currentTestimonial.author}
+                      </p>
+                      <p className="text-slate-400">
+                        {currentTestimonial.role}, {currentTestimonial.company}
+                      </p>
+                    </div>
+
+                    {/* Company Logo */}
+                    <div className="h-8 relative">
+                      <Image
+                        src={currentTestimonial.logo}
+                        alt={currentTestimonial.company}
+                        width={120}
+                        height={32}
+                        className="h-8 w-auto object-contain brightness-0 invert opacity-80"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 mt-12">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? 'bg-white w-8'
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+
+        {/* Gradient decoration at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-violet-600/20 to-transparent pointer-events-none" />
+      </section>
+    </>
   );
 }

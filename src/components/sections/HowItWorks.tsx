@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Sparkles, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useState } from 'react';
 
 const steps = [
@@ -9,10 +9,10 @@ const steps = [
     number: 1,
     title: 'Install SDK',
     description: 'Add Adapty SDK to your iOS, Android, Flutter, React Native or Unity app',
-    gradient: 'from-purple-500 to-purple-600',
+    gradient: 'from-indigo-500 to-indigo-500',
     iconBg: 'from-purple-50 to-purple-100',
     badge: '~5 min',
-    badgeColor: 'from-purple-500 to-purple-600',
+    badgeColor: 'from-indigo-500 to-indigo-500',
   },
   {
     number: 2,
@@ -95,7 +95,7 @@ function SDKInstallation() {
             {activeTab === platform.id && (
               <motion.div
                 layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-blue-500"
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               />
             )}
@@ -120,7 +120,7 @@ function SDKInstallation() {
       {/* Footer with copy button */}
       <div className="px-4 sm:px-6 py-3 bg-slate-800/30 border-t border-slate-800 flex justify-between items-center">
         <span className="text-xs text-slate-500">Installation code</span>
-        <button className="text-xs text-purple-400 hover:text-purple-300 transition-colors">
+        <button className="text-xs text-indigo-400 hover:text-purple-300 transition-colors">
           Copy
         </button>
       </div>
@@ -218,7 +218,7 @@ function PaywallBuilder() {
       </div>
 
       {/* Paywall preview */}
-      <div className="p-4 sm:p-6 bg-gradient-to-br from-indigo-500 to-purple-600">
+      <div className="p-4 sm:p-6 bg-gradient-to-br from-indigo-500 to-indigo-500">
         <div className="bg-white rounded-xl p-4 sm:p-6 shadow-xl">
           {/* Title */}
           <div className="text-center mb-4">
@@ -234,7 +234,7 @@ function PaywallBuilder() {
           <div className="space-y-2 mb-4">
             {['Ad-free experience', 'Offline mode', 'Premium content'].map((feature, i) => (
               <div key={i} className="flex items-center gap-2">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-500 flex items-center justify-center shrink-0">
                   <Check className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-xs sm:text-sm text-slate-700">{feature}</span>
@@ -243,7 +243,7 @@ function PaywallBuilder() {
           </div>
 
           {/* Price button */}
-          <button className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 sm:py-4 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-xl transition-shadow">
+          <button className="w-full bg-gradient-to-r from-indigo-500 to-indigo-500 text-white font-semibold py-3 sm:py-4 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-xl transition-shadow">
             Start Free Trial
           </button>
 
@@ -397,7 +397,7 @@ function AnalyticsDashboard() {
 
 export default function HowItWorks() {
   return (
-    <section className="relative py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
+    <section id="how-it-works" className="relative py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-full blur-3xl" />
@@ -411,7 +411,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm font-semibold uppercase tracking-wider text-[#7C3AED] mb-4"
+            className="text-sm font-semibold uppercase tracking-wider text-[#6366F1] mb-4"
           >
             How It Works
           </motion.p>
@@ -423,7 +423,7 @@ export default function HowItWorks() {
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6"
           >
             Get started in{' '}
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
               four simple steps
             </span>
           </motion.h2>
@@ -451,8 +451,8 @@ export default function HowItWorks() {
             >
               <defs>
                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.2" />
-                  <stop offset="50%" stopColor="#7C3AED" stopOpacity="0.5" />
+                  <stop offset="0%" stopColor="#6366F1" stopOpacity="0.2" />
+                  <stop offset="50%" stopColor="#6366F1" stopOpacity="0.5" />
                   <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.2" />
                 </linearGradient>
               </defs>
@@ -481,7 +481,7 @@ export default function HowItWorks() {
                 times: [0, 0.1, 0.9, 1],
               }}
             >
-              <div className="w-full h-full rounded-full bg-purple-500 shadow-lg shadow-purple-500/50" />
+              <div className="w-full h-full rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50" />
             </motion.div>
 
             {/* Second animated dot with delay */}
@@ -532,7 +532,7 @@ export default function HowItWorks() {
                       y1="0"
                       x2="1"
                       y2="100"
-                      stroke="#7C3AED"
+                      stroke="#6366F1"
                       strokeWidth="2"
                       strokeDasharray="8 8"
                       strokeOpacity="0.3"
@@ -557,7 +557,7 @@ export default function HowItWorks() {
                         delay: index * 0.15 + 0.2,
                         ease: [0.16, 1, 0.3, 1],
                       }}
-                      className="relative shrink-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-[#7C3AED] flex items-center justify-center shadow-lg shadow-purple-500/30 z-10"
+                      className="relative shrink-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-[#6366F1] flex items-center justify-center shadow-lg shadow-indigo-500/30 z-10"
                     >
                       <span className="text-xl lg:text-2xl font-bold text-white">
                         {step.number}
@@ -573,7 +573,7 @@ export default function HowItWorks() {
                           repeatDelay: 1,
                           ease: 'easeOut',
                         }}
-                        className="absolute inset-0 rounded-full border-2 border-[#7C3AED]"
+                        className="absolute inset-0 rounded-full border-2 border-[#6366F1]"
                       />
                     </motion.div>
 
@@ -644,7 +644,7 @@ export default function HowItWorks() {
         >
           <a
             href="#"
-            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 min-h-[48px] bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105 touch-manipulation text-base sm:text-lg"
+            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 min-h-[48px] bg-[#6366F1] hover:bg-[#4F46E5] text-white rounded-xl font-semibold transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 touch-manipulation text-base sm:text-lg"
           >
             Get started for free
             <svg

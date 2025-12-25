@@ -12,7 +12,7 @@ const benefits = [
 
 export default function CTA() {
   return (
-    <section className="relative pt-16 pb-24 sm:pt-20 sm:pb-28 md:pt-24 md:pb-32 bg-gradient-to-b from-[#F5F5F7] via-white to-[#F5F5F7] overflow-hidden">
+    <section id="cta" className="relative pt-16 pb-24 sm:pt-20 sm:pb-28 md:pt-24 md:pb-32 bg-gradient-to-b from-[#FAFAFA] via-white to-[#FAFAFA] overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Main gradient orb */}
@@ -40,7 +40,7 @@ export default function CTA() {
             repeat: Infinity,
             ease: 'easeInOut',
           }}
-          className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-purple-400/20 rounded-full blur-[80px]"
+          className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-indigo-400/20 rounded-full blur-[80px]"
         />
         <motion.div
           animate={{
@@ -73,7 +73,7 @@ export default function CTA() {
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 mb-6"
           >
             Ready to boost your{' '}
-            <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
               app revenue?
             </span>
           </motion.h2>
@@ -102,7 +102,7 @@ export default function CTA() {
             href="#"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center justify-center gap-3 h-14 px-10 bg-gradient-to-r from-[#7C3AED] to-[#6366F1] hover:from-[#6D28D9] hover:to-[#5B21B6] text-white rounded-full font-semibold text-base shadow-[0_4px_24px_rgba(124,58,237,0.4)] hover:shadow-[0_8px_32px_rgba(124,58,237,0.5)] transition-all duration-300 overflow-hidden touch-manipulation"
+            className="group relative inline-flex items-center justify-center gap-3 h-14 px-10 bg-gradient-to-r from-[#6366F1] to-[#6366F1] hover:from-[#4F46E5] hover:to-[#4338CA] text-white rounded-full font-semibold text-base shadow-[0_4px_24px_rgba(99,102,241,0.4)] hover:shadow-[0_8px_32px_rgba(99,102,241,0.5)] transition-all duration-300 overflow-hidden touch-manipulation"
           >
             {/* Shimmer effect */}
             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />

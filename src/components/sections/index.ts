@@ -3,6 +3,7 @@ export { default as LogosMarquee } from './LogosMarquee';
 export { default as Integrations } from './Integrations';
 export { default as Features } from './Features';
 export { default as HowItWorks } from './HowItWorks';
+export { default as FunnelFox } from './FunnelFox';
 export { default as Pricing } from './Pricing';
 export { default as Testimonials } from './Testimonials';
 export { default as FAQ } from './FAQ';

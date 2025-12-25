@@ -7,11 +7,11 @@ const footerLinks = {
   product: {
     title: 'Product',
     links: [
-      { label: 'Paywall Builder', href: '#' },
-      { label: 'A/B Testing', href: '#' },
-      { label: 'Analytics', href: '#' },
-      { label: 'Integrations', href: '#' },
-      { label: 'Pricing', href: '#' },
+      { label: 'Paywall Builder', href: '#features' },
+      { label: 'A/B Testing', href: '#features' },
+      { label: 'Analytics', href: '#features' },
+      { label: 'Integrations', href: '#integrations' },
+      { label: 'Pricing', href: '#pricing' },
     ],
   },
   developers: {
@@ -28,7 +28,7 @@ const footerLinks = {
     title: 'Company',
     links: [
       { label: 'About Us', href: '#' },
-      { label: 'Blog', href: '#' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Careers', href: '#' },
       { label: 'Press Kit', href: '#' },
       { label: 'Contact', href: '#' },
@@ -94,7 +94,7 @@ export default function Footer() {
           {/* Logo and Description */}
           <div className="col-span-2">
             <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-              <Link href="/" className="inline-block mb-8">
+              <Link href="/" className="inline-block mb-8" aria-label="Adapty home">
                 <span className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent hover:from-slate-100 hover:to-white transition-all duration-300">
                   adapty
                 </span>

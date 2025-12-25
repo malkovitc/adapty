@@ -6,3 +6,7 @@ export { default as AnimatedCounter } from './AnimatedCounter';
 export { default as Container } from './Container';
 export { default as ScrollIndicator } from './ScrollIndicator';
 export { default as BackToTop } from './BackToTop';
+export { default as Modal } from './Modal';
+export { ShimmerButton } from './ShimmerButton';
+export { AnimatedPath } from './AnimatedPath';
+export { ErrorBoundary, SectionErrorBoundary } from './ErrorBoundary';

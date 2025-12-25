@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
-/* Marquee animations */
+/* ============================================
+   COMPONENT ANIMATIONS
+   Custom keyframes and utilities for UI components
+   ============================================ */
+
+/* === MARQUEE ANIMATIONS === */
+/* Used in: LogosMarquee component */
 @keyframes scroll-right {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -26,6 +32,65 @@
   animation-play-state: paused;
 }
 
+/* === UI COMPONENT ANIMATIONS === */
+/* Animated Path - Vercel-style running light (used in AnimatedPath component) */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -480;
+  }
+}
+
+.animate-dash {
+  animation: dash 2.2s linear infinite;
+}
+
+/* GlowCard animation - smooth border trace using CSS variable for perimeter */
+@keyframes glow-border-trace {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: var(--perimeter, -2000px);
+  }
+}
+
+/* Legacy spin animation (kept for backwards compatibility) */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+/* Animated gradient border - Attio-style (used in Hero component) */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+.animate-border {
+  animation: border-rotate 4s linear infinite;
+}
+
+/* === SCROLLBAR UTILITIES === */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ============================================
    ADAPTY DESIGN SYSTEM
    Modern, production-ready CSS with Tailwind 4
@@ -34,32 +99,41 @@
 :root {
   /* === COLOR PALETTE === */
 
-  /* Primary Colors */
-  --color-primary: #4F46E5;
-  --color-primary-light: #6366F1;
-  --color-primary-dark: #4338CA;
-
-  /* Secondary Colors */
-  --color-secondary: #10B981;
-  --color-secondary-light: #34D399;
-  --color-secondary-dark: #059669;
-
-  /* Accent Colors */
-  --color-accent: #F59E0B;
-  --color-accent-light: #FBBF24;
-  --color-accent-dark: #D97706;
-
-  /* Background Colors */
-  --bg-primary: #FAFAFA;
+  /* Backgrounds */
+  --bg-primary: #FFFFFF;
+  --bg-subtle: #FAFAFA;
+  --bg-muted: #F5F5F5;
   --bg-secondary: #FFFFFF;
   --bg-dark: #0F172A;
   --bg-dark-secondary: #1E293B;
 
-  /* Text Colors */
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
-  --text-tertiary: #94A3B8;
+  /* Text */
+  --text-primary: #0A0A0A;
+  --text-secondary: #525252;
+  --text-tertiary: #A3A3A3;
   --text-light: #FFFFFF;
+
+  /* Borders */
+  --border-default: #E5E5E5;
+  --border-strong: #D4D4D4;
+
+  /* Accents */
+  --accent-primary: #6366F1;
+  --accent-success: #10B981;
+  --accent-warning: #F59E0B;
+
+  /* Legacy color names for backward compatibility */
+  --color-primary: #6366F1;
+  --color-primary-light: #818CF8;
+  --color-primary-dark: #4F46E5;
+
+  --color-secondary: #10B981;
+  --color-secondary-light: #34D399;
+  --color-secondary-dark: #059669;
+
+  --color-accent: #F59E0B;
+  --color-accent-light: #FBBF24;
+  --color-accent-dark: #D97706;
 
   /* Glass Effect Colors */
   --glass-bg: rgba(255, 255, 255, 0.1);
@@ -187,7 +261,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip вместо hidden - не создаёт containing block для position: fixed */
 }
 
 .text-balance {
@@ -302,39 +376,13 @@ body {
   }
 }
 
-/* === ANIMATION KEYFRAMES === */
+/* ============================================
+   PAGE-LEVEL ANIMATIONS
+   Animations used across various pages
+   ============================================ */
 
-/* Animated Gradient X-axis (for text gradients) */
-@keyframes gradient-x {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-/* Pulse Slow - for ambient glows */
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-/* Pulse Slower - for subtle depth effects */
-@keyframes pulse-slower {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-/* Floating Orbs */
+/* === BACKGROUND ORBS === */
+/* Floating background orbs (used in error pages) */
 @keyframes float-purple {
   0%, 100% {
     transform: translate(0, 0) scale(1);
@@ -384,63 +432,6 @@ body {
   }
 }
 
-/* Fade In Up */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Count Up Animation */
-@keyframes count-up {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Pulse Glow */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(79, 70, 229, 0.6);
-  }
-}
-
-/* Shimmer Effect */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-/* === ANIMATION UTILITY CLASSES === */
-.animate-gradient-x {
-  animation: gradient-x 15s ease infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 4s ease-in-out infinite;
-}
-
-.animate-pulse-slower {
-  animation: pulse-slower 6s ease-in-out infinite;
-}
-
 .animate-float-purple {
   animation: float-purple 8s ease-in-out infinite;
 }
@@ -453,16 +444,111 @@ body {
   animation: float-orange 12s ease-in-out infinite;
 }
 
+/* === UI TRANSITIONS === */
+/* Fade in up (used in CMS notification toasts) */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
 }
 
-.animate-count-up {
-  animation: count-up 0.6s ease-out forwards;
+/* Shimmer effect (used in ShimmerButton component) */
+@keyframes shimmer {
+  to {
+    transform: translateX(200%);
+  }
+}
+
+.group-hover\:animate-shimmer {
+  animation: none;
+}
+
+.group:hover .group-hover\:animate-shimmer {
+  animation: shimmer 0.8s ease-out;
+}
+
+/* ============================================
+   DESIGN SYSTEM UTILITIES
+   Optional animations available for use
+   ============================================ */
+
+/* Gradient text animation (available for use) */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 15s ease infinite;
+}
+
+/* Pulse variations (available for use) */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-slower {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(79, 70, 229, 0.6);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-pulse-slower {
+  animation: pulse-slower 6s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Count up animation (available for use) */
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-count-up {
+  animation: count-up 0.6s ease-out forwards;
 }
 
 /* === SCROLLBAR STYLES === */
@@ -517,9 +603,8 @@ body {
 
 /* === FOCUS STYLES === */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid #6366F1;
   outline-offset: 2px;
-  border-radius: var(--radius-sm);
 }
 
 /* Remove focus outline for email inputs in hero form */
@@ -529,7 +614,7 @@ input[type="email"]:focus-visible {
 
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid #6366F1;
   outline-offset: 2px;
 }
 
@@ -611,5 +696,13 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
+
+/* ============================================
+   CMS STYLES
+   Note: The CMS (/cms page) uses inline styles
+   and Tailwind classes via createPortal for
+   modals and overlays. No global CSS needed.
+   ============================================ */

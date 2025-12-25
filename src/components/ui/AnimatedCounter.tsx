@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 interface AnimatedCounterProps {
   value: number;
@@ -17,59 +17,66 @@ const AnimatedCounter = ({
   value,
   prefix = '',
   suffix = '',
+  duration = 2,
   decimals = 0,
   useCommas = true,
   className = '',
 }: AnimatedCounterProps) => {
+  const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, {
-    damping: 80,
-    stiffness: 50,
-    mass: 1.5,
-  });
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   useEffect(() => {
-    if (isInView) {
-      motionValue.set(value);
-    }
-  }, [isInView, value, motionValue]);
+    if (!isInView) return;
 
-  useEffect(() => {
-    const unsubscribe = springValue.on('change', (latest) => {
-      if (ref.current) {
-        let formattedValue: string;
+    let startTime: number;
+    let animationFrame: number;
 
-        if (decimals > 0) {
-          formattedValue = latest.toFixed(decimals);
-        } else {
-          formattedValue = Math.floor(latest).toString();
-        }
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
 
-        if (useCommas && decimals === 0) {
-          formattedValue = Math.floor(latest).toLocaleString();
-        }
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = easeOutQuart * value;
 
-        ref.current.textContent = `${prefix}${formattedValue}${suffix}`;
+      setCount(currentCount);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
       }
-    });
+    };
 
-    return () => unsubscribe();
-  }, [springValue, prefix, suffix, decimals, useCommas]);
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isInView, value, duration]);
+
+  let displayValue: string;
+  if (decimals > 0) {
+    displayValue = count.toFixed(decimals);
+  } else if (useCommas && value >= 1000) {
+    displayValue = Math.round(count).toLocaleString();
+  } else {
+    displayValue = Math.round(count).toString();
+  }
 
   return (
     <motion.span
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: 20, scale: 0.8 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.8 }}
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.9 }}
       transition={{
-        duration: 0.8,
+        duration: 0.6,
         ease: [0.16, 1, 0.3, 1],
       }}
     >
-      {prefix}0{suffix}
+      {prefix}{displayValue}{suffix}
     </motion.span>
   );
 };

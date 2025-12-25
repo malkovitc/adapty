@@ -1,58 +1,82 @@
 'use client';
 
+import { memo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { Check, Sparkles } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { GlowCard } from '@/components/ui/GlowCard';
 
 const pricingTiers = [
   {
     name: 'Free',
-    description: 'For indie developers',
+    description: 'Free plan for apps with revenue up to $10K/month',
     monthlyPrice: 0,
     yearlyPrice: 0,
+    priceDisplay: '$0',
+    priceSubtext: 'per month',
     features: [
-      'Up to $10K MTR',
+      'Up to $10K monthly revenue',
       'Basic analytics',
-      '1 paywall',
+      'Paywall Builder',
+      'Cross-platform SDK',
       'Email support',
-      'iOS & Android SDKs',
     ],
     cta: 'Start for free',
     highlighted: false,
   },
   {
     name: 'Pro',
-    description: 'For growing apps',
+    description: '1% of monthly revenue, minimum $99/month',
     monthlyPrice: 99,
-    yearlyPrice: 79,
+    yearlyPrice: 99,
+    priceDisplay: '1%',
+    priceSubtext: 'of monthly revenue',
+    priceNote: 'minimum $99/month',
     features: [
-      'Up to $100K MTR',
+      'Everything in Free',
+      'Unlimited revenue',
+      'A/B testing',
       'Advanced analytics',
       'Unlimited paywalls',
-      'A/B testing',
       'Priority support',
-      'Custom integrations',
-      'Webhooks',
-      'Revenue optimization',
+      'Webhooks & integrations',
     ],
     cta: 'Start free trial',
     highlighted: true,
     badge: 'Most Popular',
   },
   {
+    name: 'Pro+',
+    description: '1.2% of monthly revenue, minimum $499/month',
+    monthlyPrice: 499,
+    yearlyPrice: 499,
+    priceDisplay: '1.2%',
+    priceSubtext: 'of monthly revenue',
+    priceNote: 'minimum $499/month',
+    features: [
+      'Everything in Pro',
+      'Revenue optimization',
+      'Custom integrations',
+      'Advanced support',
+      'Dedicated CSM',
+      'Custom onboarding',
+      'Priority features',
+    ],
+    cta: 'Start free trial',
+    highlighted: false,
+  },
+  {
     name: 'Enterprise',
-    description: 'For large apps',
+    description: 'Custom pricing for enterprise needs',
     monthlyPrice: null,
     yearlyPrice: null,
     customPrice: 'Custom',
     features: [
-      'Unlimited MTR',
+      'Everything in Pro+',
+      'Unlimited revenue',
       'Dedicated support',
-      'Custom integrations',
       'SLA guarantee',
       'Custom contracts',
-      'Advanced security',
       'Dedicated account manager',
       'Custom onboarding',
     ],
@@ -61,11 +85,208 @@ const pricingTiers = [
   },
 ];
 
+// Memoized Pricing Card Component
+const PricingCard = memo(function PricingCard({
+  tier,
+  index,
+  isYearly,
+}: {
+  tier: typeof pricingTiers[0];
+  index: number;
+  isYearly: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.15,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className={`relative group cursor-pointer ${tier.highlighted ? 'md:-mt-4 md:pb-4' : ''}`}
+    >
+      {/* Hover glow effect - only for non-highlighted tiers */}
+      {!tier.highlighted && (
+        <div className="absolute inset-0 rounded-2xl transition-all duration-500 bg-gradient-to-r from-indigo-500/0 to-blue-500/0 blur-xl group-hover:blur-2xl group-hover:from-indigo-500/10 group-hover:to-blue-500/10 opacity-0 group-hover:opacity-100" />
+      )}
+
+      {tier.highlighted ? (
+        <GlowCard glowColor="rgba(99, 102, 241, 0.9)">
+          <motion.div
+            whileHover={{ y: -8 }}
+            transition={{
+              type: 'spring',
+              stiffness: 300,
+              damping: 20,
+            }}
+            className="relative p-6 sm:p-8 bg-white rounded-[11px] transition-all duration-500 touch-manipulation h-full flex flex-col"
+          >
+            <PricingCardContent tier={tier} isYearly={isYearly} />
+
+            {/* Shine effect on hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden rounded-2xl">
+              <motion.div
+                className="absolute -inset-full"
+                animate={{
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+              >
+                <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              </motion.div>
+            </div>
+          </motion.div>
+        </GlowCard>
+      ) : (
+        <motion.div
+          whileHover={{ y: -8 }}
+          transition={{
+            type: 'spring',
+            stiffness: 300,
+            damping: 20,
+          }}
+          className="relative p-6 sm:p-8 bg-white rounded-2xl transition-all duration-500 touch-manipulation h-full flex flex-col border border-slate-200 shadow-lg group-hover:shadow-2xl group-hover:border-purple-200"
+        >
+          <PricingCardContent tier={tier} isYearly={isYearly} />
+
+          {/* Shine effect on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden rounded-2xl">
+            <motion.div
+              className="absolute -inset-full"
+              animate={{
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            >
+              <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
+    </motion.div>
+  );
+});
+
+// Shared card content to avoid duplication
+const PricingCardContent = memo(function PricingCardContent({
+  tier,
+  isYearly: _isYearly,
+}: {
+  tier: typeof pricingTiers[0];
+  isYearly: boolean;
+}) {
+  return (
+    <>
+      {/* Badge for highlighted tier */}
+      {tier.highlighted && tier.badge && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="absolute -top-4 left-1/2 -translate-x-1/2"
+        >
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-full text-xs font-bold shadow-lg">
+            <Sparkles className="w-3.5 h-3.5" />
+            {tier.badge}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Tier Name */}
+      <h3 className="text-2xl font-bold text-slate-900 mb-2">
+        {tier.name}
+      </h3>
+
+      {/* Description */}
+      <p className="text-slate-600 mb-6">{tier.description}</p>
+
+      {/* Price */}
+      <div className="mb-8">
+        {tier.customPrice ? (
+          <div className="text-4xl font-bold text-slate-900">
+            {tier.customPrice}
+          </div>
+        ) : tier.priceDisplay ? (
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                {tier.priceDisplay}
+              </span>
+              {tier.priceSubtext && (
+                <span className="text-slate-600 font-medium">{tier.priceSubtext}</span>
+              )}
+            </div>
+            {tier.priceNote && (
+              <p className="text-sm text-slate-500 mt-2">
+                {tier.priceNote}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="flex items-baseline gap-1">
+            <span className="text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              ${tier.monthlyPrice}
+            </span>
+            <span className="text-slate-600 font-medium">/month</span>
+          </div>
+        )}
+      </div>
+
+      {/* CTA Button */}
+      <Button
+        variant={tier.highlighted ? 'primary' : 'secondary'}
+        fullWidth
+        className="mb-8"
+      >
+        {tier.cta}
+      </Button>
+
+      {/* Features List */}
+      <div className="space-y-4 flex-grow">
+        <p className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
+          Features
+        </p>
+        <ul className="space-y-3">
+          {tier.features.map((feature, featureIndex) => (
+            <motion.li
+              key={featureIndex}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 * featureIndex }}
+              className="flex items-start gap-3"
+            >
+              <Check
+                className={`w-5 h-5 shrink-0 mt-0.5 ${
+                  tier.highlighted
+                    ? 'text-indigo-500'
+                    : 'text-green-600'
+                }`}
+              />
+              <span className="text-slate-700">{feature}</span>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+});
+
 export default function Pricing() {
-  const [isYearly, setIsYearly] = useState(false);
+  const [isYearly] = useState(false);
 
   return (
-    <section className="relative py-16 sm:py-20 md:py-24 bg-[#F5F5F7] overflow-hidden">
+    <section id="pricing" className="relative py-16 sm:py-20 md:py-24 bg-[#FAFAFA] overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-purple-100/60 to-transparent rounded-full blur-3xl" />
@@ -80,7 +301,7 @@ export default function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm font-semibold uppercase tracking-wider text-[#7C3AED] mb-6"
+            className="text-sm font-semibold uppercase tracking-wider text-[#6366F1] mb-6"
           >
             Pricing
           </motion.p>
@@ -92,7 +313,7 @@ export default function Pricing() {
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight"
           >
             Simple, transparent{' '}
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
               pricing
             </span>
           </motion.h2>
@@ -107,187 +328,12 @@ export default function Pricing() {
             Start for free and scale as you grow. All plans include 14-day free trial.
           </motion.p>
 
-          {/* Billing Toggle */}
-          <div className="inline-flex items-center p-1.5 bg-slate-100 rounded-full mb-20">
-            <button
-              onClick={() => setIsYearly(false)}
-              className={`px-8 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 touch-manipulation ${
-                !isYearly
-                  ? 'bg-[#7C3AED] text-white shadow-[0_4px_14px_rgba(124,58,237,0.4)]'
-                  : 'text-slate-500 hover:text-slate-900'
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setIsYearly(true)}
-              className={`px-8 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 flex items-center gap-3 touch-manipulation ${
-                isYearly
-                  ? 'bg-[#7C3AED] text-white shadow-[0_4px_14px_rgba(124,58,237,0.4)]'
-                  : 'text-slate-500 hover:text-slate-900'
-              }`}
-            >
-              Yearly
-              <span className="px-2.5 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full whitespace-nowrap">
-                Save 20%
-              </span>
-            </button>
-          </div>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-16 items-stretch">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-7xl mx-auto mb-16 items-stretch">
           {pricingTiers.map((tier, index) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className={`relative group cursor-pointer ${tier.highlighted ? 'md:-mt-4 md:pb-4' : ''}`}
-            >
-              {/* Hover glow effect */}
-              <div className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
-                tier.highlighted
-                  ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-xl group-hover:blur-2xl opacity-50 group-hover:opacity-100'
-                  : 'bg-gradient-to-r from-purple-500/0 to-blue-500/0 blur-xl group-hover:blur-2xl group-hover:from-purple-500/10 group-hover:to-blue-500/10 opacity-0 group-hover:opacity-100'
-              }`} />
-
-              <motion.div
-                whileHover={{ y: -8 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 20,
-                }}
-                className={`relative p-6 sm:p-8 bg-white rounded-2xl transition-all duration-500 touch-manipulation h-full flex flex-col ${
-                  tier.highlighted
-                    ? 'border-2 border-purple-500 shadow-2xl shadow-purple-500/20 group-hover:shadow-purple-500/40 group-hover:border-purple-600'
-                    : 'border border-slate-200 shadow-lg group-hover:shadow-2xl group-hover:border-purple-200'
-                }`}
-              >
-              {/* Badge for highlighted tier */}
-              {tier.highlighted && tier.badge && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="absolute -top-4 left-1/2 -translate-x-1/2"
-                >
-                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full text-xs font-bold shadow-lg">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    {tier.badge}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Tier Name */}
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                {tier.name}
-              </h3>
-
-              {/* Description */}
-              <p className="text-slate-600 mb-6">{tier.description}</p>
-
-              {/* Price */}
-              <div className="mb-8 overflow-hidden">
-                {tier.customPrice ? (
-                  <div className="text-4xl font-bold text-slate-900">
-                    {tier.customPrice}
-                  </div>
-                ) : (
-                  <div className="relative h-16">
-                    <motion.div
-                      key={isYearly ? 'yearly' : 'monthly'}
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: -20, opacity: 0 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 25,
-                      }}
-                      className="absolute inset-0 flex items-baseline gap-1"
-                    >
-                      <span className="text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                        ${isYearly ? tier.yearlyPrice : tier.monthlyPrice}
-                      </span>
-                      <span className="text-slate-600 font-medium">/month</span>
-                    </motion.div>
-                  </div>
-                )}
-                {!tier.customPrice && isYearly && tier.monthlyPrice && tier.monthlyPrice > 0 && (
-                  <motion.p
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-sm text-slate-500 mt-2"
-                  >
-                    Billed annually (${tier.yearlyPrice * 12}/year)
-                  </motion.p>
-                )}
-              </div>
-
-              {/* CTA Button */}
-              <Button
-                variant={tier.highlighted ? 'primary' : 'secondary'}
-                fullWidth
-                className="mb-8"
-              >
-                {tier.cta}
-              </Button>
-
-              {/* Features List */}
-              <div className="space-y-4 flex-grow">
-                <p className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
-                  Features
-                </p>
-                <ul className="space-y-3">
-                  {tier.features.map((feature, featureIndex) => (
-                    <motion.li
-                      key={featureIndex}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.1 * featureIndex }}
-                      className="flex items-start gap-3"
-                    >
-                      <Check
-                        className={`w-5 h-5 shrink-0 mt-0.5 ${
-                          tier.highlighted
-                            ? 'text-purple-600'
-                            : 'text-green-600'
-                        }`}
-                      />
-                      <span className="text-slate-700">{feature}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-
-                {/* Shine effect on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden rounded-2xl">
-                  <motion.div
-                    className="absolute -inset-full"
-                    animate={{
-                      rotate: [0, 360],
-                    }}
-                    transition={{
-                      duration: 8,
-                      repeat: Infinity,
-                      ease: 'linear',
-                    }}
-                  >
-                    <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                  </motion.div>
-                </div>
-              </motion.div>
-            </motion.div>
+            <PricingCard key={tier.name} tier={tier} index={index} isYearly={isYearly} />
           ))}
         </div>
 
@@ -324,16 +370,26 @@ export default function Pricing() {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">Monthly tracked revenue</td>
+                      <td className="py-4 px-4 text-slate-700">Monthly revenue limit</td>
                       <td className="py-4 px-4 text-center text-slate-700">Up to $10K</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Up to $100K</td>
+                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
+                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
                       <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
                     </tr>
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">Paywalls</td>
-                      <td className="py-4 px-4 text-center text-slate-700">1</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
+                      <td className="py-4 px-4 text-slate-700">Paywall Builder</td>
+                      <td className="py-4 px-4 text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
                     </tr>
                     <tr>
                       <td className="py-4 px-4 text-slate-700">A/B Testing</td>
@@ -341,10 +397,13 @@ export default function Pricing() {
                         <span className="text-slate-400">-</span>
                       </td>
                       <td className="py-4 px-4 text-center">
-                        <Check className="w-5 h-5 text-purple-600 mx-auto" />
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
                       <td className="py-4 px-4 text-center">
-                        <Check className="w-5 h-5 text-purple-600 mx-auto" />
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
                     </tr>
                     <tr>
@@ -352,11 +411,13 @@ export default function Pricing() {
                       <td className="py-4 px-4 text-center text-slate-700">Basic</td>
                       <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
                       <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
+                      <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
                     </tr>
                     <tr>
                       <td className="py-4 px-4 text-slate-700">Support</td>
                       <td className="py-4 px-4 text-center text-slate-700">Email</td>
                       <td className="py-4 px-4 text-center text-slate-700">Priority</td>
+                      <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
                       <td className="py-4 px-4 text-center text-slate-700">Dedicated</td>
                     </tr>
                     <tr>
@@ -368,7 +429,10 @@ export default function Pricing() {
                         <span className="text-slate-400">-</span>
                       </td>
                       <td className="py-4 px-4 text-center">
-                        <Check className="w-5 h-5 text-purple-600 mx-auto" />
+                        <span className="text-slate-400">-</span>
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
                     </tr>
                   </tbody>
