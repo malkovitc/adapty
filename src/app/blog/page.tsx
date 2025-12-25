@@ -438,17 +438,15 @@ export default function BlogPage() {
     }
   };
 
-  // Category display config
+  // Category display config - show categories that have posts
+  // Order matches adapty.io/blog for categories that exist in our data
   const categoryDisplayOrder = [
-    { slug: 'analytics', title: 'Analytics' },
-    { slug: 'android', title: 'Android' },
-    { slug: 'ios', title: 'iOS' },
     { slug: 'money', title: 'Money' },
     { slug: 'paywall-newsletter', title: 'Paywall Newsletter' },
-    { slug: 'podcast', title: 'Podcast' },
-    { slug: 'product-releases', title: 'Product-releases' },
-    { slug: 'trends-insights', title: 'Trends-insights' },
-    { slug: 'tutorial', title: 'Tutorial' },
+    { slug: 'analytics', title: 'Analytics' },
+    { slug: 'ios', title: 'iOS' },
+    { slug: 'android', title: 'Android' },
+    { slug: 'general', title: 'General' },
   ];
 
   return (
@@ -619,11 +617,12 @@ export default function BlogPage() {
         </div>
       )}
 
-      {/* CTA Section */}
-      <section className="py-20 bg-white border-t border-[#E5E7EB]">
+      {/* Full Footer with CTA */}
+      <footer className="bg-[#1A1A2E] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#0F172A] leading-tight" style={{ maxWidth: '32rem' }}>
+          {/* CTA Section */}
+          <div className="py-16 flex flex-col lg:flex-row items-center justify-between gap-8 border-b border-white/10">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white leading-tight" style={{ maxWidth: '32rem' }}>
               Get started today or schedule a demo for your personal onboarding
             </h2>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -631,7 +630,7 @@ export default function BlogPage() {
                 href="https://adapty.io/signup/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 text-sm font-semibold text-[#0F172A] bg-white border-2 border-[#0F172A] rounded-lg hover:bg-[#F8FAFC] transition-colors text-center uppercase tracking-wide"
+                className="px-8 py-4 text-sm font-semibold text-white bg-transparent border border-white rounded-lg hover:bg-white/10 transition-colors text-center uppercase tracking-wide"
               >
                 Start for free
               </Link>
@@ -639,20 +638,15 @@ export default function BlogPage() {
                 href="https://adapty.io/demo/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 text-sm font-semibold text-white bg-[#4F46E5] rounded-lg hover:bg-[#4338CA] transition-colors text-center uppercase tracking-wide"
+                className="px-8 py-4 text-sm font-semibold text-white bg-[#7C3AED] rounded-lg hover:bg-[#6D28D9] transition-colors text-center uppercase tracking-wide"
               >
                 Schedule a demo
               </Link>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Full Footer */}
-      <footer className="bg-[#0F172A] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Logo and Social */}
-          <div className="pt-16 pb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 border-b border-white/10">
+          <div className="py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 border-b border-white/10">
             <Link href="/" className="text-2xl font-bold text-white">
               adapty
             </Link>
