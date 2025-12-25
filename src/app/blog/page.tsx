@@ -438,15 +438,14 @@ export default function BlogPage() {
     }
   };
 
-  // Category display config - show categories that have posts
-  // Order matches adapty.io/blog for categories that exist in our data
+  // Category display config - matching adapty.io/blog section order exactly
   const categoryDisplayOrder = [
     { slug: 'money', title: 'Money' },
     { slug: 'paywall-newsletter', title: 'Paywall Newsletter' },
-    { slug: 'analytics', title: 'Analytics' },
-    { slug: 'ios', title: 'iOS' },
-    { slug: 'android', title: 'Android' },
-    { slug: 'general', title: 'General' },
+    { slug: 'podcast', title: 'Podcast' },
+    { slug: 'product-releases', title: 'Product-releases' },
+    { slug: 'trends-insights', title: 'Trends-insights' },
+    { slug: 'tutorial', title: 'Tutorial' },
   ];
 
   return (

@@ -1,0 +1,13 @@
+@@ -200,9 +200,9 @@
+ 
+     try {
+       if (cmsWriteEnabled) {
+-        const success = await deletePostAction(postToDelete.slug);
+-        if (!success) {
+-          setSaveError('Failed to delete from CMS');
++        const result = await deletePostAction(postToDelete.slug);
++        if (!result.success) {
++          setSaveError(result.error || 'Failed to delete from CMS');
+           setPostToDelete(null);
+           return;
+         }

@@ -235,5 +235,153 @@ export const posts: BlogPost[] = [
     date: "2025",
     readTime: "15 min read",
     excerpt: "Monetization strategies specifically for mobile games."
+  },
+  // Podcast category
+  {
+    title: "Building the app for language learning with 10M users",
+    slug: "building-language-learning-app",
+    image: "/images/blog/podcast-language-learning.webp",
+    category: "Podcast",
+    date: "October 15, 2025",
+    readTime: "17 min read",
+    excerpt: "Interview with Dmitry Zaruta, Co-founder of Easy10 & CPO at Monolith about building a language learning app."
+  },
+  {
+    title: "How to sell physical goods by subscription",
+    slug: "selling-physical-goods-subscription",
+    image: "/images/blog/podcast-physical-goods.webp",
+    category: "Podcast",
+    date: "October 10, 2025",
+    readTime: "24 min read",
+    excerpt: "Andrey Rebrov, CTO & Co-founder at Scentbird shares insights on subscription box business."
+  },
+  {
+    title: "Dark patterns in subscription apps",
+    slug: "dark-patterns-subscription-apps",
+    image: "/images/blog/podcast-dark-patterns.webp",
+    category: "Podcast",
+    date: "October 5, 2025",
+    readTime: "23 min read",
+    excerpt: "Igor Kuznetsov, Product Owner at Vivid Money discusses ethical considerations in subscription apps."
+  },
+  {
+    title: "Why is everyone wrong about unit economics",
+    slug: "unit-economics-myths",
+    image: "/images/blog/podcast-unit-economics.webp",
+    category: "Podcast",
+    date: "October 1, 2025",
+    readTime: "23 min read",
+    excerpt: "Anton Shlovenets, CPO Wowmaking explains common misconceptions about unit economics."
+  },
+  // Product-releases category
+  {
+    title: "February Adapty updates: Rich text, smarter taxes, and more",
+    slug: "february-adapty-updates",
+    image: "/images/blog/product-february-updates.webp",
+    category: "Product-releases",
+    date: "February 28, 2025",
+    readTime: "2 min read",
+    excerpt: "Latest Adapty features including rich text support and improved tax handling."
+  },
+  {
+    title: "Adapty updates in January: Web API, AI translation in Paywall Builder",
+    slug: "january-adapty-updates",
+    image: "/images/blog/product-january-updates.webp",
+    category: "Product-releases",
+    date: "January 31, 2025",
+    readTime: "4 min read",
+    excerpt: "New Web API and AI-powered translation features in Paywall Builder."
+  },
+  {
+    title: "Adapty updates in December: New year, new features!",
+    slug: "december-adapty-updates",
+    image: "/images/blog/product-december-updates.webp",
+    category: "Product-releases",
+    date: "December 31, 2025",
+    readTime: "3 min read",
+    excerpt: "End of year feature roundup including new analytics and SDK improvements."
+  },
+  {
+    title: "Adapty Wrapped 2024: celebrate your growth",
+    slug: "adapty-wrapped-2024",
+    image: "/images/blog/product-wrapped-2024.webp",
+    category: "Product-releases",
+    date: "December 20, 2025",
+    readTime: "2 min read",
+    excerpt: "Your personalized 2024 growth summary with Adapty."
+  },
+  // Trends-insights category
+  {
+    title: "9 subscription economy trends dominating 2025: The complete strategy guide",
+    slug: "subscription-economy-trends-2025",
+    image: "/images/blog/trends-subscription-economy.webp",
+    category: "Trends-insights",
+    date: "November 15, 2025",
+    readTime: "6 min read",
+    excerpt: "Key trends shaping the subscription economy in 2025 and beyond."
+  },
+  {
+    title: "State of in-app subscriptions 2025: everything you need to know in 10 minutes",
+    slug: "state-of-subscriptions-2025",
+    image: "/images/blog/trends-state-subscriptions.webp",
+    category: "Trends-insights",
+    date: "November 10, 2025",
+    readTime: "10 min read",
+    excerpt: "Comprehensive overview of the in-app subscription landscape."
+  },
+  {
+    title: "Is Apple's new EU in-app purchase fee system more complex than ever?",
+    slug: "apple-eu-fee-analysis",
+    image: "/images/blog/trends-apple-eu-fees.webp",
+    category: "Trends-insights",
+    date: "November 5, 2025",
+    readTime: "10 min read",
+    excerpt: "Deep dive into Apple's EU regulatory compliance and fee structure."
+  },
+  {
+    title: "WWDC25 summary: What Apple announced and what does it mean for app developers",
+    slug: "wwdc25-summary",
+    image: "/images/blog/trends-wwdc25.webp",
+    category: "Trends-insights",
+    date: "June 15, 2025",
+    readTime: "14 min read",
+    excerpt: "Key announcements from WWDC25 and their impact on mobile development."
+  },
+  // Tutorial category
+  {
+    title: "How adding onboarding friction before your app's paywall can grow your revenue",
+    slug: "onboarding-friction-paywall",
+    image: "/images/blog/tutorial-onboarding-friction.webp",
+    category: "Tutorial",
+    date: "October 20, 2025",
+    readTime: "9 min read",
+    excerpt: "Counter-intuitive approach to improving paywall conversion rates."
+  },
+  {
+    title: "How to analyze and optimize Apple Search Ads in 2025?",
+    slug: "apple-search-ads-tutorial",
+    image: "/images/blog/tutorial-apple-ads.webp",
+    category: "Tutorial",
+    date: "October 15, 2025",
+    readTime: "11 min read",
+    excerpt: "Step-by-step guide to mastering Apple Search Ads campaigns."
+  },
+  {
+    title: "Apple Search Ads guide for 2025: Best practices from beginner to expert",
+    slug: "apple-ads-guide-2025",
+    image: "/images/blog/tutorial-apple-ads-guide.webp",
+    category: "Tutorial",
+    date: "October 10, 2025",
+    readTime: "9 min read",
+    excerpt: "Complete tutorial on Apple Search Ads optimization strategies."
+  },
+  {
+    title: "The art of conversion: How Health & Fitness apps nail upselling on iOS",
+    slug: "health-fitness-upselling",
+    image: "/images/blog/tutorial-health-fitness.webp",
+    category: "Tutorial",
+    date: "October 5, 2025",
+    readTime: "7 min read",
+    excerpt: "Case study on successful upselling techniques in health and fitness apps."
   }
 ];
