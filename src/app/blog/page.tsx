@@ -9,7 +9,85 @@ import { type BlogPost, type Category } from '@/data/blog';
 import { getAllPosts, getAllCategories } from '@/lib/blog-service';
 import { getAssetPath } from '@/lib/utils';
 
-function BlogCard({ post, index }: { post: BlogPost; index: number }) {
+const POSTS_PER_PAGE = 9;
+
+// Pagination Component
+function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange
+}: {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}) {
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+
+      if (currentPage > 3) {
+        pages.push('...');
+      }
+
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        if (!pages.includes(i)) {
+          pages.push(i);
+        }
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push('...');
+      }
+
+      if (!pages.includes(totalPages)) {
+        pages.push(totalPages);
+      }
+    }
+
+    return pages;
+  };
+
+  if (totalPages <= 1) return null;
+
+  return (
+    <div className="flex items-center justify-center gap-2 mt-12">
+      {getPageNumbers().map((page, index) => (
+        typeof page === 'number' ? (
+          <button
+            key={index}
+            onClick={() => onPageChange(page)}
+            className={`w-10 h-10 rounded-full text-sm font-medium transition-all ${
+              currentPage === page
+                ? 'bg-[#0F172A] text-white'
+                : 'text-[#64748B] hover:bg-[#F5F5F7] hover:text-[#0F172A]'
+            }`}
+          >
+            {page}
+          </button>
+        ) : (
+          <span key={index} className="px-2 text-[#94A3B8]">{page}</span>
+        )
+      ))}
+      {currentPage < totalPages && (
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          className="w-10 h-10 rounded-full text-[#64748B] hover:bg-[#F5F5F7] hover:text-[#0F172A] transition-all flex items-center justify-center"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      )}
+    </div>
+  );
+}
+
+// Blog Card Component
+function BlogCard({ post, index, showReadTime = true }: { post: BlogPost; index: number; showReadTime?: boolean }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -24,38 +102,60 @@ function BlogCard({ post, index }: { post: BlogPost; index: number }) {
             alt={post.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             unoptimized
             onError={(e) => { e.currentTarget.style.opacity = '0'; }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-1 text-xs font-medium bg-[#F5F5F7] text-[#64748B] rounded-full">
-              {post.category}
-            </span>
-            <span className="flex items-center gap-1.5 text-xs text-[#94A3B8]">
-              <Clock className="w-3 h-3" />
+          {showReadTime && (
+            <div className="absolute bottom-3 right-3 px-2 py-1 bg-[#0F172A]/80 backdrop-blur-sm text-white text-xs rounded-md">
               {post.readTime}
-            </span>
-          </div>
-          <h3 className="text-lg font-semibold text-[#0F172A] leading-snug group-hover:text-[#4F46E5] transition-colors duration-200">
-            {post.title}
-          </h3>
-          <p className="text-sm text-[#64748B] leading-relaxed line-clamp-2">
-            {post.excerpt}
-          </p>
-          <div className="flex items-center text-sm font-medium text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Read article
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </div>
+            </div>
+          )}
         </div>
+        <h3 className="text-base font-semibold text-[#0F172A] leading-snug group-hover:text-[#4F46E5] transition-colors duration-200 line-clamp-2">
+          {post.title}
+        </h3>
       </Link>
     </motion.article>
   );
 }
 
+// Category Section Component
+function CategorySection({
+  title,
+  posts,
+  categorySlug
+}: {
+  title: string;
+  posts: BlogPost[];
+  categorySlug: string;
+}) {
+  if (posts.length === 0) return null;
+
+  return (
+    <section className="py-12 border-t border-[#E5E7EB]">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-bold text-[#0F172A]">{title}</h2>
+        <Link
+          href={`https://adapty.io/blog/category/${categorySlug}/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 text-sm font-medium text-[#0F172A] hover:text-[#4F46E5] transition-colors"
+        >
+          More posts
+          <ChevronRight className="w-4 h-4" />
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {posts.slice(0, 4).map((post, index) => (
+          <BlogCard key={post.slug} post={post} index={index} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// Featured Post Component
 function FeaturedPost({ post }: { post: BlogPost }) {
   return (
     <motion.article
@@ -109,13 +209,122 @@ function FeaturedPost({ post }: { post: BlogPost }) {
   );
 }
 
+// Full Footer Links Data
+const fullFooterLinks = {
+  paywallManagement: {
+    title: 'Paywall management',
+    links: [
+      { label: 'Paywall builder', href: 'https://adapty.io/paywall-builder/' },
+      { label: 'Onboarding builder', href: 'https://adapty.io/onboarding-builder/' },
+      { label: 'AI generator', href: 'https://adapty.io/ai-paywall-generator/' },
+      { label: 'A/B testing', href: 'https://adapty.io/ab-testing/' },
+      { label: 'Autopilot', href: 'https://adapty.io/autopilot/' },
+      { label: 'Targeting', href: 'https://adapty.io/targeting/' },
+      { label: 'Localization', href: 'https://adapty.io/localization/' },
+      { label: 'Remote config', href: 'https://adapty.io/remote-config/' },
+    ],
+  },
+  infrastructure: {
+    title: 'Infrastructure',
+    links: [
+      { label: 'Subscription SDK', href: 'https://adapty.io/subscription-management/' },
+      { label: 'Subscriber sync', href: 'https://adapty.io/subscriber-sync/' },
+      { label: 'Fallback paywalls', href: 'https://adapty.io/fallback-paywalls/' },
+      { label: 'Refund saver', href: 'https://adapty.io/refund-saver/' },
+      { label: 'Integrations', href: 'https://adapty.io/integrations/' },
+    ],
+  },
+  roles: {
+    title: 'Roles',
+    links: [
+      { label: 'For developers', href: 'https://adapty.io/for-developers/' },
+      { label: 'For marketers', href: 'https://adapty.io/for-marketers/' },
+      { label: 'For app owners', href: 'https://adapty.io/for-app-owners/' },
+    ],
+  },
+  stages: {
+    title: 'Stages',
+    links: [
+      { label: 'Indie', href: 'https://adapty.io/indie/' },
+      { label: 'Startups', href: 'https://adapty.io/startups/' },
+      { label: 'Publishers', href: 'https://adapty.io/publishers/' },
+      { label: 'Enterprise', href: 'https://adapty.io/enterprise/' },
+    ],
+  },
+  cases: {
+    title: 'Cases',
+    links: [
+      { label: 'Integrate subscriptions', href: 'https://adapty.io/cases/integrate-subscriptions/' },
+      { label: 'Grow app revenue', href: 'https://adapty.io/cases/grow-app-revenue/' },
+      { label: 'Analyze performance', href: 'https://adapty.io/cases/analyze-performance/' },
+      { label: 'Read our cases', href: 'https://adapty.io/customers/' },
+    ],
+  },
+  migrate: {
+    title: 'Migrate from',
+    links: [
+      { label: 'RevenueCat', href: 'https://adapty.io/revenuecat-alternative/' },
+      { label: 'Purchasely', href: 'https://adapty.io/purchasely-alternative/' },
+      { label: 'Qonversion', href: 'https://adapty.io/qonversion-alternative/' },
+      { label: 'Superwall', href: 'https://adapty.io/superwall-alternative/' },
+    ],
+  },
+  sdk: {
+    title: 'SDK',
+    links: [
+      { label: 'iOS', href: 'https://adapty.io/sdk/ios/' },
+      { label: 'Android', href: 'https://adapty.io/sdk/android/' },
+      { label: 'React Native', href: 'https://adapty.io/sdk/react-native/' },
+      { label: 'Flutter', href: 'https://adapty.io/sdk/flutter/' },
+      { label: 'Unity', href: 'https://adapty.io/sdk/unity/' },
+    ],
+  },
+  resources: {
+    title: 'Resources',
+    links: [
+      { label: 'Blog', href: '/blog' },
+      { label: 'Ebooks', href: 'https://adapty.io/ebooks/' },
+      { label: 'Podcast', href: 'https://adapty.io/podcast/' },
+      { label: 'Glossary', href: 'https://adapty.io/glossary/' },
+      { label: 'Documentation', href: 'https://adapty.io/docs/' },
+    ],
+  },
+  analytics: {
+    title: 'Analytics',
+    links: [
+      { label: 'Revenue analytics', href: 'https://adapty.io/analytics/' },
+      { label: 'LTV analytics', href: 'https://adapty.io/ltv-analytics/' },
+      { label: 'AI predictive analytics', href: 'https://adapty.io/ai-predictive-analytics/' },
+      { label: 'Apple ads manager', href: 'https://adapty.io/apple-ads-manager/' },
+    ],
+  },
+  company: {
+    title: 'Company',
+    links: [
+      { label: 'About us', href: 'https://adapty.io/about/' },
+      { label: 'Contact us', href: 'https://adapty.io/contact/' },
+      { label: 'Careers', href: 'https://adapty.io/careers/' },
+      { label: 'Terms', href: 'https://adapty.io/terms/' },
+      { label: 'Privacy policy', href: 'https://adapty.io/privacy/' },
+    ],
+  },
+};
+
+const socialLinks = [
+  { name: 'X', href: 'https://x.com/adapaborovkov', icon: '𝕏' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/adaptyio/', icon: 'in' },
+  { name: 'Discord', href: 'https://discord.gg/subscriptions', icon: 'D' },
+  { name: 'GitHub', href: 'https://github.com/adaptyteam', icon: 'GH' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@adapty', icon: 'YT' },
+];
+
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [currentPage, setCurrentPage] = useState(1);
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -152,6 +361,11 @@ export default function BlogPage() {
     };
   }, []);
 
+  // Reset to page 1 when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, searchQuery]);
+
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
       const matchesCategory = !activeCategory || post.category.toLowerCase().replace(/\s+/g, '-') === activeCategory;
@@ -162,20 +376,30 @@ export default function BlogPage() {
     });
   }, [posts, activeCategory, searchQuery]);
 
+  // Group posts by category for bottom sections
+  const postsByCategory = useMemo(() => {
+    const grouped: Record<string, BlogPost[]> = {};
+    posts.forEach(post => {
+      const categorySlug = post.category.toLowerCase().replace(/\s+/g, '-');
+      if (!grouped[categorySlug]) {
+        grouped[categorySlug] = [];
+      }
+      grouped[categorySlug].push(post);
+    });
+    return grouped;
+  }, [posts]);
+
   const featuredPost = filteredPosts[0];
   const remainingPosts = filteredPosts.slice(1);
-  const visiblePosts = searchQuery ? filteredPosts : remainingPosts.slice(0, visibleCount);
-
-  // Load more articles handler
-  const handleLoadMore = () => {
-    setVisibleCount(prev => prev + 12);
-  };
+  const totalPages = Math.ceil(remainingPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = searchQuery
+    ? filteredPosts
+    : remainingPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
 
   // Newsletter form handler
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
       setNewsletterStatus('error');
@@ -185,20 +409,29 @@ export default function BlogPage() {
 
     setNewsletterStatus('loading');
 
-    // Simulate API call (replace with actual newsletter service)
     try {
-      // In production, replace this with actual newsletter API call
-      // e.g., await fetch('/api/newsletter', { method: 'POST', body: JSON.stringify({ email }) })
       await new Promise(resolve => setTimeout(resolve, 1000));
-
       setNewsletterStatus('success');
       setEmail('');
       setTimeout(() => setNewsletterStatus('idle'), 5000);
-    } catch (error) {
+    } catch {
       setNewsletterStatus('error');
       setTimeout(() => setNewsletterStatus('idle'), 3000);
     }
   };
+
+  // Category display config
+  const categoryDisplayOrder = [
+    { slug: 'analytics', title: 'Analytics' },
+    { slug: 'android', title: 'Android' },
+    { slug: 'ios', title: 'iOS' },
+    { slug: 'money', title: 'Money' },
+    { slug: 'paywall-newsletter', title: 'Paywall Newsletter' },
+    { slug: 'podcast', title: 'Podcast' },
+    { slug: 'product-releases', title: 'Product-releases' },
+    { slug: 'trends-insights', title: 'Trends-insights' },
+    { slug: 'tutorial', title: 'Tutorial' },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -282,7 +515,6 @@ export default function BlogPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {loading ? (
-              // Loading skeleton for categories
               <>
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div key={i} className="px-4 py-2 bg-[#F5F5F7] rounded-full animate-pulse" style={{ width: '120px', height: '36px' }} />
@@ -308,11 +540,10 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Content */}
+      {/* Main Content */}
       <main className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
-            // Loading skeleton for posts
             <div className="flex flex-col items-center justify-center py-16">
               <Loader2 className="w-8 h-8 text-[#4F46E5] animate-spin mb-4" />
               <p className="text-[#64748B]">Loading articles...</p>
@@ -330,7 +561,7 @@ export default function BlogPage() {
           ) : (
             <>
               {/* Featured */}
-              {featuredPost && !searchQuery && (
+              {featuredPost && !searchQuery && currentPage === 1 && (
                 <div className="mb-16">
                   <FeaturedPost post={featuredPost} />
                 </div>
@@ -338,101 +569,156 @@ export default function BlogPage() {
 
               {/* Grid */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {visiblePosts.map((post, index) => (
-                  <BlogCard key={post.slug} post={post} index={index} />
+                {paginatedPosts.map((post, index) => (
+                  <BlogCard key={post.slug} post={post} index={index} showReadTime={false} />
                 ))}
               </div>
 
-              {/* Load more */}
-              {!searchQuery && visibleCount < remainingPosts.length && (
-                <div className="mt-12 text-center">
-                  <button
-                    onClick={handleLoadMore}
-                    className="px-6 py-3 text-sm font-medium text-[#0F172A] bg-[#F5F5F7] rounded-lg hover:bg-[#E5E7EB] transition-colors"
-                  >
-                    Load more articles
-                  </button>
-                </div>
+              {/* Pagination */}
+              {!searchQuery && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
               )}
             </>
           )}
         </div>
       </main>
 
-      {/* Newsletter */}
-      <section className="py-16 bg-[#0F172A]">
+      {/* Category Sections */}
+      {!loading && !searchQuery && !activeCategory && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mx-auto"
-            style={{ maxWidth: '42rem' }}
-          >
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Subscribe to our newsletter
+          {categoryDisplayOrder.map(({ slug, title }) => (
+            <CategorySection
+              key={slug}
+              title={title}
+              posts={postsByCategory[slug] || []}
+              categorySlug={slug}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* CTA Section */}
+      <section className="py-20 bg-white border-t border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0F172A] leading-tight" style={{ maxWidth: '32rem' }}>
+              Get started today or schedule a demo for your personal onboarding
             </h2>
-            <p className="text-[#94A3B8] mb-8" style={{ maxWidth: '100%' }}>
-              Get the latest insights on mobile app monetization delivered to your inbox.
-            </p>
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 w-full" style={{ maxWidth: '28rem', margin: '0 auto' }}>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={newsletterStatus === 'loading'}
-                className="flex-1 min-w-0 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent disabled:opacity-50"
-                style={{ width: '100%' }}
-              />
-              <button
-                type="submit"
-                disabled={newsletterStatus === 'loading'}
-                className="px-6 py-3 bg-[#4F46E5] text-white font-medium rounded-lg hover:bg-[#4338CA] transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="https://adapty.io/signup/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 text-sm font-semibold text-[#0F172A] bg-white border-2 border-[#0F172A] rounded-lg hover:bg-[#F8FAFC] transition-colors text-center uppercase tracking-wide"
               >
-                {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
-              </button>
-            </form>
-            {newsletterStatus === 'success' && (
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 text-green-400 text-sm"
+                Start for free
+              </Link>
+              <Link
+                href="https://adapty.io/demo/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 text-sm font-semibold text-white bg-[#4F46E5] rounded-lg hover:bg-[#4338CA] transition-colors text-center uppercase tracking-wide"
               >
-                Thank you for subscribing!
-              </motion.p>
-            )}
-            {newsletterStatus === 'error' && (
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 text-red-400 text-sm"
-              >
-                Please enter a valid email address.
-              </motion.p>
-            )}
-          </motion.div>
+                Schedule a demo
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 bg-[#0F172A] border-t border-white/10">
+      {/* Full Footer */}
+      <footer className="bg-[#0F172A] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-[#94A3B8]">
-              &copy; 2025 Adapty Tech Inc. All rights reserved.
+          {/* Logo and Social */}
+          <div className="pt-16 pb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 border-b border-white/10">
+            <Link href="/" className="text-2xl font-bold text-white">
+              adapty
+            </Link>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors text-sm font-bold"
+                  aria-label={social.name}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Link Grid */}
+          <div className="py-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            {Object.values(fullFooterLinks).map((column) => (
+              <div key={column.title}>
+                <h3 className="font-semibold text-white mb-4 text-sm">{column.title}</h3>
+                <ul className="space-y-3">
+                  {column.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        target={link.href.startsWith('http') ? '_blank' : undefined}
+                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="text-slate-400 hover:text-white text-sm transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Newsletter */}
+          <div className="py-12 border-t border-white/10">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">Subscribe to our newsletter</h3>
+                <p className="text-slate-400 text-sm">Get the latest insights on mobile app monetization.</p>
+              </div>
+              <form onSubmit={handleNewsletterSubmit} className="flex gap-3 w-full md:w-auto">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={newsletterStatus === 'loading'}
+                  className="flex-1 md:w-64 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={newsletterStatus === 'loading'}
+                  className="px-6 py-3 bg-[#4F46E5] text-white font-medium rounded-lg hover:bg-[#4338CA] transition-colors disabled:opacity-50"
+                >
+                  {newsletterStatus === 'loading' ? '...' : 'Subscribe'}
+                </button>
+              </form>
+            </div>
+            {newsletterStatus === 'success' && (
+              <p className="mt-4 text-green-400 text-sm">Thank you for subscribing!</p>
+            )}
+            {newsletterStatus === 'error' && (
+              <p className="mt-4 text-red-400 text-sm">Please enter a valid email address.</p>
+            )}
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="py-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-slate-400 text-sm">
+              © {new Date().getFullYear()} Adapty Tech Inc. All rights reserved.
             </p>
-            <div className="flex items-center gap-6">
-              <Link href="#" className="text-sm text-[#94A3B8] hover:text-white transition-colors">
-                Privacy
-              </Link>
-              <Link href="#" className="text-sm text-[#94A3B8] hover:text-white transition-colors">
-                Terms
-              </Link>
-              <Link href="#" className="text-sm text-[#94A3B8] hover:text-white transition-colors">
-                Contact
-              </Link>
+            <div className="flex items-center gap-6 text-sm text-slate-400">
+              <a href="https://adapty.io/privacy/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy</a>
+              <a href="https://adapty.io/terms/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Terms</a>
+              <a href="https://adapty.io/contact/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Contact</a>
             </div>
           </div>
         </div>
