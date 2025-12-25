@@ -3,6 +3,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { getAssetPath } from '@/lib/utils';
 
 const integrations = [
   { name: 'Stripe', icon: '/logos/icon-stripe-logo.svg', href: 'https://adapty.io/integrations/stripe/' },
@@ -47,7 +48,7 @@ const IntegrationCard = memo(function IntegrationCard({
         <div className="h-12 sm:h-14 flex items-center justify-center w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={integration.icon}
+            src={getAssetPath(integration.icon)}
             alt={integration.name}
             className="object-contain max-h-12 sm:max-h-14 max-w-[140px] sm:max-w-[160px] w-auto"
           />
