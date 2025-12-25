@@ -240,7 +240,7 @@ export const posts: BlogPost[] = [
   {
     title: "Building the app for language learning with 10M users",
     slug: "building-language-learning-app",
-    image: "/images/blog/podcast-language-learning.webp",
+    image: "/images/blog/growth-loops.png",
     category: "Podcast",
     date: "October 15, 2025",
     readTime: "17 min read",
@@ -249,7 +249,7 @@ export const posts: BlogPost[] = [
   {
     title: "How to sell physical goods by subscription",
     slug: "selling-physical-goods-subscription",
-    image: "/images/blog/podcast-physical-goods.webp",
+    image: "/images/blog/mobile-app-monetization-strategies.png",
     category: "Podcast",
     date: "October 10, 2025",
     readTime: "24 min read",
@@ -258,7 +258,7 @@ export const posts: BlogPost[] = [
   {
     title: "Dark patterns in subscription apps",
     slug: "dark-patterns-subscription-apps",
-    image: "/images/blog/podcast-dark-patterns.webp",
+    image: "/images/blog/mobile-interstitial-ads.png",
     category: "Podcast",
     date: "October 5, 2025",
     readTime: "23 min read",
@@ -267,7 +267,7 @@ export const posts: BlogPost[] = [
   {
     title: "Why is everyone wrong about unit economics",
     slug: "unit-economics-myths",
-    image: "/images/blog/podcast-unit-economics.webp",
+    image: "/images/blog/north-star-metric.png",
     category: "Podcast",
     date: "October 1, 2025",
     readTime: "23 min read",
@@ -277,7 +277,7 @@ export const posts: BlogPost[] = [
   {
     title: "February Adapty updates: Rich text, smarter taxes, and more",
     slug: "february-adapty-updates",
-    image: "/images/blog/product-february-updates.webp",
+    image: "/images/blog/introducing-adapty-finance.jpg",
     category: "Product-releases",
     date: "February 28, 2025",
     readTime: "2 min read",
@@ -286,7 +286,7 @@ export const posts: BlogPost[] = [
   {
     title: "Adapty updates in January: Web API, AI translation in Paywall Builder",
     slug: "january-adapty-updates",
-    image: "/images/blog/product-january-updates.webp",
+    image: "/images/blog/app-analytics-stack-explained.webp",
     category: "Product-releases",
     date: "January 31, 2025",
     readTime: "4 min read",
@@ -295,7 +295,7 @@ export const posts: BlogPost[] = [
   {
     title: "Adapty updates in December: New year, new features!",
     slug: "december-adapty-updates",
-    image: "/images/blog/product-december-updates.webp",
+    image: "/images/blog/how-adapty-keeps-running.webp",
     category: "Product-releases",
     date: "December 31, 2025",
     readTime: "3 min read",
@@ -304,7 +304,7 @@ export const posts: BlogPost[] = [
   {
     title: "Adapty Wrapped 2024: celebrate your growth",
     slug: "adapty-wrapped-2024",
-    image: "/images/blog/product-wrapped-2024.webp",
+    image: "/images/blog/unlocking-growth-to-100k-mrr.webp",
     category: "Product-releases",
     date: "December 20, 2025",
     readTime: "2 min read",
@@ -314,7 +314,7 @@ export const posts: BlogPost[] = [
   {
     title: "9 subscription economy trends dominating 2025: The complete strategy guide",
     slug: "subscription-economy-trends-2025",
-    image: "/images/blog/trends-subscription-economy.webp",
+    image: "/images/blog/app-pricing-models.webp",
     category: "Trends-insights",
     date: "November 15, 2025",
     readTime: "6 min read",
@@ -323,7 +323,7 @@ export const posts: BlogPost[] = [
   {
     title: "State of in-app subscriptions 2025: everything you need to know in 10 minutes",
     slug: "state-of-subscriptions-2025",
-    image: "/images/blog/trends-state-subscriptions.webp",
+    image: "/images/blog/how-do-free-apps-make-money.png",
     category: "Trends-insights",
     date: "November 10, 2025",
     readTime: "10 min read",
@@ -332,7 +332,7 @@ export const posts: BlogPost[] = [
   {
     title: "Is Apple's new EU in-app purchase fee system more complex than ever?",
     slug: "apple-eu-fee-analysis",
-    image: "/images/blog/trends-apple-eu-fees.webp",
+    image: "/images/blog/apple-eu-in-app-purchase-fee-system-2025.webp",
     category: "Trends-insights",
     date: "November 5, 2025",
     readTime: "10 min read",
@@ -341,7 +341,7 @@ export const posts: BlogPost[] = [
   {
     title: "WWDC25 summary: What Apple announced and what does it mean for app developers",
     slug: "wwdc25-summary",
-    image: "/images/blog/trends-wwdc25.webp",
+    image: "/images/blog/native-vs-hybrid-apps.png",
     category: "Trends-insights",
     date: "June 15, 2025",
     readTime: "14 min read",
@@ -351,7 +351,7 @@ export const posts: BlogPost[] = [
   {
     title: "How adding onboarding friction before your app's paywall can grow your revenue",
     slug: "onboarding-friction-paywall",
-    image: "/images/blog/tutorial-onboarding-friction.webp",
+    image: "/images/blog/how-to-fix-your-onboarding-flow.webp",
     category: "Tutorial",
     date: "October 20, 2025",
     readTime: "9 min read",
@@ -360,7 +360,7 @@ export const posts: BlogPost[] = [
   {
     title: "How to analyze and optimize Apple Search Ads in 2025?",
     slug: "apple-search-ads-tutorial",
-    image: "/images/blog/tutorial-apple-ads.webp",
+    image: "/images/blog/how-to-analyze-and-optimize-apple-ads.webp",
     category: "Tutorial",
     date: "October 15, 2025",
     readTime: "11 min read",
@@ -369,7 +369,7 @@ export const posts: BlogPost[] = [
   {
     title: "Apple Search Ads guide for 2025: Best practices from beginner to expert",
     slug: "apple-ads-guide-2025",
-    image: "/images/blog/tutorial-apple-ads-guide.webp",
+    image: "/images/blog/apple-ads-best-practices.webp",
     category: "Tutorial",
     date: "October 10, 2025",
     readTime: "9 min read",
@@ -378,7 +378,7 @@ export const posts: BlogPost[] = [
   {
     title: "The art of conversion: How Health & Fitness apps nail upselling on iOS",
     slug: "health-fitness-upselling",
-    image: "/images/blog/tutorial-health-fitness.webp",
+    image: "/images/blog/how-to-build-app-onboarding-flows-that-convert.webp",
     category: "Tutorial",
     date: "October 5, 2025",
     readTime: "7 min read",
