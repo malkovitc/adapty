@@ -255,6 +255,16 @@ export function ContentEditor({ content, onChange }: ContentEditorProps) {
       <style jsx global>{`
         .ProseMirror {
           outline: none;
+          color: #1f2937;
+          background-color: #ffffff;
+        }
+
+        .ProseMirror h1,
+        .ProseMirror h2,
+        .ProseMirror h3,
+        .ProseMirror p,
+        .ProseMirror li {
+          color: #1f2937;
         }
 
         .ProseMirror p.is-editor-empty:first-child::before {
