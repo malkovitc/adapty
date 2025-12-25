@@ -2,6 +2,7 @@ import { memo } from 'react';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import type { BlogPost } from '@/data/blog';
+import { getAssetPath } from '@/lib/utils';
 
 interface PostListItemProps {
   post: BlogPost;
@@ -22,11 +23,12 @@ const PostListItem = memo(({ post, isSelected, onSelect }: PostListItemProps) =>
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#F5F5F7] flex-shrink-0">
           <Image
-            src={post.image}
+            src={getAssetPath(post.image)}
             alt={post.title}
             width={48}
             height={48}
             className="w-full h-full object-cover"
+            unoptimized
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
           />
         </div>

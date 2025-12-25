@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, Calendar, User, Twitter, Linkedin, Facebook, Link as LinkIcon, ChevronRight } from 'lucide-react';
 import { posts, type BlogPost } from '@/data/blog';
+import { getAssetPath } from '@/lib/utils';
 
 function TableOfContents() {
   const sections = [
@@ -71,7 +72,7 @@ function RelatedPosts({ currentSlug, category }: { currentSlug: string; category
         {relatedPosts.map((post) => (
           <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
             <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-[#F5F5F7] mb-4">
-              <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+              <Image src={getAssetPath(post.image)} alt={post.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" unoptimized />
             </div>
             <div className="space-y-2">
               <span className="inline-block px-2.5 py-1 text-xs font-medium bg-[#F5F5F7] text-[#64748B] rounded-full">{post.category}</span>
@@ -121,7 +122,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
       <section className="py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-[#F5F5F7]">
-            <Image src={post.image} alt={post.title} fill className="object-cover" priority sizes="(max-width: 768px) 100vw, 896px" />
+            <Image src={getAssetPath(post.image)} alt={post.title} fill className="object-cover" priority sizes="(max-width: 768px) 100vw, 896px" unoptimized />
           </motion.div>
         </div>
       </section>

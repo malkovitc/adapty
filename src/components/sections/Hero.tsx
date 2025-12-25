@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { getAssetPath } from '@/lib/utils';
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -178,12 +179,13 @@ export default function Hero() {
           {/* Main Dashboard Image */}
           <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-300/50 border border-slate-200">
             <Image
-              src="/images/hero/adapty-overview.webp"
+              src={getAssetPath('/images/hero/adapty-overview.webp')}
               alt="Adapty Overview Dashboard"
               width={1400}
               height={900}
               className="w-full h-auto"
               priority
+              unoptimized
             />
           </div>
 

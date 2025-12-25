@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, ChevronRight, Search, Loader2 } from 'lucide-react';
 import { type BlogPost, type Category } from '@/data/blog';
 import { getAllPosts, getAllCategories } from '@/lib/blog-service';
+import { getAssetPath } from '@/lib/utils';
 
 function BlogCard({ post, index }: { post: BlogPost; index: number }) {
   return (
@@ -19,11 +20,12 @@ function BlogCard({ post, index }: { post: BlogPost; index: number }) {
       <Link href={`/blog/${post.slug}`} className="block">
         <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-[#F5F5F7] mb-4">
           <Image
-            src={post.image}
+            src={getAssetPath(post.image)}
             alt={post.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            unoptimized
             onError={(e) => { e.currentTarget.style.opacity = '0'; }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -65,12 +67,13 @@ function FeaturedPost({ post }: { post: BlogPost }) {
       <Link href={`/blog/${post.slug}`} className="grid md:grid-cols-2 gap-8 items-center">
         <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#F5F5F7]">
           <Image
-            src={post.image}
+            src={getAssetPath(post.image)}
             alt={post.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority
+            unoptimized
             onError={(e) => { e.currentTarget.style.opacity = '0'; }}
           />
         </div>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Image from 'next/image';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import { getAssetPath } from '@/lib/utils';
 
 const testimonials = [
   {
@@ -186,11 +187,12 @@ export default function Testimonials() {
                   <div className="relative flex justify-center md:justify-start">
                     <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-2xl overflow-hidden">
                       <Image
-                        src={currentTestimonial.photo}
+                        src={getAssetPath(currentTestimonial.photo)}
                         alt={currentTestimonial.author}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 256px, 288px"
+                        unoptimized
                       />
                     </div>
                   </div>
@@ -213,11 +215,12 @@ export default function Testimonials() {
                     {/* Company Logo */}
                     <div className="h-8 relative">
                       <Image
-                        src={currentTestimonial.logo}
+                        src={getAssetPath(currentTestimonial.logo)}
                         alt={currentTestimonial.company}
                         width={120}
                         height={32}
                         className="h-8 w-auto object-contain brightness-0 invert opacity-80"
+                        unoptimized
                       />
                     </div>
                   </div>

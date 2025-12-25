@@ -2,6 +2,7 @@
 
 import { memo } from 'react';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 // Logos matching original adapty.io homepage trust section
 const logos = [
@@ -54,12 +55,13 @@ const LogoCard = memo(function LogoCard({ name, src }: { name: string; src: stri
   return (
     <div className="flex-shrink-0 h-12 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
       <Image
-        src={src}
+        src={getAssetPath(src)}
         alt={name}
         width={120}
         height={40}
         className="h-8 w-auto object-contain"
         style={{ maxWidth: '120px' }}
+        unoptimized
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
       />
     </div>

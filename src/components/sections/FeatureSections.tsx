@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp, Shield, LineChart, Palette, Globe } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 const features = [
   {
@@ -147,10 +148,11 @@ export default function FeatureSections() {
               <div className={feature.reverse ? 'lg:col-start-1' : ''}>
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                   <Image
-                    src={feature.image}
+                    src={getAssetPath(feature.image)}
                     alt={feature.title}
                     fill
                     className="object-cover"
+                    unoptimized
                   />
                 </div>
               </div>

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Edit3, History, Trash2, Calendar, Clock, Tag, Upload, X } from 'lucide-react';
 import { type BlogPost } from '@/data/blog';
 import { MetadataPanel } from './MetadataPanel';
+import { getAssetPath } from '@/lib/utils';
 
 interface PostEditorProps {
   post: BlogPost | null;
@@ -184,10 +185,11 @@ export function PostEditor({
             onDrop={handleDrop}
           >
             <Image
-              src={post.image}
+              src={getAssetPath(post.image)}
               alt={post.title}
               fill
               className="object-cover"
+              unoptimized
               onError={(e) => { e.currentTarget.style.opacity = '0'; }}
             />
             {isEditing && (

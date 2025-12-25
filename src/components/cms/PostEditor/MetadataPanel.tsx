@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { Globe, ChevronRight, AlertCircle, Info } from 'lucide-react';
 import { type BlogPost } from '@/data/blog';
+import { getAssetPath } from '@/lib/utils';
 
 interface MetadataPanelProps {
   post: BlogPost;
@@ -108,10 +109,11 @@ export function MetadataPanel({ post, onUpdate, isEditing = false }: MetadataPan
               <div className="flex items-center gap-3">
                 <div className="w-32 h-20 rounded-lg overflow-hidden bg-[#F5F5F7] border border-[#E5E7EB] relative">
                   <Image
-                    src={post.image}
+                    src={getAssetPath(post.image)}
                     alt="OG Preview"
                     fill
                     className="object-cover"
+                    unoptimized
                     onError={(e) => { e.currentTarget.style.opacity = '0'; }}
                   />
                 </div>

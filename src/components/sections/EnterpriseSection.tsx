@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Shield, Server, Headphones, Check, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 const enterpriseFeatures = [
   {
@@ -135,11 +136,12 @@ export default function EnterpriseSection() {
                 className="flex flex-col items-center hover:scale-105 transition-transform"
               >
                 <Image
-                  src={award.image}
+                  src={getAssetPath(award.image)}
                   alt={`G2 Award: ${award.title}, ${award.subtitle}`}
                   width={100}
                   height={140}
                   className="w-24 h-auto sm:w-28"
+                  unoptimized
                 />
               </motion.a>
             ))}

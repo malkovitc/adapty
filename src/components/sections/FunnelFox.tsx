@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getAssetPath } from '@/lib/utils';
 
 const FunnelFox = memo(function FunnelFox() {
   return (
@@ -54,12 +55,13 @@ const FunnelFox = memo(function FunnelFox() {
             className="relative"
           >
             <Image
-              src="/images/funnelfox/funnelfox-feature.webp"
+              src={getAssetPath('/images/funnelfox/funnelfox-feature.webp')}
               alt="FunnelFox - web-to-app funnels platform"
               width={768}
               height={631}
               className="w-full h-auto"
               priority={false}
+              unoptimized
             />
           </motion.div>
         </div>

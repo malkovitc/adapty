@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Copy, Check, Github } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 const platforms = [
   { id: 'swift', name: 'Swift', icon: '🍎' },
@@ -251,11 +252,12 @@ export default function SDKSection() {
                 >
                   <div className="mb-3 h-12 flex items-center justify-center">
                     <Image
-                      src={sdk.icon}
+                      src={getAssetPath(sdk.icon)}
                       alt={sdk.name}
                       width={48}
                       height={48}
                       className="object-contain"
+                      unoptimized
                     />
                   </div>
                   <h3 className="text-sm font-medium text-slate-900 group-hover:text-violet-600 transition-colors text-center">

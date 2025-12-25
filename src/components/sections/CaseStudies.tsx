@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 const caseStudies = [
   {
@@ -117,11 +118,12 @@ export default function CaseStudies() {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center">
                     <Image
-                      src={study.icon}
+                      src={getAssetPath(study.icon)}
                       alt={study.company}
                       width={48}
                       height={48}
                       className="object-cover w-full h-full"
+                      unoptimized
                     />
                   </div>
                   <div>

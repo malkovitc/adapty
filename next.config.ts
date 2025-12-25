@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   productionBrowserSourceMaps: false,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: '/adapty',
+  },
 };
 
 export default nextConfig;
