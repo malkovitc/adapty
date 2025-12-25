@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Edit3, History, Trash2, Calendar, Clock, Tag, Upload, X } from 'lucide-react';
 import { type BlogPost } from '@/data/blog';
 import { MetadataPanel } from './MetadataPanel';
+import { ContentEditor } from './ContentEditor';
 import { getAssetPath } from '@/lib/utils';
 
 interface PostEditorProps {
@@ -28,6 +29,7 @@ export function PostEditor({
   // Local draft state for editing
   const [editedTitle, setEditedTitle] = useState(post?.title ?? '');
   const [editedExcerpt, setEditedExcerpt] = useState(post?.excerpt ?? '');
+  const [editedContent, setEditedContent] = useState(post?.content ?? '');
 
   // Track previous post slug to detect post switches
   const prevSlugRef = useRef<string | null>(null);
@@ -38,8 +40,9 @@ export function PostEditor({
       prevSlugRef.current = post?.slug ?? null;
       setEditedTitle(post?.title ?? '');
       setEditedExcerpt(post?.excerpt ?? '');
+      setEditedContent(post?.content ?? '');
     }
-  }, [post?.slug, post?.title, post?.excerpt]);
+  }, [post?.slug, post?.title, post?.excerpt, post?.content]);
 
   // Revision history data (placeholder)
   const revisions = [
@@ -76,6 +79,12 @@ export function PostEditor({
     const newValue = e.target.value;
     setEditedExcerpt(newValue);
     onUpdate({ excerpt: newValue });
+  };
+
+  // Handle content change - update local state and notify parent
+  const handleContentChange = (html: string) => {
+    setEditedContent(html);
+    onUpdate({ content: html });
   };
 
   // Handle empty state when no post is selected
@@ -251,6 +260,17 @@ export function PostEditor({
             <p className="text-[#64748B] leading-relaxed">{post.excerpt}</p>
           )}
         </div>
+
+        {/* Content - TipTap editor */}
+        {isEditing && (
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-[#64748B] mb-2">Article Content</label>
+            <ContentEditor
+              content={editedContent}
+              onChange={handleContentChange}
+            />
+          </div>
+        )}
 
         {/* Metadata Panel (SEO + Post Settings) */}
         <MetadataPanel

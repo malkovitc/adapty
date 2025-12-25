@@ -99,7 +99,8 @@ export async function searchPosts(query: string): Promise<BlogPost[]> {
   const searchLower = query.toLowerCase();
   return allPosts.filter(post =>
     post.title.toLowerCase().includes(searchLower) ||
-    post.excerpt.toLowerCase().includes(searchLower)
+    post.excerpt.toLowerCase().includes(searchLower) ||
+    post.content.toLowerCase().includes(searchLower)
   );
 }
 
@@ -115,6 +116,13 @@ function transformSanityPost(sanityPost: SanityPostWithRefs): BlogPost {
     ? sanityPost.category
     : sanityPost.category?.name || 'General';
 
+  // Convert Portable Text body to HTML if available, otherwise use empty string
+  // In a real implementation, you'd use @portabletext/to-html to convert
+  // For now, we'll use a placeholder
+  const content = sanityPost.body
+    ? convertPortableTextToHTML(sanityPost.body)
+    : '<p>Article content coming soon...</p>';
+
   return {
     title: sanityPost.title || '',
     slug,
@@ -125,7 +133,45 @@ function transformSanityPost(sanityPost: SanityPostWithRefs): BlogPost {
       ? `${sanityPost.readTime} min read`
       : sanityPost.readTime || '5 min read',
     excerpt: sanityPost.excerpt || '',
+    content,
   };
+}
+
+// Helper function to convert Portable Text to HTML
+// This is a simplified version - in production, use @portabletext/to-html
+function convertPortableTextToHTML(portableText: any): string {
+  if (!portableText) return '';
+
+  // If it's already a string, return it
+  if (typeof portableText === 'string') return portableText;
+
+  // If it's an array of blocks (Portable Text format)
+  if (Array.isArray(portableText)) {
+    return portableText
+      .map((block: any) => {
+        if (block._type === 'block') {
+          const text = block.children
+            ?.map((child: any) => child.text || '')
+            .join('') || '';
+
+          // Handle different block styles
+          switch (block.style) {
+            case 'h2':
+              return `<h2>${text}</h2>`;
+            case 'h3':
+              return `<h3>${text}</h3>`;
+            case 'h4':
+              return `<h4>${text}</h4>`;
+            default:
+              return `<p>${text}</p>`;
+          }
+        }
+        return '';
+      })
+      .join('');
+  }
+
+  return '<p>Article content coming soon...</p>';
 }
 
 // Transform Sanity category to Category interface
@@ -187,12 +233,20 @@ export async function createPost(post: Partial<BlogPost>): Promise<BlogPost | nu
 
   try {
     const { writeClient } = await import('@/sanity/client');
+
+    // Convert HTML content to Portable Text if needed
+    // For now, we'll store it as a simple block array
+    const body = post.content
+      ? convertHTMLToPortableText(post.content)
+      : undefined;
+
     const doc = {
       _type: 'post',
       title: post.title,
       slug: { _type: 'slug', current: post.slug },
       excerpt: post.excerpt,
       readTime: post.readTime,
+      body,
       publishedAt: new Date().toISOString(),
     };
 
@@ -202,6 +256,33 @@ export async function createPost(post: Partial<BlogPost>): Promise<BlogPost | nu
     console.error('Failed to create post:', error);
     return null;
   }
+}
+
+// Helper function to convert HTML to Portable Text
+// This is a simplified version - in production, use html-to-portable-text
+function convertHTMLToPortableText(html: string): any[] {
+  if (!html) return [];
+
+  // Very basic HTML to Portable Text conversion
+  // In production, use a proper library like @sanity/block-tools
+  const blocks: any[] = [];
+
+  // Simple paragraph extraction (this is a placeholder)
+  const paragraphs = html.match(/<p>(.*?)<\/p>/g) || [];
+  paragraphs.forEach(p => {
+    const text = p.replace(/<\/?p>/g, '').replace(/<.*?>/g, '');
+    blocks.push({
+      _type: 'block',
+      style: 'normal',
+      children: [{ _type: 'span', text }],
+    });
+  });
+
+  return blocks.length > 0 ? blocks : [{
+    _type: 'block',
+    style: 'normal',
+    children: [{ _type: 'span', text: html }],
+  }];
 }
 
 /**
@@ -228,13 +309,18 @@ export async function updatePost(slug: string, updates: Partial<BlogPost>): Prom
       return null;
     }
 
+    // Prepare updates object
+    const updateData: any = {};
+    if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.excerpt !== undefined) updateData.excerpt = updates.excerpt;
+    if (updates.readTime !== undefined) updateData.readTime = updates.readTime;
+    if (updates.content !== undefined) {
+      updateData.body = convertHTMLToPortableText(updates.content);
+    }
+
     const updated = await writeClient
       .patch(existingPost._id)
-      .set({
-        title: updates.title,
-        excerpt: updates.excerpt,
-        readTime: updates.readTime,
-      })
+      .set(updateData)
       .commit();
 
     return transformSanityPost(updated as unknown as SanityPostWithRefs);
