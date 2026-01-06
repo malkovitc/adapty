@@ -6,6 +6,8 @@ import { ArrowRight, Copy, Check, Github } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 const platforms = [
   { id: 'swift', name: 'Swift', icon: '🍎' },
@@ -98,25 +100,25 @@ export default function SDKSection() {
   };
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <Section size="lg" background="white" className="overflow-hidden">
+      <Container className="overflow-hidden">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-[var(--spacing-lg)]"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" style={{ display: 'block', width: '100%' }}>
+          <h2 className="text-[var(--text-h2)] font-bold text-[var(--text-primary)] mb-[var(--spacing-md)]" style={{ display: 'block', width: '100%' }}>
             Integrate in-app purchases with a few lines of code
           </h2>
-          <p className="text-lg text-slate-600" style={{ display: 'block', maxWidth: '48rem', margin: '0 auto', width: '100%' }}>
+          <p className="text-[var(--text-lg)] text-[var(--text-secondary)]" style={{ display: 'block', maxWidth: '48rem', margin: '0 auto', width: '100%' }}>
             Integrate IAPs within a few hours without server coding. Adapty handles the correct subscription state, taking everything under the hood, from free trials to refunds, in a simple, developer-friendly SDK.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-[var(--spacing-lg)] items-start">
           {/* Left Side - Description and Testimonial */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -134,23 +136,23 @@ export default function SDKSection() {
             </Link>
 
             {/* Testimonial */}
-            <div className="bg-[#F8F9FA] rounded-2xl p-6 border border-slate-200">
+            <div className="bg-[var(--bg-subtle)] rounded-2xl p-6 border border-[var(--border-default)]">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold text-sm">
                   S
                 </div>
-                <span className="text-slate-600 text-sm font-medium">Smitten</span>
+                <span className="text-[var(--text-secondary)] text-sm font-medium">Smitten</span>
               </div>
-              <blockquote className="text-slate-700 italic mb-4">
+              <blockquote className="text-[var(--text-primary)] italic mb-4">
                 &ldquo;Adapty SDK made integrating in-app purchases a walk in the park. With just a few lines of code, I was able to implement subscriptions seamlessly for both iOS and Android.&rdquo;
               </blockquote>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-[var(--bg-muted)] flex items-center justify-center text-[var(--text-secondary)] font-bold text-sm">
                   MO
                 </div>
                 <div>
-                  <p className="text-slate-900 font-medium text-sm">Magnús Ólafsson</p>
-                  <p className="text-slate-500 text-xs">Chief Technology Officer at Smitten</p>
+                  <p className="text-[var(--text-primary)] font-medium text-sm">Magnús Ólafsson</p>
+                  <p className="text-[var(--text-secondary)] text-xs">Chief Technology Officer at Smitten</p>
                 </div>
               </div>
             </div>
@@ -230,12 +232,12 @@ export default function SDKSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mt-20"
+          className="mt-[var(--spacing-3xl)]"
         >
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+          <h2 className="text-[var(--text-h3)] sm:text-[var(--text-h2)] font-bold text-[var(--text-primary)] text-center mb-[var(--spacing-lg)]">
             Get the SDK for your platform
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--spacing-md)]">
             {sdkPlatforms.map((sdk, index) => (
               <motion.div
                 key={sdk.name}
@@ -248,9 +250,9 @@ export default function SDKSection() {
                   href={sdk.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col items-center justify-center p-6 bg-[#F8F9FA] hover:bg-slate-100 rounded-xl border border-slate-200 hover:border-violet-300 transition-all duration-300 min-h-[140px]"
+                  className="group flex flex-col items-center justify-center p-[var(--spacing-lg)] bg-[var(--bg-subtle)] hover:bg-[var(--bg-muted)] rounded-xl border border-[var(--border-default)] hover:border-[var(--accent-primary)] transition-all duration-300 min-h-[140px]"
                 >
-                  <div className="mb-3 h-12 flex items-center justify-center">
+                  <div className="mb-[var(--spacing-sm)] h-12 flex items-center justify-center">
                     <Image
                       src={getAssetPath(sdk.icon)}
                       alt={sdk.name}
@@ -260,7 +262,7 @@ export default function SDKSection() {
                       unoptimized
                     />
                   </div>
-                  <h3 className="text-sm font-medium text-slate-900 group-hover:text-violet-600 transition-colors text-center">
+                  <h3 className="text-[var(--text-sm)] font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors text-center">
                     {sdk.name}
                   </h3>
                 </Link>
@@ -268,7 +270,7 @@ export default function SDKSection() {
             ))}
           </div>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

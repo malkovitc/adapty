@@ -4,6 +4,8 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { getAssetPath } from '@/lib/utils';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 const integrations = [
   { name: 'Stripe', icon: '/logos/icon-stripe-logo.svg', href: 'https://adapty.io/integrations/stripe/' },
@@ -60,15 +62,15 @@ const IntegrationCard = memo(function IntegrationCard({
 
 export default function Integrations() {
   return (
-    <section id="integrations" className="relative py-12 sm:py-16 md:py-20 bg-[#FAFAFA] overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+    <Section id="integrations" size="lg" background="gray" className="overflow-hidden">
+      <Container>
+        <div className="text-center mb-[var(--spacing-lg)]">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-4"
+            className="text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-4"
           >
             Integrations
           </motion.p>
@@ -77,7 +79,7 @@ export default function Integrations() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            className="text-[var(--text-h2)] font-bold text-[var(--text-primary)] mb-4"
           >
             Sync purchase data with other services
           </motion.h2>
@@ -86,7 +88,7 @@ export default function Integrations() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg text-slate-600"
+            className="text-[var(--text-lg)] text-[var(--text-secondary)]"
             style={{ maxWidth: '42rem', margin: '0 auto' }}
           >
             Forward subscription events to analytics and attribution services without coding.
@@ -99,7 +101,7 @@ export default function Integrations() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-[var(--spacing-md)]"
         >
           {integrations.map((integration, index) => (
             <IntegrationCard key={integration.name} integration={integration} index={index} />
@@ -112,7 +114,7 @@ export default function Integrations() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center mt-10"
+          className="text-center mt-[var(--spacing-lg)]"
         >
           <Link
             href="https://adapty.io/integrations/"
@@ -131,7 +133,7 @@ export default function Integrations() {
             </svg>
           </Link>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

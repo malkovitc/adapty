@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 const steps = [
   {
@@ -75,7 +77,7 @@ function SDKInstallation() {
   ];
 
   return (
-    <div className="bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
+    <div className="bg-[var(--bg-dark)] rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
       {/* Tabs */}
       <div className="flex border-b border-slate-800 bg-slate-800/50">
         {platforms.map((platform) => (
@@ -84,7 +86,7 @@ function SDKInstallation() {
             onClick={() => setActiveTab(platform.id)}
             className={`flex-1 px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium transition-colors relative ${
               activeTab === platform.id
-                ? 'text-white bg-slate-900'
+                ? 'text-[var(--text-light)] bg-[var(--bg-dark)]'
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
@@ -131,55 +133,55 @@ function SDKInstallation() {
 // Step 2: Dashboard Configuration Component
 function DashboardConfig() {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+    <div className="bg-[var(--bg-primary)] rounded-2xl overflow-hidden shadow-2xl border border-[var(--border-default)]">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 sm:px-6 py-4 border-b border-slate-200">
-        <h4 className="text-sm font-semibold text-slate-900">Product Configuration</h4>
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 sm:px-6 py-4 border-b border-[var(--border-default)]">
+        <h4 className="text-sm font-semibold text-[var(--text-primary)]">Product Configuration</h4>
       </div>
 
       {/* Form fields */}
       <div className="p-4 sm:p-6 space-y-4">
         {/* Product Name */}
         <div>
-          <label className="block text-xs font-medium text-slate-700 mb-2">
+          <label className="block text-xs font-medium text-[var(--text-secondary)] mb-2">
             Product Name
           </label>
-          <div className="bg-slate-50 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 border border-slate-200">
-            <span className="text-sm text-slate-900">Premium Monthly</span>
+          <div className="bg-[var(--bg-subtle)] rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 border border-[var(--border-default)]">
+            <span className="text-sm text-[var(--text-primary)]">Premium Monthly</span>
           </div>
         </div>
 
         {/* Price */}
         <div>
-          <label className="block text-xs font-medium text-slate-700 mb-2">
+          <label className="block text-xs font-medium text-[var(--text-secondary)] mb-2">
             Price
           </label>
-          <div className="bg-slate-50 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 border border-slate-200 flex items-center gap-2">
-            <span className="text-sm text-slate-900">$</span>
-            <span className="text-sm text-slate-900 font-semibold">9.99</span>
-            <span className="text-xs text-slate-500 ml-auto">USD</span>
+          <div className="bg-[var(--bg-subtle)] rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 border border-[var(--border-default)] flex items-center gap-2">
+            <span className="text-sm text-[var(--text-primary)]">$</span>
+            <span className="text-sm text-[var(--text-primary)] font-semibold">9.99</span>
+            <span className="text-xs text-[var(--text-tertiary)] ml-auto">USD</span>
           </div>
         </div>
 
         {/* Subscription Period */}
         <div>
-          <label className="block text-xs font-medium text-slate-700 mb-2">
+          <label className="block text-xs font-medium text-[var(--text-secondary)] mb-2">
             Subscription Period
           </label>
           <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between">
-            <span className="text-sm text-white font-medium">Monthly</span>
-            <Check className="w-4 h-4 text-white" />
+            <span className="text-sm text-[var(--text-light)] font-medium">Monthly</span>
+            <Check className="w-4 h-4 text-[var(--text-light)]" />
           </div>
         </div>
 
         {/* Features list */}
         <div>
-          <label className="block text-xs font-medium text-slate-700 mb-2">
+          <label className="block text-xs font-medium text-[var(--text-secondary)] mb-2">
             Features Included
           </label>
           <div className="space-y-2">
             {['Unlimited access', 'Priority support', 'Advanced analytics'].map((feature, i) => (
-              <div key={i} className="flex items-center gap-2 text-xs text-slate-600">
+              <div key={i} className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
                 <div className="w-4 h-4 rounded-full bg-blue-100 flex items-center justify-center">
                   <Check className="w-3 h-3 text-blue-600" />
                 </div>
@@ -191,8 +193,8 @@ function DashboardConfig() {
       </div>
 
       {/* Footer */}
-      <div className="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
-        <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-medium rounded-lg hover:shadow-lg transition-shadow">
+      <div className="px-4 sm:px-6 py-3 bg-[var(--bg-subtle)] border-t border-[var(--border-default)] flex justify-end">
+        <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-[var(--text-light)] text-xs font-medium rounded-lg hover:shadow-lg transition-shadow">
           Save Product
         </button>
       </div>
@@ -203,15 +205,15 @@ function DashboardConfig() {
 // Step 3: Paywall Builder Component
 function PaywallBuilder() {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+    <div className="bg-[var(--bg-primary)] rounded-2xl overflow-hidden shadow-2xl border border-[var(--border-default)]">
       {/* Toolbar */}
-      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 px-4 sm:px-6 py-3 border-b border-slate-200 flex items-center justify-between">
-        <h4 className="text-sm font-semibold text-slate-900">Paywall Builder</h4>
+      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 px-4 sm:px-6 py-3 border-b border-[var(--border-default)] flex items-center justify-between">
+        <h4 className="text-sm font-semibold text-[var(--text-primary)]">Paywall Builder</h4>
         <div className="flex gap-2">
-          <div className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center">
+          <div className="w-6 h-6 rounded bg-[var(--bg-primary)] border border-[var(--border-default)] flex items-center justify-center">
             <div className="w-3 h-3 border-2 border-slate-400 rounded-sm" />
           </div>
-          <div className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center">
+          <div className="w-6 h-6 rounded bg-[var(--bg-primary)] border border-[var(--border-default)] flex items-center justify-center">
             <div className="w-3 h-0.5 bg-slate-400" />
           </div>
         </div>
@@ -219,13 +221,13 @@ function PaywallBuilder() {
 
       {/* Paywall preview */}
       <div className="p-4 sm:p-6 bg-gradient-to-br from-indigo-500 to-indigo-500">
-        <div className="bg-white rounded-xl p-4 sm:p-6 shadow-xl">
+        <div className="bg-[var(--bg-primary)] rounded-xl p-4 sm:p-6 shadow-xl">
           {/* Title */}
           <div className="text-center mb-4">
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1">
+            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-1">
               Unlock Premium
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)]">
               Get unlimited access to all features
             </p>
           </div>
@@ -235,27 +237,27 @@ function PaywallBuilder() {
             {['Ad-free experience', 'Offline mode', 'Premium content'].map((feature, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-500 flex items-center justify-center shrink-0">
-                  <Check className="w-3 h-3 text-white" />
+                  <Check className="w-3 h-3 text-[var(--text-light)]" />
                 </div>
-                <span className="text-xs sm:text-sm text-slate-700">{feature}</span>
+                <span className="text-xs sm:text-sm text-[var(--text-secondary)]">{feature}</span>
               </div>
             ))}
           </div>
 
           {/* Price button */}
-          <button className="w-full bg-gradient-to-r from-indigo-500 to-indigo-500 text-white font-semibold py-3 sm:py-4 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-xl transition-shadow">
+          <button className="w-full bg-gradient-to-r from-indigo-500 to-indigo-500 text-[var(--text-light)] font-semibold py-3 sm:py-4 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-xl transition-shadow">
             Start Free Trial
           </button>
 
-          <p className="text-center text-xs text-slate-500 mt-3">
+          <p className="text-center text-xs text-[var(--text-tertiary)] mt-3">
             $9.99/month after trial
           </p>
         </div>
       </div>
 
       {/* Properties panel */}
-      <div className="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-200">
-        <div className="flex items-center gap-4 text-xs text-slate-600">
+      <div className="px-4 sm:px-6 py-3 bg-[var(--bg-subtle)] border-t border-[var(--border-default)]">
+        <div className="flex items-center gap-4 text-xs text-[var(--text-secondary)]">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-indigo-500 rounded" />
             <span>Colors</span>
@@ -397,21 +399,21 @@ function AnalyticsDashboard() {
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
+    <Section id="how-it-works" size="lg" background="white" className="relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-gradient-to-tl from-blue-100/40 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
+      <Container size="lg" className="relative">
+        <div className="text-center mb-[var(--spacing-3xl)]">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm font-semibold uppercase tracking-wider text-[#6366F1] mb-4"
+            className="text-[var(--text-sm)] font-semibold uppercase tracking-wider text-[var(--accent-primary)] mb-[var(--spacing-md)]"
           >
             How It Works
           </motion.p>
@@ -420,7 +422,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6"
+            className="text-[var(--text-h2)] font-bold text-[var(--text-primary)] mb-[var(--spacing-lg)]"
           >
             Get started in{' '}
             <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
@@ -432,7 +434,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg md:text-xl text-slate-600"
+            className="text-[var(--text-lg)] text-[var(--text-secondary)]"
             style={{ maxWidth: '48rem', margin: '0 auto' }}
           >
             Integrate Adapty into your app and start growing your subscription revenue
@@ -640,11 +642,11 @@ export default function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-16"
+          className="text-center mt-[var(--spacing-3xl)]"
         >
           <a
             href="#"
-            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 min-h-[48px] bg-[#6366F1] hover:bg-[#4F46E5] text-white rounded-xl font-semibold transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 touch-manipulation text-base sm:text-lg"
+            className="inline-flex items-center gap-[var(--spacing-sm)] px-[var(--spacing-lg)] sm:px-[var(--spacing-xl)] py-[var(--spacing-md)] min-h-[48px] bg-[var(--accent-primary)] hover:bg-[var(--color-primary-dark)] text-[var(--text-light)] rounded-xl font-semibold transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 touch-manipulation text-[var(--text-base)] sm:text-[var(--text-lg)]"
           >
             Get started for free
             <svg
@@ -657,7 +659,7 @@ export default function HowItWorks() {
             </svg>
           </a>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

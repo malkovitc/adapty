@@ -5,6 +5,8 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 const caseStudies = [
   {
@@ -83,23 +85,23 @@ const caseStudies = [
 
 export default function CaseStudies() {
   return (
-    <section className="py-20 bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <Section size="lg" background="gray">
+      <Container>
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-[var(--spacing-lg)]"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+          <h2 className="text-[var(--text-h2)] font-bold text-[var(--text-primary)] mb-[var(--spacing-md)]">
             Read the real cases of our customers
           </h2>
         </motion.div>
 
         {/* Cases Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-md)] mb-[var(--spacing-lg)]">
           {caseStudies.slice(0, 6).map((study, index) => (
             <motion.div
               key={study.company}
@@ -112,11 +114,11 @@ export default function CaseStudies() {
                 href={study.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block h-full bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-xl hover:shadow-slate-200/50 hover:border-violet-300 transition-all duration-300"
+                className="group block h-full bg-[var(--bg-primary)] rounded-2xl p-[var(--spacing-md)] border border-slate-200 hover:shadow-xl hover:shadow-slate-200/50 hover:border-violet-300 transition-all duration-300"
               >
                 {/* Logo and company info */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center">
+                <div className="flex items-center gap-[var(--spacing-sm)] mb-[var(--spacing-md)]">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-[var(--bg-subtle)] flex items-center justify-center">
                     <Image
                       src={getAssetPath(study.icon)}
                       alt={study.company}
@@ -127,19 +129,19 @@ export default function CaseStudies() {
                     />
                   </div>
                   <div>
-                    <p className="font-medium text-slate-900">{study.company}</p>
-                    <p className="text-xs text-slate-500">{study.category}</p>
+                    <p className="font-medium text-[var(--text-primary)]">{study.company}</p>
+                    <p className="text-xs text-[var(--text-secondary)]">{study.category}</p>
                   </div>
                 </div>
 
                 {/* Metric */}
-                <p className="text-lg font-bold text-violet-600 mb-2">{study.metric}</p>
+                <p className="text-[var(--text-lg)] font-bold text-violet-600 mb-[var(--spacing-xs)]">{study.metric}</p>
 
                 {/* Description */}
-                <p className="text-slate-600 text-sm mb-4">{study.description}</p>
+                <p className="text-[var(--text-secondary)] text-sm mb-[var(--spacing-md)]">{study.description}</p>
 
                 {/* Read more */}
-                <span className="inline-flex items-center gap-1 text-sm text-slate-500 group-hover:text-violet-600 transition-colors">
+                <span className="inline-flex items-center gap-[var(--spacing-xs)] text-sm text-[var(--text-secondary)] group-hover:text-violet-600 transition-colors">
                   Read more
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -160,13 +162,13 @@ export default function CaseStudies() {
             href="https://adapty.io/case-studies/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-lg transition-colors"
+            className="inline-flex items-center gap-[var(--spacing-xs)] px-[var(--spacing-md)] py-[var(--spacing-sm)] bg-[var(--bg-dark)] hover:bg-slate-800 text-[var(--text-light)] font-medium rounded-lg transition-colors"
           >
             Read all cases
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

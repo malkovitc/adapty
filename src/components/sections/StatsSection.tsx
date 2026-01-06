@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 interface CounterProps {
   end: number;
@@ -85,8 +87,8 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className="py-20 bg-[#F8F9FA]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <Section size="default" background="dark">
+      <Container>
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -95,7 +97,7 @@ export default function StatsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
             Adapty processes subscription revenue with the industry&apos;s highest SLA Rate
           </h2>
         </motion.div>
@@ -111,7 +113,7 @@ export default function StatsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-2">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2">
                 <AnimatedCounter
                   end={stat.value}
                   prefix={stat.prefix}
@@ -119,11 +121,11 @@ export default function StatsSection() {
                   decimals={stat.decimals}
                 />
               </div>
-              <p className="text-slate-500 text-sm sm:text-base">{stat.label}</p>
+              <p className="text-[var(--text-secondary)] text-sm sm:text-base">{stat.label}</p>
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

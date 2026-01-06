@@ -5,6 +5,8 @@ import { Shield, Server, Headphones, Check, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 const enterpriseFeatures = [
   {
@@ -44,21 +46,21 @@ export default function EnterpriseSection() {
   return (
     <>
       {/* Enterprise Features */}
-      <section className="py-20 bg-[#F8F9FA]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Section size="lg" background="gray">
+        <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-16"
+            className="text-center mb-[var(--spacing-3xl)]"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">
               Enterprise-grade platform
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-[var(--spacing-2xl)]">
             {enterpriseFeatures.map((category, index) => (
               <motion.div
                 key={category.title}
@@ -66,15 +68,15 @@ export default function EnterpriseSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-[var(--bg-primary)] rounded-2xl p-[var(--spacing-lg)] border border-[var(--border-default)] shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-[var(--spacing-md)]">
                   <category.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-4">{category.title}</h3>
-                <ul className="space-y-3">
+                <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-[var(--spacing-md)]">{category.title}</h3>
+                <ul className="space-y-[var(--spacing-sm)]">
                   {category.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-3 text-slate-600">
+                    <li key={i} className="flex items-start gap-[var(--spacing-sm)] text-[var(--text-secondary)]">
                       <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                       {typeof feature === 'string' ? (
                         <span>{feature}</span>
@@ -95,20 +97,20 @@ export default function EnterpriseSection() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* G2 Awards */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Section size="lg" background="white">
+        <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-12"
+            className="text-center mb-[var(--spacing-2xl)]"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-[var(--spacing-md)]">
               Trusted for usability and customer service
             </h2>
             <Link
@@ -122,7 +124,7 @@ export default function EnterpriseSection() {
             </Link>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-[var(--spacing-lg)]">
             {g2Awards.map((award, index) => (
               <motion.a
                 key={award.title}
@@ -146,8 +148,8 @@ export default function EnterpriseSection() {
               </motion.a>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
     </>
   );
 }

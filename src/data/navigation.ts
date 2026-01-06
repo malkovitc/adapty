@@ -13,21 +13,22 @@ export interface NavigationItem {
 
 export const navigation: NavigationItem[] = [
   {
-    name: 'Product',
+    name: 'Products',
     href: '#features',
     dropdown: [
-      { name: 'Paywalls', href: 'https://adapty.io/paywalls/', description: 'Build and test paywalls without coding' },
-      { name: 'A/B Testing', href: 'https://adapty.io/ab-testing/', description: 'Optimize pricing and offers' },
+      { name: 'Paywall Builder', href: '/paywall-builder', description: 'Create stunning paywalls without code' },
+      { name: 'A/B Testing', href: '/paywall-ab-testing', description: 'Optimize pricing and offers' },
+      { name: 'Onboarding Builder', href: '/onboarding-builder', description: 'Build converting user flows' },
       { name: 'Analytics', href: 'https://adapty.io/analytics/', description: 'Subscription analytics and insights' },
-      { name: 'Integrations', href: '#integrations', description: 'Connect with your stack' },
     ]
   },
   {
-    name: 'Cases',
-    href: '#testimonials',
+    name: 'Solutions',
+    href: '#',
     dropdown: [
-      { name: 'Case Studies', href: 'https://adapty.io/case-studies/', description: 'Success stories from our customers' },
-      { name: 'Testimonials', href: '#testimonials', description: 'What customers say about us' },
+      { name: 'For Marketers', href: '/for-marketers', description: 'Maximize conversions with targeted paywalls' },
+      { name: 'For Developers', href: '/for-developers', description: 'Integrate subscriptions in 30 minutes' },
+      { name: 'For App Owners', href: '/for-app-owners', description: 'Accelerate your subscription revenue' },
     ]
   },
   {
@@ -35,6 +36,7 @@ export const navigation: NavigationItem[] = [
     href: '#',
     dropdown: [
       { name: 'Blog', href: '/blog', description: 'Articles about app monetization' },
+      { name: 'Case Studies', href: 'https://adapty.io/case-studies/', description: 'Success stories from our customers' },
       { name: 'Guides', href: 'https://adapty.io/guides/', description: 'In-depth tutorials' },
       { name: 'Webinars', href: 'https://adapty.io/webinars/', description: 'Live and on-demand sessions' },
       { name: 'Podcast', href: 'https://adapty.io/podcast/', description: 'Sub Club podcast' },
@@ -49,7 +51,6 @@ export const navigation: NavigationItem[] = [
       { name: 'API Reference', href: 'https://docs.adapty.io/api', description: 'REST API documentation' },
     ]
   },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Pricing', href: '#pricing' },
-  { name: 'web2app', href: 'https://adapty.io/web2app/', highlight: true },
+  { name: 'Pricing', href: '/pricing' },
+  { name: 'Schedule Demo', href: '/demo', highlight: true },
 ];

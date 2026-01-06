@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Check, Sparkles } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { GlowCard } from '@/components/ui/GlowCard';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 const pricingTiers = [
   {
@@ -121,7 +123,7 @@ const PricingCard = memo(function PricingCard({
               stiffness: 300,
               damping: 20,
             }}
-            className="relative p-6 sm:p-8 bg-white rounded-[11px] transition-all duration-500 touch-manipulation h-full flex flex-col"
+            className="relative p-6 sm:p-8 bg-[var(--bg-primary)] rounded-[11px] transition-all duration-500 touch-manipulation h-full flex flex-col"
           >
             <PricingCardContent tier={tier} isYearly={isYearly} />
 
@@ -151,7 +153,7 @@ const PricingCard = memo(function PricingCard({
             stiffness: 300,
             damping: 20,
           }}
-          className="relative p-6 sm:p-8 bg-white rounded-2xl transition-all duration-500 touch-manipulation h-full flex flex-col border border-slate-200 shadow-lg group-hover:shadow-2xl group-hover:border-purple-200"
+          className="relative p-6 sm:p-8 bg-[var(--bg-primary)] rounded-2xl transition-all duration-500 touch-manipulation h-full flex flex-col border border-[var(--border-default)] shadow-lg group-hover:shadow-2xl group-hover:border-purple-200"
         >
           <PricingCardContent tier={tier} isYearly={isYearly} />
 
@@ -203,41 +205,41 @@ const PricingCardContent = memo(function PricingCardContent({
       )}
 
       {/* Tier Name */}
-      <h3 className="text-2xl font-bold text-slate-900 mb-2">
+      <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
         {tier.name}
       </h3>
 
       {/* Description */}
-      <p className="text-slate-600 mb-6">{tier.description}</p>
+      <p className="text-[var(--text-secondary)] mb-6">{tier.description}</p>
 
       {/* Price */}
       <div className="mb-8">
         {tier.customPrice ? (
-          <div className="text-4xl font-bold text-slate-900">
+          <div className="text-4xl font-bold text-[var(--text-primary)]">
             {tier.customPrice}
           </div>
         ) : tier.priceDisplay ? (
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              <span className="text-5xl font-bold bg-gradient-to-r from-[var(--text-primary)] to-[var(--text-secondary)] bg-clip-text text-transparent">
                 {tier.priceDisplay}
               </span>
               {tier.priceSubtext && (
-                <span className="text-slate-600 font-medium">{tier.priceSubtext}</span>
+                <span className="text-[var(--text-secondary)] font-medium">{tier.priceSubtext}</span>
               )}
             </div>
             {tier.priceNote && (
-              <p className="text-sm text-slate-500 mt-2">
+              <p className="text-sm text-[var(--text-tertiary)] mt-2">
                 {tier.priceNote}
               </p>
             )}
           </div>
         ) : (
           <div className="flex items-baseline gap-1">
-            <span className="text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+            <span className="text-5xl font-bold bg-gradient-to-r from-[var(--text-primary)] to-[var(--text-secondary)] bg-clip-text text-transparent">
               ${tier.monthlyPrice}
             </span>
-            <span className="text-slate-600 font-medium">/month</span>
+            <span className="text-[var(--text-secondary)] font-medium">/month</span>
           </div>
         )}
       </div>
@@ -252,11 +254,11 @@ const PricingCardContent = memo(function PricingCardContent({
       </Button>
 
       {/* Features List */}
-      <div className="space-y-4 flex-grow">
-        <p className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
+      <div className="space-y-[var(--spacing-md)] flex-grow">
+        <p className="text-sm font-semibold text-[var(--text-primary)] uppercase tracking-wider">
           Features
         </p>
-        <ul className="space-y-3">
+        <ul className="space-y-[var(--spacing-sm)]">
           {tier.features.map((feature, featureIndex) => (
             <motion.li
               key={featureIndex}
@@ -264,7 +266,7 @@ const PricingCardContent = memo(function PricingCardContent({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 * featureIndex }}
-              className="flex items-start gap-3"
+              className="flex items-start gap-[var(--spacing-sm)]"
             >
               <Check
                 className={`w-5 h-5 shrink-0 mt-0.5 ${
@@ -273,7 +275,7 @@ const PricingCardContent = memo(function PricingCardContent({
                     : 'text-green-600'
                 }`}
               />
-              <span className="text-slate-700">{feature}</span>
+              <span className="text-[var(--text-secondary)]">{feature}</span>
             </motion.li>
           ))}
         </ul>
@@ -286,14 +288,14 @@ export default function Pricing() {
   const [isYearly] = useState(false);
 
   return (
-    <section id="pricing" className="relative py-16 sm:py-20 md:py-24 bg-[#FAFAFA] overflow-hidden">
+    <Section id="pricing" background="gray" className="relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-purple-100/60 to-transparent rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-blue-100/60 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Container className="relative">
         {/* Header */}
         <div className="text-center">
           <motion.p
@@ -310,7 +312,7 @@ export default function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] mb-[var(--spacing-lg)] leading-tight"
           >
             Simple, transparent{' '}
             <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
@@ -322,8 +324,8 @@ export default function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg md:text-xl text-slate-500 mb-12"
-            style={{ maxWidth: '48rem', margin: '0 auto 48px auto' }}
+            className="text-base sm:text-lg md:text-xl text-[var(--text-tertiary)] mb-[var(--spacing-2xl)]"
+            style={{ maxWidth: '48rem', margin: '0 auto var(--spacing-2xl) auto' }}
           >
             Start for free and scale as you grow. All plans include 14-day free trial.
           </motion.p>
@@ -331,7 +333,7 @@ export default function Pricing() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-7xl mx-auto mb-16 items-stretch">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[var(--spacing-lg)] sm:gap-[var(--spacing-2xl)] max-w-7xl mx-auto mb-[var(--spacing-3xl)] items-stretch">
           {pricingTiers.map((tier, index) => (
             <PricingCard key={tier.name} tier={tier} index={index} isYearly={isYearly} />
           ))}
@@ -345,93 +347,93 @@ export default function Pricing() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-4xl mx-auto"
         >
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-            <div className="p-8">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">
+          <div className="bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-default)] shadow-lg overflow-hidden">
+            <div className="p-[var(--spacing-2xl)]">
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-[var(--spacing-lg)] text-center">
                 Compare plans
               </h3>
 
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-slate-200">
-                      <th className="text-left py-4 px-4 font-semibold text-slate-900">
+                    <tr className="border-b border-[var(--border-default)]">
+                      <th className="text-left py-[var(--spacing-md)] px-[var(--spacing-md)] font-semibold text-[var(--text-primary)]">
                         Feature
                       </th>
                       {pricingTiers.map((tier) => (
                         <th
                           key={tier.name}
-                          className="text-center py-4 px-4 font-semibold text-slate-900"
+                          className="text-center py-[var(--spacing-md)] px-[var(--spacing-md)] font-semibold text-[var(--text-primary)]"
                         >
                           {tier.name}
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-[var(--bg-muted)]">
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">Monthly revenue limit</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Up to $10K</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Unlimited</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-[var(--text-secondary)]">Monthly revenue limit</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Up to $10K</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Unlimited</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Unlimited</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Unlimited</td>
                     </tr>
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">Paywall Builder</td>
-                      <td className="py-4 px-4 text-center">
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-[var(--text-secondary)]">Paywall Builder</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
                         <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
-                      <td className="py-4 px-4 text-center">
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
                         <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
-                      <td className="py-4 px-4 text-center">
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
                         <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
-                      <td className="py-4 px-4 text-center">
-                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="py-4 px-4 text-slate-700">A/B Testing</td>
-                      <td className="py-4 px-4 text-center">
-                        <span className="text-slate-400">-</span>
-                      </td>
-                      <td className="py-4 px-4 text-center">
-                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
-                      </td>
-                      <td className="py-4 px-4 text-center">
-                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
-                      </td>
-                      <td className="py-4 px-4 text-center">
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
                         <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
                     </tr>
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">Analytics</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Basic</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-[var(--text-secondary)]">A/B Testing</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <span className="text-[var(--text-tertiary)]">-</span>
+                      </td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <Check className="w-5 h-5 text-indigo-500 mx-auto" />
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">Support</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Email</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Priority</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Advanced</td>
-                      <td className="py-4 px-4 text-center text-slate-700">Dedicated</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-[var(--text-secondary)]">Analytics</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Basic</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Advanced</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Advanced</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Advanced</td>
                     </tr>
                     <tr>
-                      <td className="py-4 px-4 text-slate-700">SLA</td>
-                      <td className="py-4 px-4 text-center">
-                        <span className="text-slate-400">-</span>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-[var(--text-secondary)]">Support</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Email</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Priority</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Advanced</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center text-[var(--text-secondary)]">Dedicated</td>
+                    </tr>
+                    <tr>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-[var(--text-secondary)]">SLA</td>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <span className="text-[var(--text-tertiary)]">-</span>
                       </td>
-                      <td className="py-4 px-4 text-center">
-                        <span className="text-slate-400">-</span>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <span className="text-[var(--text-tertiary)]">-</span>
                       </td>
-                      <td className="py-4 px-4 text-center">
-                        <span className="text-slate-400">-</span>
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
+                        <span className="text-[var(--text-tertiary)]">-</span>
                       </td>
-                      <td className="py-4 px-4 text-center">
+                      <td className="py-[var(--spacing-md)] px-[var(--spacing-md)] text-center">
                         <Check className="w-5 h-5 text-indigo-500 mx-auto" />
                       </td>
                     </tr>
@@ -448,16 +450,16 @@ export default function Pricing() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12"
+          className="text-center mt-[var(--spacing-2xl)]"
         >
-          <p className="text-slate-600 mb-4">
+          <p className="text-[var(--text-secondary)] mb-[var(--spacing-md)]">
             Not sure which plan is right for you?
           </p>
           <Button variant="ghost" size="lg">
             Talk to our team
           </Button>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

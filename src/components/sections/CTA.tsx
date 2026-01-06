@@ -1,7 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
+import { CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
+import Button from '@/components/ui/Button';
 
 const benefits = [
   'Free plan available',
@@ -12,7 +15,7 @@ const benefits = [
 
 export default function CTA() {
   return (
-    <section id="cta" className="relative pt-16 pb-24 sm:pt-20 sm:pb-28 md:pt-24 md:pb-32 bg-gradient-to-b from-[#FAFAFA] via-white to-[#FAFAFA] overflow-hidden">
+    <Section size="lg" background="gradient" id="cta" className="relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Main gradient orb */}
@@ -63,14 +66,14 @@ export default function CTA() {
         }} />
       </div>
 
-      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+      <Container size="md" className="relative text-center">
         <div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 mb-6"
+            className="text-[var(--text-h2)] sm:text-[var(--text-h1)] font-[var(--font-bold)] text-[var(--text-primary)] mb-[var(--spacing-lg)]"
           >
             Ready to boost your{' '}
             <span className="bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
@@ -82,8 +85,7 @@ export default function CTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg md:text-xl text-slate-600"
-            style={{ maxWidth: '42rem', margin: '0 auto 48px auto' }}
+            className="text-[var(--text-lg)] text-[var(--text-secondary)] max-w-[42rem] mx-auto mb-[var(--spacing-2xl)]"
           >
             Join 15,000+ apps that use Adapty to manage and grow their subscription business.
             Get started in minutes.
@@ -96,29 +98,25 @@ export default function CTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row gap-6 justify-center mb-16"
+          className="flex flex-col sm:flex-row gap-[var(--spacing-lg)] justify-center mb-[var(--spacing-2xl)]"
         >
-          <motion.a
+          <Button
+            variant="primary"
+            size="lg"
             href="#"
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center justify-center gap-3 h-14 px-10 bg-gradient-to-r from-[#6366F1] to-[#6366F1] hover:from-[#4F46E5] hover:to-[#4338CA] text-white rounded-full font-semibold text-base shadow-[0_4px_24px_rgba(99,102,241,0.4)] hover:shadow-[0_8px_32px_rgba(99,102,241,0.5)] transition-all duration-300 overflow-hidden touch-manipulation"
+            icon={<Sparkles className="w-5 h-5" />}
+            iconPosition="left"
           >
-            {/* Shimmer effect */}
-            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-            <Sparkles className="w-5 h-5 shrink-0" />
-            <span>Start for free</span>
-            <ArrowRight className="w-5 h-5 shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
-          </motion.a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="group inline-flex items-center justify-center gap-3 h-14 px-10 bg-white hover:bg-slate-50 text-slate-900 rounded-full font-semibold text-base border-2 border-slate-200 hover:border-purple-300 shadow-lg hover:shadow-xl transition-all duration-300 touch-manipulation"
+            Start for free
+          </Button>
+          <Button
+            variant="secondary"
+            size="lg"
+            href="https://adapty.io/schedule-demo/"
+            icon={<ArrowRight className="w-5 h-5" />}
           >
-            <span>Book a demo</span>
-            <ArrowRight className="w-5 h-5 shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
-          </motion.a>
+            Book a demo
+          </Button>
         </motion.div>
 
         {/* Benefits */}
@@ -127,7 +125,7 @@ export default function CTA() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-x-10 gap-y-4"
+          className="flex flex-wrap justify-center gap-x-[var(--spacing-xl)] gap-y-[var(--spacing-md)]"
         >
           {benefits.map((benefit, index) => (
             <motion.div
@@ -136,14 +134,14 @@ export default function CTA() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-              className="flex items-center gap-2 text-slate-600"
+              className="flex items-center gap-[var(--spacing-xs)] text-[var(--text-secondary)]"
             >
               <CheckCircle className="w-5 h-5 text-emerald-500" />
-              <span className="font-medium">{benefit}</span>
+              <span className="font-[var(--font-medium)]">{benefit}</span>
             </motion.div>
           ))}
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

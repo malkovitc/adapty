@@ -3,41 +3,39 @@
 import { memo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
-import Section from '@/components/ui/Section';
-import Container from '@/components/ui/Container';
 
-const faqs = [
+const pricingFaqs = [
   {
-    question: 'How long does integration take?',
-    answer: 'Most apps integrate Adapty SDK in under an hour. Our comprehensive documentation and quick-start guides make it easy to get up and running. You can have your first paywall live in production the same day. Plus, our support team is always available to help if you need it.',
-  },
-  {
-    question: 'What platforms do you support?',
-    answer: 'iOS, Android, React Native, Flutter, Unity, and Web. Our SDK provides a consistent API across all platforms, making it easy to implement subscriptions once and deploy everywhere. We support both native and cross-platform frameworks.',
-  },
-  {
-    question: 'How does pricing work?',
-    answer: 'We offer a free tier for indie developers. Paid plans start at $99/month and scale based on your monthly tracked revenue. All features are included in every plan - no feature gates. Volume discounts are available for high-growth apps.',
-  },
-  {
-    question: 'Can I migrate from RevenueCat?',
-    answer: 'Yes, we provide a seamless migration path from RevenueCat and other platforms. Our team will help you migrate your existing subscribers, historical data, and configurations. Most migrations complete in less than a week with zero downtime.',
-  },
-  {
-    question: 'Do you support subscription analytics?',
-    answer: 'Yes, we track 50+ metrics including MRR, ARR, churn, LTV, conversion rates, trial performance, and more. Our real-time dashboards give you instant insights into your subscription business. Export data to your own analytics tools via our API.',
+    question: 'How does the pricing work?',
+    answer: 'Adapty uses a revenue-based pricing model. Our Free plan covers apps with up to $10K monthly revenue. For Pro plans, you pay a percentage of your monthly tracked revenue (1% for Pro, 1.2% for Pro+) with minimum monthly fees. This ensures you only pay more as you earn more.',
   },
   {
     question: 'Is there a free trial?',
-    answer: 'Yes, all features are available free up to $10K monthly revenue. This means you can use Adapty completely free while you\'re growing. No credit card required to get started. When you exceed the free tier, you\'ll be notified before any charges.',
+    answer: 'Yes! All paid plans come with a 14-day free trial with full access to all features. Additionally, our Free plan is completely free forever for apps with up to $10K monthly revenue. No credit card required to get started.',
   },
   {
-    question: 'What payment processors do you support?',
-    answer: 'App Store, Google Play, Stripe, and more. We handle receipt validation, server-side verification, and subscription status updates automatically. Support for additional payment processors like Paddle and PayPal is coming soon.',
+    question: 'Can I change plans later?',
+    answer: 'Absolutely. You can upgrade or downgrade your plan at any time. When upgrading, you\'ll get immediate access to new features. When downgrading, the change takes effect at the start of your next billing cycle. There are no long-term contracts or cancellation fees.',
   },
   {
-    question: 'Do you offer technical support?',
-    answer: 'Yes, all plans include email support with response times under 24 hours. Premium plans include dedicated Slack channels and priority support. We also have extensive documentation, video tutorials, and an active community forum.',
+    question: 'What payment methods do you accept?',
+    answer: 'We accept all major credit cards (Visa, Mastercard, American Express, Discover) and can also process payments via wire transfer for Enterprise customers. All payments are processed securely through Stripe.',
+  },
+  {
+    question: 'Do you offer custom enterprise pricing?',
+    answer: 'Yes, our Enterprise plan offers custom pricing tailored to your specific needs. This includes volume discounts, custom SLAs, dedicated support, and flexible payment terms. Contact our sales team to discuss your requirements and get a custom quote.',
+  },
+  {
+    question: 'What\'s included in the free plan?',
+    answer: 'The Free plan includes everything you need to get started: up to $10K monthly revenue tracking, basic analytics, Paywall Builder, cross-platform SDK support (iOS, Android, React Native, Flutter, Unity), and email support. It\'s perfect for indie developers and small apps.',
+  },
+  {
+    question: 'How is monthly revenue calculated?',
+    answer: 'Monthly revenue is calculated based on the total subscription revenue tracked through Adapty\'s SDK. This includes new subscriptions, renewals, and one-time purchases. Refunds and chargebacks are automatically deducted from your tracked revenue.',
+  },
+  {
+    question: 'What happens if I exceed my plan limits?',
+    answer: 'If you exceed $10K monthly revenue on the Free plan, we\'ll notify you and help you upgrade to a paid plan. We won\'t cut off your service immediately - you\'ll have time to review your options and choose the best plan for your needs.',
   },
 ];
 
@@ -48,7 +46,7 @@ const FAQItem = memo(function FAQItem({
   isOpen,
   onToggle,
 }: {
-  faq: typeof faqs[0];
+  faq: typeof pricingFaqs[0];
   index: number;
   isOpen: boolean;
   onToggle: () => void;
@@ -182,7 +180,7 @@ const FAQItem = memo(function FAQItem({
   );
 });
 
-export default function FAQ() {
+export default function PricingFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleToggle = useCallback((index: number) => {
@@ -190,40 +188,40 @@ export default function FAQ() {
   }, []);
 
   // Split FAQs into two columns
-  const midPoint = Math.ceil(faqs.length / 2);
-  const leftColumn = faqs.slice(0, midPoint);
-  const rightColumn = faqs.slice(midPoint);
+  const midPoint = Math.ceil(pricingFaqs.length / 2);
+  const leftColumn = pricingFaqs.slice(0, midPoint);
+  const rightColumn = pricingFaqs.slice(midPoint);
 
   return (
-    <Section id="faq" size="lg" background="white" className="relative overflow-hidden">
+    <section id="pricing-faq" className="relative py-16 sm:py-20 md:py-24 bg-white overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-purple-100/50 to-transparent rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-blue-100/50 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <Container size="full" className="relative">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-[var(--spacing-lg)] md:mb-[calc(var(--spacing-lg)*2)]">
+        <div className="text-center mb-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm font-[var(--font-medium)] uppercase tracking-wider text-[#6366F1] mb-[var(--spacing-md)]"
+            className="text-sm font-semibold uppercase tracking-wider text-[#6366F1] mb-4"
           >
-            FAQ
+            Pricing FAQ
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[var(--text-h2)] sm:text-3xl md:text-4xl lg:text-5xl font-[var(--font-bold)] text-[var(--text-primary)] mb-[var(--spacing-lg)]"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6"
           >
-            Frequently asked{' '}
+            Questions about{' '}
             <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
-              questions
+              pricing?
             </span>
           </motion.h2>
           <motion.p
@@ -231,21 +229,21 @@ export default function FAQ() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[var(--text-lg)] md:text-xl text-[var(--text-secondary)]"
+            className="text-base sm:text-lg md:text-xl text-slate-600"
             style={{ maxWidth: '48rem', margin: '0 auto' }}
           >
-            Everything you need to know about Adapty. Can't find what you're looking for?{' '}
-            <a href="mailto:support@adapty.io" className="text-[#6366F1] hover:text-[#4F46E5] font-[var(--font-medium)] transition-colors touch-manipulation inline-block min-h-[24px] py-1">
+            Everything you need to know about our pricing and billing.{' '}
+            <a href="mailto:support@adapty.io" className="text-[#6366F1] hover:text-[#4F46E5] font-semibold transition-colors touch-manipulation inline-block min-h-[24px] py-1">
               Contact our team
-            </a>
-            .
+            </a>{' '}
+            for any other questions.
           </motion.p>
         </div>
 
         {/* FAQ Grid - Single column on mobile, two columns on desktop */}
-        <div className="grid md:grid-cols-2 gap-[var(--spacing-lg)] md:gap-[var(--spacing-lg)]">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           {/* Left Column */}
-          <div className="space-y-[var(--spacing-md)]">
+          <div className="space-y-4">
             {leftColumn.map((faq, index) => (
               <FAQItem
                 key={index}
@@ -258,7 +256,7 @@ export default function FAQ() {
           </div>
 
           {/* Right Column */}
-          <div className="space-y-[var(--spacing-md)]">
+          <div className="space-y-4">
             {rightColumn.map((faq, index) => {
               const actualIndex = index + midPoint;
               return (
@@ -273,7 +271,7 @@ export default function FAQ() {
             })}
           </div>
         </div>
-      </Container>
-    </Section>
+      </div>
+    </section>
   );
 }

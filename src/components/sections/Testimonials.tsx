@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Image from 'next/image';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 import { getAssetPath } from '@/lib/utils';
 
 const testimonials = [
@@ -98,14 +100,14 @@ export default function Testimonials() {
   return (
     <>
       {/* Stats Section - Light background */}
-      <section className="relative py-16 sm:py-20 bg-[#F8F9FA]">
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Section size="lg" background="gray">
+        <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-[var(--spacing-lg)]"
           >
             {stats.map((stat, index) => (
               <motion.div
@@ -120,36 +122,36 @@ export default function Testimonials() {
                 }}
                 className="text-center"
               >
-                <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="flex items-center justify-center gap-[var(--spacing-sm)] mb-[var(--spacing-sm)]">
                   <AnimatedCounter
                     value={stat.numericValue}
                     prefix={stat.prefix}
                     suffix={stat.suffix}
                     decimals={stat.decimals}
                     useCommas={stat.numericValue >= 1000}
-                    className="text-4xl md:text-5xl font-bold text-slate-900"
+                    className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]"
                   />
                   {stat.icon && (
                     <stat.icon className="w-8 h-8 text-yellow-500 fill-yellow-500" />
                   )}
                 </div>
-                <p className="text-slate-500 font-medium">{stat.label}</p>
+                <p className="text-[var(--text-secondary)] font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Testimonials Slider - Dark background */}
-      <section id="testimonials" className="relative py-16 sm:py-20 md:py-24 bg-[#0F172A] overflow-hidden">
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Section size="lg" background="dark" id="testimonials" className="overflow-hidden relative">
+        <Container>
           {/* Section Header */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-16"
+            className="text-[var(--text-h2)] sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-light)] text-center mb-[var(--spacing-lg)]"
           >
             Developers from all kind of apps move to Adapty to grow their revenue
           </motion.h2>
@@ -181,7 +183,7 @@ export default function Testimonials() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -50 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+                  className="grid md:grid-cols-2 gap-[var(--spacing-lg)] md:gap-[var(--spacing-xl)] items-center"
                 >
                   {/* Photo */}
                   <div className="relative flex justify-center md:justify-start">
@@ -199,15 +201,15 @@ export default function Testimonials() {
 
                   {/* Quote and Author */}
                   <div className="flex flex-col">
-                    <blockquote className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-8 min-h-[180px] sm:min-h-[200px] md:min-h-[220px]">
+                    <blockquote className="text-[var(--text-lg)] sm:text-xl text-[var(--text-secondary)] leading-relaxed mb-[var(--spacing-lg)] min-h-[180px] sm:min-h-[200px] md:min-h-[220px]">
                       &ldquo;{currentTestimonial.quote}&rdquo;
                     </blockquote>
 
-                    <div className="mb-4">
-                      <p className="text-xl font-semibold text-white">
+                    <div className="mb-[var(--spacing-md)]">
+                      <p className="text-xl font-semibold text-[var(--text-light)]">
                         {currentTestimonial.author}
                       </p>
-                      <p className="text-slate-400">
+                      <p className="text-[var(--text-tertiary)]">
                         {currentTestimonial.role}, {currentTestimonial.company}
                       </p>
                     </div>
@@ -229,7 +231,7 @@ export default function Testimonials() {
             </div>
 
             {/* Dots Indicator */}
-            <div className="flex justify-center gap-2 mt-12">
+            <div className="flex justify-center gap-[var(--spacing-sm)] mt-[var(--spacing-xl)]">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
@@ -244,11 +246,11 @@ export default function Testimonials() {
               ))}
             </div>
           </div>
-        </div>
+        </Container>
 
         {/* Gradient decoration at bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-violet-600/20 to-transparent pointer-events-none" />
-      </section>
+      </Section>
     </>
   );
 }

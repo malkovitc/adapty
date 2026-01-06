@@ -12,6 +12,9 @@ import {
   FlaskConical,
   Globe
 } from 'lucide-react';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
+import Card from '@/components/ui/Card';
 
 const features = [
   {
@@ -92,29 +95,30 @@ const FeatureCard = memo(function FeatureCard({ feature, index }: { feature: typ
         delay: index * 0.08,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className="group relative h-full p-6 rounded-xl border border-neutral-200 bg-white hover:shadow-lg hover:border-neutral-300 hover:-translate-y-1 transition-all duration-200"
     >
-      {/* Icon with background color change on hover */}
-      <div className="w-10 h-10 rounded-lg bg-neutral-100 grid place-items-center group-hover:bg-neutral-900 transition-colors duration-200 mb-4">
-        <feature.icon className="w-5 h-5 text-neutral-600 group-hover:text-white transition-colors duration-200" />
-      </div>
+      <Card variant="bordered" padding="md" className="h-full group hover:shadow-lg hover:border-[var(--border-strong)] hover:-translate-y-1 transition-all duration-200">
+        {/* Icon with background color change on hover */}
+        <div className="w-10 h-10 rounded-lg bg-[var(--bg-muted)] grid place-items-center group-hover:bg-[var(--text-primary)] transition-colors duration-200 mb-[var(--spacing-md)]">
+          <feature.icon className="w-5 h-5 text-[var(--text-secondary)] group-hover:text-white transition-colors duration-200" />
+        </div>
 
-      {/* Content */}
-      <div>
-        <h3 className="text-lg font-medium text-slate-900 mb-2">
-          {feature.title}
-        </h3>
-        <p className="text-neutral-600 text-[15px] leading-relaxed">
-          {feature.description}
-        </p>
-      </div>
+        {/* Content */}
+        <div>
+          <h3 className="text-[var(--text-h4)] font-[var(--font-medium)] text-[var(--text-primary)] mb-[var(--spacing-xs)]">
+            {feature.title}
+          </h3>
+          <p className="text-[var(--text-secondary)] text-[var(--text-sm)] leading-[var(--leading-relaxed)]">
+            {feature.description}
+          </p>
+        </div>
+      </Card>
     </motion.div>
   );
 });
 
 export default function Features() {
   return (
-    <section id="features" className="relative py-24 sm:py-28 md:py-32 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+    <Section size="lg" background="gradient" id="features" className="relative overflow-hidden">
       {/* Enhanced background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-purple-100/40 via-indigo-50/30 to-transparent rounded-full blur-3xl animate-pulse"
@@ -124,15 +128,15 @@ export default function Features() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-violet-50/20 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Container size="full" className="relative">
         {/* Header with stagger animation */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-[var(--spacing-3xl)]">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="inline-block text-sm font-semibold uppercase tracking-wider text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text mb-4 px-4 py-2 rounded-full border border-purple-200/50 bg-purple-50/50"
+            className="inline-block text-[var(--text-sm)] font-[var(--font-semibold)] uppercase tracking-[var(--tracking-wide)] text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text mb-[var(--spacing-md)] px-[var(--spacing-md)] py-[var(--spacing-xs)] rounded-full border border-purple-200/50 bg-purple-50/50"
           >
             Features
           </motion.p>
@@ -141,7 +145,7 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight"
+            className="text-[var(--text-h2)] sm:text-[var(--text-h1)] font-[var(--font-bold)] text-[var(--text-primary)] mb-[var(--spacing-lg)] leading-[var(--leading-tight)]"
           >
             Everything you need to grow{' '}
             <span className="relative inline-block">
@@ -162,20 +166,19 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed"
-            style={{ maxWidth: '48rem', margin: '0 auto' }}
+            className="text-[var(--text-lg)] text-[var(--text-secondary)] leading-[var(--leading-relaxed)] max-w-[48rem] mx-auto"
           >
             From paywall builder to advanced analytics, Adapty gives you all the tools to monetize your app effectively
           </motion.p>
         </div>
 
         {/* Features Grid with stagger animation */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-[var(--spacing-lg)]">
           {features.map((feature, index) => (
             <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

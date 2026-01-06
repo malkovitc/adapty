@@ -6,6 +6,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { getAssetPath } from '@/lib/utils';
+import Button from '@/components/ui/Button';
+import Input, { EmailIcon } from '@/components/ui/Input';
+import Container from '@/components/ui/Container';
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -59,22 +62,22 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden bg-[#FAFAFA]"
+      className="relative w-full overflow-hidden bg-[var(--bg-subtle)]"
       aria-label="Hero section"
     >
-      {/* Main Content - Centered like Attio */}
-      <div className="relative z-20 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+      {/* Main Content - Centered */}
+      <Container size="md" className="relative z-20 pt-24 pb-12">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           className="flex flex-col items-center"
         >
-          {/* Badge with Animated Gradient Border (Attio-style) */}
-          <motion.div variants={itemVariants} className="mb-6">
+          {/* Badge with Animated Gradient Border */}
+          <motion.div variants={itemVariants} className="mb-[var(--spacing-lg)]">
             <Link
               href="https://adapty.io/ebooks/100k-app-playbook/"
-              className="group relative inline-flex items-center gap-2 rounded-full text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors animate-border"
+              className="group relative inline-flex items-center gap-2 rounded-full text-[var(--text-sm)] font-[var(--font-medium)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors animate-border"
               style={{
                 background: `
                   linear-gradient(white, white) padding-box,
@@ -88,7 +91,7 @@ export default function Hero() {
                   ) border-box
                 `,
                 border: '1.5px solid transparent',
-                padding: '0.5rem 1rem',
+                padding: 'var(--spacing-sm) var(--spacing-md)',
               }}
             >
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -97,10 +100,10 @@ export default function Hero() {
             </Link>
           </motion.div>
 
-          {/* Main Heading */}
+          {/* Main Heading - Using typography tokens */}
           <motion.h1
             variants={itemVariants}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-slate-900 text-center mb-6"
+            className="text-[var(--text-h1)] sm:text-[var(--text-display)] font-[var(--font-bold)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)] text-[var(--text-primary)] text-center mb-[var(--spacing-lg)]"
           >
             Revenue management
             <br />
@@ -110,74 +113,64 @@ export default function Hero() {
           {/* Subheading */}
           <motion.p
             variants={itemVariants}
-            className="text-xl text-slate-500 text-center leading-relaxed mb-8"
-            style={{ width: '100%', maxWidth: '42rem', display: 'block', whiteSpace: 'normal' }}
+            className="text-[var(--text-lg)] text-[var(--text-secondary)] text-center leading-[var(--leading-relaxed)] mb-[var(--spacing-xl)] max-w-[42rem]"
           >
             Save months on integrating subscriptions and double your app revenue with paywall management.
           </motion.p>
 
-          {/* Email Input + CTA */}
+          {/* Email Input + CTA - Using new components */}
           <motion.div
             variants={itemVariants}
-            className="w-full"
-            style={{ maxWidth: '480px' }}
+            className="w-full max-w-[480px]"
           >
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-3 justify-center items-center w-full"
+              className="flex flex-col sm:flex-row gap-[var(--spacing-sm)] justify-center items-stretch w-full"
             >
-              <input
+              <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 min-w-0 px-4 py-3.5 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all text-base"
-                style={{ width: '100%' }}
-                required
-                aria-invalid={emailError ? 'true' : 'false'}
-                aria-describedby={emailError ? 'email-error' : undefined}
+                size="lg"
+                icon={<EmailIcon />}
+                error={emailError}
+                fullWidth
+                id="hero-email"
+                containerClassName="flex-1"
               />
-              <button
+              <Button
                 type="submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-lg transition-colors whitespace-nowrap"
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto whitespace-nowrap"
               >
                 Start for free
-              </button>
+              </Button>
             </form>
-            {emailError && (
-              <p
-                id="email-error"
-                className="mt-2 text-sm text-red-600 text-center"
-                role="alert"
-              >
-                {emailError}
-              </p>
-            )}
           </motion.div>
 
           {/* Book a demo link */}
-          <motion.div variants={itemVariants} className="mt-4">
-            <Link
+          <motion.div variants={itemVariants} className="mt-[var(--spacing-md)]">
+            <Button
+              variant="ghost"
               href="https://adapty.io/schedule-demo/"
-              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-medium transition-colors"
             >
               Book a demo
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            </Button>
           </motion.div>
         </motion.div>
-      </div>
+      </Container>
 
       {/* Dashboard Image - Centered, Full Width */}
       <motion.div
         initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16"
+        className="relative z-10 pb-[var(--spacing-2xl)]"
       >
-        <div className="relative">
-          {/* Main Dashboard Image */}
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-300/50 border border-slate-200">
+        <Container size="full">
+          <div className="relative rounded-[var(--radius-2xl)] overflow-hidden shadow-[var(--shadow-2xl)] border border-[var(--border-default)]">
             <Image
               src={getAssetPath('/images/hero/adapty-overview.webp')}
               alt="Adapty Overview Dashboard"
@@ -188,17 +181,16 @@ export default function Hero() {
               unoptimized
             />
           </div>
-
-        </div>
+        </Container>
       </motion.div>
 
       {/* Trusted By Section */}
-      <div className="relative z-20 py-8 border-t border-slate-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-slate-500 text-sm">
+      <div className="relative z-20 py-[var(--spacing-xl)] border-t border-[var(--border-subtle)]">
+        <Container>
+          <p className="text-center text-[var(--text-secondary)] text-[var(--text-sm)]">
             Trusted by 15,000+ apps and the world's largest app publishers
           </p>
-        </div>
+        </Container>
       </div>
     </section>
   );
