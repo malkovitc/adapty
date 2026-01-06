@@ -2,8 +2,13 @@ import { Metadata } from 'next';
 import { Header, Footer } from '@/components/layout';
 import { BackToTop, SectionErrorBoundary } from '@/components/ui';
 import PricingHero from '@/components/sections/PricingHero';
+import PricingLogos from '@/components/sections/PricingLogos';
 import Pricing from '@/components/sections/Pricing';
+import StartupBanner from '@/components/sections/StartupBanner';
+import PricingCaseStudies from '@/components/sections/PricingCaseStudies';
+import PricingTestimonials from '@/components/sections/PricingTestimonials';
 import PricingFAQ from '@/components/sections/PricingFAQ';
+import PricingTable from '@/components/sections/PricingTable';
 import CTA from '@/components/sections/CTA';
 
 export const metadata: Metadata = {
@@ -33,9 +38,34 @@ export default function PricingPage() {
           <PricingHero />
         </SectionErrorBoundary>
 
-        {/* Pricing Tiers & Comparison Table */}
+        {/* Startup Banner */}
+        <SectionErrorBoundary sectionName="StartupBanner">
+          <StartupBanner />
+        </SectionErrorBoundary>
+
+        {/* Logos Social Proof */}
+        <SectionErrorBoundary sectionName="PricingLogos">
+          <PricingLogos />
+        </SectionErrorBoundary>
+
+        {/* Pricing Tiers */}
         <SectionErrorBoundary sectionName="Pricing">
           <Pricing />
+        </SectionErrorBoundary>
+
+        {/* Full Feature Comparison Table */}
+        <SectionErrorBoundary sectionName="PricingTable">
+          <PricingTable />
+        </SectionErrorBoundary>
+
+        {/* Case Studies */}
+        <SectionErrorBoundary sectionName="PricingCaseStudies">
+          <PricingCaseStudies />
+        </SectionErrorBoundary>
+
+        {/* Testimonials Carousel */}
+        <SectionErrorBoundary sectionName="PricingTestimonials">
+          <PricingTestimonials />
         </SectionErrorBoundary>
 
         {/* Pricing FAQ */}

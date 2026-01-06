@@ -84,6 +84,7 @@ const pricingTiers = [
     ],
     cta: 'Contact sales',
     highlighted: false,
+    isEnterprise: true,
   },
 ];
 
@@ -109,12 +110,46 @@ const PricingCard = memo(function PricingCard({
       }}
       className={`relative group cursor-pointer ${tier.highlighted ? 'md:-mt-4 md:pb-4' : ''}`}
     >
-      {/* Hover glow effect - only for non-highlighted tiers */}
-      {!tier.highlighted && (
+      {/* Hover glow effect - only for non-highlighted and non-enterprise tiers */}
+      {!tier.highlighted && !('isEnterprise' in tier && tier.isEnterprise) && (
         <div className="absolute inset-0 rounded-2xl transition-all duration-500 bg-gradient-to-r from-indigo-500/0 to-blue-500/0 blur-xl group-hover:blur-2xl group-hover:from-indigo-500/10 group-hover:to-blue-500/10 opacity-0 group-hover:opacity-100" />
       )}
 
-      {tier.highlighted ? (
+      {/* Purple glow effect for Enterprise */}
+      {'isEnterprise' in tier && tier.isEnterprise && (
+        <div className="absolute inset-0 rounded-2xl transition-all duration-500 bg-gradient-to-r from-violet-600/0 to-purple-600/0 blur-xl group-hover:blur-2xl group-hover:from-violet-600/20 group-hover:to-purple-600/20 opacity-0 group-hover:opacity-100" />
+      )}
+
+      {'isEnterprise' in tier && tier.isEnterprise ? (
+        <motion.div
+          whileHover={{ y: -8 }}
+          transition={{
+            type: 'spring',
+            stiffness: 300,
+            damping: 20,
+          }}
+          className="relative p-6 sm:p-8 bg-gradient-to-br from-violet-900 to-purple-900 rounded-2xl transition-all duration-500 touch-manipulation h-full flex flex-col border border-violet-700/50 shadow-lg group-hover:shadow-2xl group-hover:shadow-violet-500/20"
+        >
+          <PricingCardContent tier={tier} isYearly={isYearly} isEnterprise />
+
+          {/* Shine effect on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden rounded-2xl">
+            <motion.div
+              className="absolute -inset-full"
+              animate={{
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            >
+              <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            </motion.div>
+          </div>
+        </motion.div>
+      ) : tier.highlighted ? (
         <GlowCard glowColor="rgba(99, 102, 241, 0.9)">
           <motion.div
             whileHover={{ y: -8 }}
@@ -183,9 +218,11 @@ const PricingCard = memo(function PricingCard({
 const PricingCardContent = memo(function PricingCardContent({
   tier,
   isYearly: _isYearly,
+  isEnterprise = false,
 }: {
   tier: typeof pricingTiers[0];
   isYearly: boolean;
+  isEnterprise?: boolean;
 }) {
   return (
     <>
@@ -205,17 +242,17 @@ const PricingCardContent = memo(function PricingCardContent({
       )}
 
       {/* Tier Name */}
-      <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
+      <h3 className={`text-2xl font-bold mb-2 ${isEnterprise ? 'text-white' : 'text-[var(--text-primary)]'}`}>
         {tier.name}
       </h3>
 
       {/* Description */}
-      <p className="text-[var(--text-secondary)] mb-6">{tier.description}</p>
+      <p className={`mb-6 ${isEnterprise ? 'text-violet-200' : 'text-[var(--text-secondary)]'}`}>{tier.description}</p>
 
       {/* Price */}
       <div className="mb-8">
         {tier.customPrice ? (
-          <div className="text-4xl font-bold text-[var(--text-primary)]">
+          <div className={`text-4xl font-bold ${isEnterprise ? 'text-white' : 'text-[var(--text-primary)]'}`}>
             {tier.customPrice}
           </div>
         ) : tier.priceDisplay ? (
@@ -246,16 +283,16 @@ const PricingCardContent = memo(function PricingCardContent({
 
       {/* CTA Button */}
       <Button
-        variant={tier.highlighted ? 'primary' : 'secondary'}
+        variant={isEnterprise ? 'secondary' : tier.highlighted ? 'primary' : 'secondary'}
         fullWidth
-        className="mb-8"
+        className={`mb-8 ${isEnterprise ? 'bg-white text-violet-900 hover:bg-violet-100 border-white' : ''}`}
       >
         {tier.cta}
       </Button>
 
       {/* Features List */}
       <div className="space-y-[var(--spacing-md)] flex-grow">
-        <p className="text-sm font-semibold text-[var(--text-primary)] uppercase tracking-wider">
+        <p className={`text-sm font-semibold uppercase tracking-wider ${isEnterprise ? 'text-violet-200' : 'text-[var(--text-primary)]'}`}>
           Features
         </p>
         <ul className="space-y-[var(--spacing-sm)]">
@@ -270,12 +307,14 @@ const PricingCardContent = memo(function PricingCardContent({
             >
               <Check
                 className={`w-5 h-5 shrink-0 mt-0.5 ${
-                  tier.highlighted
+                  isEnterprise
+                    ? 'text-violet-300'
+                    : tier.highlighted
                     ? 'text-indigo-500'
                     : 'text-green-600'
                 }`}
               />
-              <span className="text-[var(--text-secondary)]">{feature}</span>
+              <span className={isEnterprise ? 'text-violet-100' : 'text-[var(--text-secondary)]'}>{feature}</span>
             </motion.li>
           ))}
         </ul>
@@ -314,22 +353,11 @@ export default function Pricing() {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] mb-[var(--spacing-lg)] leading-tight"
           >
-            Simple, transparent{' '}
+            Choose a plan that{' '}
             <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
-              pricing
+              works for you
             </span>
           </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg md:text-xl text-[var(--text-tertiary)] mb-[var(--spacing-2xl)]"
-            style={{ maxWidth: '48rem', margin: '0 auto var(--spacing-2xl) auto' }}
-          >
-            Start for free and scale as you grow. All plans include 14-day free trial.
-          </motion.p>
-
         </div>
 
         {/* Pricing Cards */}

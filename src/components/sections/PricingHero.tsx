@@ -41,7 +41,7 @@ export default function PricingHero() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-20 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16">
+      <div className="relative z-20 mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16">
         <motion.div
           variants={containerVariants}
           initial="hidden"

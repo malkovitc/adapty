@@ -6,36 +6,20 @@ import { Plus, Minus } from 'lucide-react';
 
 const pricingFaqs = [
   {
-    question: 'How does the pricing work?',
-    answer: 'Adapty uses a revenue-based pricing model. Our Free plan covers apps with up to $10K monthly revenue. For Pro plans, you pay a percentage of your monthly tracked revenue (1% for Pro, 1.2% for Pro+) with minimum monthly fees. This ensures you only pay more as you earn more.',
+    question: 'What is MTR?',
+    answer: 'MTR (Monthly Tracked Revenue) is the total revenue from in-app purchases and subscriptions that Adapty tracks for your app each month. This includes new purchases, renewals, and any other subscription-related revenue processed through our SDK.',
   },
   {
-    question: 'Is there a free trial?',
-    answer: 'Yes! All paid plans come with a 14-day free trial with full access to all features. Additionally, our Free plan is completely free forever for apps with up to $10K monthly revenue. No credit card required to get started.',
+    question: 'What if my MTR goes over $10K on a Free plan?',
+    answer: "If your MTR exceeds $10K while on the Free plan, you'll need to upgrade to a paid plan (Pro or Pro+) to continue using Adapty. We'll notify you as you approach this limit so you have time to choose the right plan for your needs.",
   },
   {
-    question: 'Can I change plans later?',
-    answer: 'Absolutely. You can upgrade or downgrade your plan at any time. When upgrading, you\'ll get immediate access to new features. When downgrading, the change takes effect at the start of your next billing cycle. There are no long-term contracts or cancellation fees.',
+    question: 'Do you replace Apple or Google payment?',
+    answer: "No, Adapty doesn't replace Apple App Store or Google Play payment systems. We work alongside them to provide analytics, paywall management, A/B testing, and subscription infrastructure. All payments still go through the official app store payment systems.",
   },
   {
-    question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit cards (Visa, Mastercard, American Express, Discover) and can also process payments via wire transfer for Enterprise customers. All payments are processed securely through Stripe.',
-  },
-  {
-    question: 'Do you offer custom enterprise pricing?',
-    answer: 'Yes, our Enterprise plan offers custom pricing tailored to your specific needs. This includes volume discounts, custom SLAs, dedicated support, and flexible payment terms. Contact our sales team to discuss your requirements and get a custom quote.',
-  },
-  {
-    question: 'What\'s included in the free plan?',
-    answer: 'The Free plan includes everything you need to get started: up to $10K monthly revenue tracking, basic analytics, Paywall Builder, cross-platform SDK support (iOS, Android, React Native, Flutter, Unity), and email support. It\'s perfect for indie developers and small apps.',
-  },
-  {
-    question: 'How is monthly revenue calculated?',
-    answer: 'Monthly revenue is calculated based on the total subscription revenue tracked through Adapty\'s SDK. This includes new subscriptions, renewals, and one-time purchases. Refunds and chargebacks are automatically deducted from your tracked revenue.',
-  },
-  {
-    question: 'What happens if I exceed my plan limits?',
-    answer: 'If you exceed $10K monthly revenue on the Free plan, we\'ll notify you and help you upgrade to a paid plan. We won\'t cut off your service immediately - you\'ll have time to review your options and choose the best plan for your needs.',
+    question: 'Ooops, I have a billing issue with my card, will you cancel our SDK?',
+    answer: "Don't worry! We understand billing issues happen. We'll reach out to help resolve any payment problems before taking any action. Your SDK will continue working while we sort things out together. We're here to help, not to cause disruption to your app.",
   },
 ];
 
@@ -200,7 +184,7 @@ export default function PricingFAQ() {
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-blue-100/50 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.p
