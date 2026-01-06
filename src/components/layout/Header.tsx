@@ -2,17 +2,17 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, Globe } from 'lucide-react';
 import Link from 'next/link';
-import { navigation, type NavigationItem } from '@/data';
+import { navigation, productTabs, type NavigationItem } from '@/data';
 
 // Throttle function for performance optimization
-function throttle<T extends (...args: any[]) => any>(
+function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
   let inThrottle: boolean;
-  return function (this: any, ...args: Parameters<T>) {
+  return function (this: unknown, ...args: Parameters<T>) {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
@@ -21,8 +21,143 @@ function throttle<T extends (...args: any[]) => any>(
   };
 }
 
-// Dropdown component for desktop nav
-function NavDropdown({ item, isOpen, onToggle, onClose }: {
+// Adapty Logo SVG component
+function AdaptyLogo({ className = '' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0z"
+        fill="#3B1F6B"
+      />
+      <path
+        d="M22.4 12.8c0-3.535-2.865-6.4-6.4-6.4s-6.4 2.865-6.4 6.4v12.8h4.267v-4.267h4.266v4.267H22.4V12.8zm-6.4 4.267h-2.133V12.8a2.133 2.133 0 114.266 0v4.267H16z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
+
+// Product Mega Menu Component
+function ProductMegaMenu({
+  isOpen,
+  onClose,
+  activeTab,
+  setActiveTab,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}) {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const currentTab = productTabs.find((tab) => tab.name === activeTab) || productTabs[0];
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, onClose]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={menuRef}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.15 }}
+          className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50"
+          style={{ minWidth: '800px' }}
+        >
+          <div className="flex">
+            {/* Left sidebar with tabs */}
+            <div className="w-48 bg-slate-50 border-r border-slate-200 py-4">
+              {productTabs.map((tab) => (
+                <button
+                  key={tab.name}
+                  onClick={() => setActiveTab(tab.name)}
+                  className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors ${
+                    activeTab === tab.name
+                      ? 'text-violet-600 bg-white border-l-2 border-violet-600'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`}
+                >
+                  {tab.name}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              ))}
+            </div>
+
+            {/* Right content area */}
+            <div className="flex-1 p-6">
+              {/* Top links row */}
+              {currentTab.topLinks && (
+                <div className="flex gap-8 mb-6 pb-4 border-b border-slate-200">
+                  {currentTab.topLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={onClose}
+                      className="text-sm font-medium text-slate-900 hover:text-violet-600 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {/* Categories grid */}
+              {currentTab.categories && (
+                <div className="grid grid-cols-3 gap-8">
+                  {currentTab.categories.map((category) => (
+                    <div key={category.title}>
+                      <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                        {category.title}
+                      </div>
+                      <div className="space-y-1">
+                        {category.items.map((item) => {
+                          const Icon = item.icon;
+                          return (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              onClick={onClose}
+                              className="flex items-center gap-2.5 py-1.5 text-sm text-slate-600 hover:text-slate-900 transition-colors group"
+                            >
+                              {Icon && (
+                                <Icon className="w-4 h-4 text-slate-400 group-hover:text-violet-500 transition-colors" />
+                              )}
+                              {item.name}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// Simple Dropdown component for other nav items
+function NavDropdown({
+  item,
+  isOpen,
+  onToggle,
+  onClose,
+}: {
   item: NavigationItem;
   isOpen: boolean;
   onToggle: () => void;
@@ -49,7 +184,9 @@ function NavDropdown({ item, isOpen, onToggle, onClose }: {
         className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-all duration-300"
       >
         {item.name}
-        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown
+          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        />
       </button>
       <AnimatePresence>
         {isOpen && item.dropdown && (
@@ -87,6 +224,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
+  const [activeProductTab, setActiveProductTab] = useState('Product');
 
   const handleScroll = useCallback(() => {
     const scrollPosition = window.scrollY;
@@ -136,26 +274,60 @@ export default function Header() {
         transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2" aria-label="Adapty home">
-            <motion.div
-              className="text-2xl font-bold text-slate-900 transition-all duration-500"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            >
-              adapty
-            </motion.div>
-          </Link>
+          {/* Logo with icon and language selector */}
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2" aria-label="Adapty home">
+              <AdaptyLogo className="w-7 h-7" />
+              <motion.div
+                className="text-xl font-bold text-slate-900 transition-all duration-500"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              >
+                adapty
+              </motion.div>
+            </Link>
+
+            {/* Language selector */}
+            <button className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 bg-slate-100 rounded hover:bg-slate-200 transition-colors">
+              <Globe className="w-3 h-3" />
+              EN
+              <ChevronDown className="w-3 h-3" />
+            </button>
+          </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-6 lg:flex">
-            {navigation.map((item) => (
-              item.dropdown ? (
+          <nav className="hidden items-center gap-5 lg:flex">
+            {navigation.map((item) =>
+              item.productTabs ? (
+                <div key={item.name} className="relative">
+                  <button
+                    onClick={() =>
+                      setOpenDropdown(openDropdown === item.name ? null : item.name)
+                    }
+                    className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-all duration-300"
+                  >
+                    {item.name}
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        openDropdown === item.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <ProductMegaMenu
+                    isOpen={openDropdown === item.name}
+                    onClose={() => setOpenDropdown(null)}
+                    activeTab={activeProductTab}
+                    setActiveTab={setActiveProductTab}
+                  />
+                </div>
+              ) : item.dropdown ? (
                 <NavDropdown
                   key={item.name}
                   item={item}
                   isOpen={openDropdown === item.name}
-                  onToggle={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+                  onToggle={() =>
+                    setOpenDropdown(openDropdown === item.name ? null : item.name)
+                  }
                   onClose={() => setOpenDropdown(null)}
                 />
               ) : (
@@ -163,16 +335,18 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`text-sm font-medium transition-all duration-300 ${
-                      item.highlight
-                        ? 'text-emerald-600 hover:text-emerald-700'
-                        : 'text-slate-600 hover:text-slate-900'
+                      item.highlight && item.highlightColor === 'orange'
+                        ? 'text-orange-500 hover:text-orange-600'
+                        : item.highlight
+                          ? 'text-emerald-600 hover:text-emerald-700'
+                          : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     {item.name}
                   </Link>
                 </motion.div>
               )
-            ))}
+            )}
           </nav>
 
           {/* Desktop CTA Buttons */}
@@ -188,17 +362,19 @@ export default function Header() {
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="https://app.adapty.io/signup"
-                className="block rounded-lg px-4 py-2 text-sm font-medium text-slate-600 border border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all duration-300"
+                className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-slate-700 border border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all duration-300"
               >
                 Sign up
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="https://adapty.io/contact-sales/"
-                className="block rounded-lg px-4 py-2 text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800 transition-all duration-300 shadow-md hover:shadow-lg"
+                className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold bg-[#FF6B4A] text-white hover:bg-[#FF5733] transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Contact sales
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </motion.div>
           </div>
@@ -249,16 +425,17 @@ export default function Header() {
                 type: 'spring',
                 damping: 25,
                 stiffness: 250,
-                opacity: { duration: 0.3 }
+                opacity: { duration: 0.3 },
               }}
             >
               <div className="flex h-16 items-center justify-between px-4">
                 <Link
                   href="/"
-                  className="text-2xl font-bold text-white"
+                  className="flex items-center gap-2"
                   onClick={closeMobileMenu}
                 >
-                  adapty
+                  <AdaptyLogo className="w-6 h-6" />
+                  <span className="text-xl font-bold text-white">adapty</span>
                 </Link>
                 <button
                   onClick={closeMobileMenu}
@@ -277,14 +454,22 @@ export default function Header() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05, duration: 0.3 }}
                   >
-                    {item.dropdown ? (
+                    {item.dropdown || item.productTabs ? (
                       <div>
                         <button
-                          onClick={() => setExpandedMobileItem(expandedMobileItem === item.name ? null : item.name)}
+                          onClick={() =>
+                            setExpandedMobileItem(
+                              expandedMobileItem === item.name ? null : item.name
+                            )
+                          }
                           className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-slate-300 hover:bg-slate-800/70 hover:text-white rounded-lg transition-colors"
                         >
                           {item.name}
-                          <ChevronDown className={`w-4 h-4 transition-transform ${expandedMobileItem === item.name ? 'rotate-180' : ''}`} />
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform ${
+                              expandedMobileItem === item.name ? 'rotate-180' : ''
+                            }`}
+                          />
                         </button>
                         <AnimatePresence>
                           {expandedMobileItem === item.name && (
@@ -296,16 +481,36 @@ export default function Header() {
                               className="overflow-hidden"
                             >
                               <div className="pl-4 py-2 space-y-1">
-                                {item.dropdown.map((subItem) => (
-                                  <Link
-                                    key={subItem.name}
-                                    href={subItem.href}
-                                    onClick={closeMobileMenu}
-                                    className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
-                                  >
-                                    {subItem.name}
-                                  </Link>
-                                ))}
+                                {item.dropdown
+                                  ? item.dropdown.map((subItem) => (
+                                      <Link
+                                        key={subItem.name}
+                                        href={subItem.href}
+                                        onClick={closeMobileMenu}
+                                        className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                                      >
+                                        {subItem.name}
+                                      </Link>
+                                    ))
+                                  : item.productTabs?.map((tab) => (
+                                      <div key={tab.name} className="mb-3">
+                                        <div className="px-4 py-1 text-xs font-semibold text-slate-500 uppercase">
+                                          {tab.name}
+                                        </div>
+                                        {tab.categories?.map((cat) =>
+                                          cat.items.map((catItem) => (
+                                            <Link
+                                              key={catItem.name}
+                                              href={catItem.href}
+                                              onClick={closeMobileMenu}
+                                              className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                                            >
+                                              {catItem.name}
+                                            </Link>
+                                          ))
+                                        )}
+                                      </div>
+                                    ))}
                               </div>
                             </motion.div>
                           )}
@@ -315,9 +520,11 @@ export default function Header() {
                       <Link
                         href={item.href}
                         className={`block px-4 py-3 text-base font-medium rounded-lg transition-colors ${
-                          item.highlight
-                            ? 'text-emerald-400 hover:bg-slate-800/70 hover:text-emerald-300'
-                            : 'text-slate-300 hover:bg-slate-800/70 hover:text-white'
+                          item.highlight && item.highlightColor === 'orange'
+                            ? 'text-orange-400 hover:bg-slate-800/70 hover:text-orange-300'
+                            : item.highlight
+                              ? 'text-emerald-400 hover:bg-slate-800/70 hover:text-emerald-300'
+                              : 'text-slate-300 hover:bg-slate-800/70 hover:text-white'
                         }`}
                         onClick={closeMobileMenu}
                       >
@@ -362,7 +569,7 @@ export default function Header() {
                 >
                   <Link
                     href="https://adapty.io/contact-sales/"
-                    className="block rounded-lg bg-violet-600 px-4 py-3 text-center text-base font-semibold text-white transition-all duration-300 hover:bg-violet-700"
+                    className="block rounded-lg bg-[#FF6B4A] px-4 py-3 text-center text-base font-semibold text-white transition-all duration-300 hover:bg-[#FF5733]"
                     onClick={closeMobileMenu}
                   >
                     Contact sales

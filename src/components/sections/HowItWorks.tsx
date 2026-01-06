@@ -442,7 +442,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Steps */}
-        <div className="relative max-w-5xl mx-auto">
+        <div className="relative max-w-[1100px] mx-auto">
           {/* Connecting line - desktop only with animated draw effect */}
           <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2">
             {/* Static line */}

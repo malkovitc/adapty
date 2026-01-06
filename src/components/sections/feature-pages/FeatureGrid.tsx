@@ -53,7 +53,7 @@ export default function FeatureGrid({
 
   return (
     <section className="relative py-16 sm:py-20 md:py-24 bg-[#FAFAFA]">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         {(title || subtitle) && (
           <motion.div

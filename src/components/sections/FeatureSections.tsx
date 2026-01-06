@@ -87,7 +87,7 @@ const features = [
 export default function FeatureSections() {
   return (
     <section className="py-20 bg-white overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="space-y-24">
           {features.map((feature) => (
             <motion.div

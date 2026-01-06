@@ -1,123 +1,133 @@
 import { Metadata } from 'next';
 import { Header, Footer } from '@/components/layout';
 import { BackToTop, SectionErrorBoundary } from '@/components/ui';
-import { FeatureHero } from '@/components/sections/feature-pages';
-import { RoleFeatures } from '@/components/sections/roles';
+import LogosMarquee from '@/components/sections/LogosMarquee';
 import Testimonials from '@/components/sections/Testimonials';
+import CaseStudies from '@/components/sections/CaseStudies';
+import EnterpriseSection from '@/components/sections/EnterpriseSection';
 import CTA from '@/components/sections/CTA';
+
+// Local components
+import DeveloperHero from './DeveloperHero';
+import SDKMethods from './SDKMethods';
+import ComparisonTable from './ComparisonTable';
 import {
-  Code2,
-  Layers,
-  ShieldCheck,
-  Webhook,
-  AlertCircle,
-} from 'lucide-react';
-import PainPoints from './PainPoints';
-import CodeExample from './CodeExample';
+  QuickIntegration,
+  CrossPlatformSync,
+  SLASection,
+  SDKsGrid,
+} from './FeatureSections';
+import {
+  IntegrationsSection,
+  PaywallArchitecture,
+  RawDataExport,
+  MigrationSection,
+  TeamLinks,
+} from './AdditionalSections';
 
 export const metadata: Metadata = {
-  title: 'For Developers - Adapty | Integrate Subscriptions in 30 Minutes',
-  description: 'Stop building subscription infrastructure from scratch. Our well-maintained SDKs handle the complexity so you can focus on your product.',
-  keywords: ['subscription SDK', 'in-app purchase SDK', 'iOS subscriptions', 'Android subscriptions', 'React Native subscriptions', 'Flutter subscriptions'],
+  title: 'For Developers - Adapty | Integrate In-App Purchases in Minutes',
+  description: 'Integrate and deploy in-app purchases in minutes with a single line of code. Well-maintained SDKs for iOS, Android, React Native, Flutter, Unity and more.',
+  keywords: ['subscription SDK', 'in-app purchase SDK', 'iOS subscriptions', 'Android subscriptions', 'React Native subscriptions', 'Flutter subscriptions', 'StoreKit 2', 'Google Play Billing'],
   openGraph: {
     title: 'For Developers - Adapty',
-    description: 'Integrate subscriptions in 30 minutes with our open-source SDKs.',
+    description: 'Integrate in-app purchases in minutes with a single line of code.',
     type: 'website',
     url: 'https://adapty.io/for-developers',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'For Developers - Adapty',
-    description: 'Integrate subscriptions in 30 minutes with our open-source SDKs.',
+    description: 'Integrate in-app purchases in minutes with a single line of code.',
   },
 };
-
-const painPoints = [
-  {
-    icon: <AlertCircle className="w-6 h-6" />,
-    question: 'Tired of App Store receipt validation headaches?',
-  },
-  {
-    icon: <AlertCircle className="w-6 h-6" />,
-    question: 'Spending weeks on subscription infrastructure?',
-  },
-  {
-    icon: <AlertCircle className="w-6 h-6" />,
-    question: 'Dealing with cross-platform sync issues?',
-  },
-];
-
-const features = [
-  {
-    icon: <Code2 className="w-7 h-7" />,
-    title: 'Simple SDK',
-    description: 'Just 3 methods: configure, identify, purchase. No complex setup or boilerplate code required.',
-  },
-  {
-    icon: <Layers className="w-7 h-7" />,
-    title: 'Cross-platform',
-    description: 'iOS, Android, React Native, Flutter, Unity. One consistent API across all platforms.',
-  },
-  {
-    icon: <ShieldCheck className="w-7 h-7" />,
-    title: 'Server-side validation',
-    description: 'We handle receipt validation securely. No more dealing with App Store and Google Play APIs.',
-  },
-  {
-    icon: <Webhook className="w-7 h-7" />,
-    title: 'Webhooks',
-    description: 'Real-time events for your backend. Know immediately when subscriptions change.',
-  },
-];
 
 export default function ForDevelopersPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       <Header />
       <main>
-        {/* Hero Section */}
-        <SectionErrorBoundary sectionName="FeatureHero">
-          <FeatureHero
-            badge="FOR DEVELOPERS"
-            title="Integrate subscriptions in 30 minutes"
-            titleHighlight="30 minutes"
-            description="Stop building subscription infrastructure from scratch. Our well-maintained SDKs handle the complexity so you can focus on your product."
-            primaryCTA={{
-              text: 'View documentation',
-              href: 'https://docs.adapty.io/',
-            }}
-            secondaryCTA={{
-              text: 'Start for free',
-              href: 'https://adapty.io/signup/',
-            }}
-          />
+        {/* 1. Hero Section with integration steps visualization */}
+        <SectionErrorBoundary sectionName="DeveloperHero">
+          <DeveloperHero />
         </SectionErrorBoundary>
 
-        {/* Pain Points */}
-        <SectionErrorBoundary sectionName="PainPoints">
-          <PainPoints painPoints={painPoints} />
+        {/* 2. SDK Methods Section - "Just 5 SDK methods to integrate monetization" */}
+        <SectionErrorBoundary sectionName="SDKMethods">
+          <SDKMethods />
         </SectionErrorBoundary>
 
-        {/* Role Features */}
-        <SectionErrorBoundary sectionName="RoleFeatures">
-          <RoleFeatures
-            title="Built for developers, by developers"
-            subtitle="Everything you need to implement subscriptions without the headaches."
-            features={features}
-          />
+        {/* 2.5. Comparison Table - "Why developers choose Adapty" */}
+        <SectionErrorBoundary sectionName="ComparisonTable">
+          <ComparisonTable />
         </SectionErrorBoundary>
 
-        {/* Code Example */}
-        <SectionErrorBoundary sectionName="CodeExample">
-          <CodeExample />
+        {/* 3. Quick Integration - "Quick integration in just a couple of hours" */}
+        <SectionErrorBoundary sectionName="QuickIntegration">
+          <QuickIntegration />
         </SectionErrorBoundary>
 
-        {/* Testimonials */}
+        {/* 4. Cross-platform Section - "Cross-platform subscriber sync" */}
+        <SectionErrorBoundary sectionName="CrossPlatformSync">
+          <CrossPlatformSync />
+        </SectionErrorBoundary>
+
+        {/* 5. SLA Section - "Highest SLA in the industry: 99.99%" */}
+        <SectionErrorBoundary sectionName="SLASection">
+          <SLASection />
+        </SectionErrorBoundary>
+
+        {/* 6. SDKs Grid - "Well-maintained SDK for each platform" */}
+        <SectionErrorBoundary sectionName="SDKsGrid">
+          <SDKsGrid />
+        </SectionErrorBoundary>
+
+        {/* 7. Integrations Section - "Simple 3rd-party integrations" */}
+        <SectionErrorBoundary sectionName="IntegrationsSection">
+          <IntegrationsSection />
+        </SectionErrorBoundary>
+
+        {/* 8. Paywall Architecture - "Flexible paywall management architecture" */}
+        <SectionErrorBoundary sectionName="PaywallArchitecture">
+          <PaywallArchitecture />
+        </SectionErrorBoundary>
+
+        {/* 9. Raw Data Export - "Raw data export" with webhooks */}
+        <SectionErrorBoundary sectionName="RawDataExport">
+          <RawDataExport />
+        </SectionErrorBoundary>
+
+        {/* 10. Migration Section - "Using another or in-house solution?" */}
+        <SectionErrorBoundary sectionName="MigrationSection">
+          <MigrationSection />
+        </SectionErrorBoundary>
+
+        {/* 11. Team Links - "We're here for your team" */}
+        <SectionErrorBoundary sectionName="TeamLinks">
+          <TeamLinks />
+        </SectionErrorBoundary>
+
+        {/* 12. Logos Section - "Join the world's largest apps" */}
+        <SectionErrorBoundary sectionName="LogosMarquee">
+          <LogosMarquee />
+        </SectionErrorBoundary>
+
+        {/* 13. Testimonials carousel */}
         <SectionErrorBoundary sectionName="Testimonials">
           <Testimonials />
         </SectionErrorBoundary>
 
-        {/* Final CTA */}
+        {/* 14. Enterprise stats and G2 Awards */}
+        <SectionErrorBoundary sectionName="EnterpriseSection">
+          <EnterpriseSection />
+        </SectionErrorBoundary>
+
+        {/* 15. Case Studies */}
+        <SectionErrorBoundary sectionName="CaseStudies">
+          <CaseStudies />
+        </SectionErrorBoundary>
+
+        {/* 16. Final CTA Section */}
         <SectionErrorBoundary sectionName="CTA">
           <CTA />
         </SectionErrorBoundary>

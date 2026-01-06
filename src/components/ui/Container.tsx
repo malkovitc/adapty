@@ -6,10 +6,11 @@ import { twMerge } from 'tailwind-merge';
  * Container size variants mapped to Tailwind max-width classes
  * - sm: 768px (max-w-3xl)
  * - md: 1024px (max-w-5xl)
+ * - default: 1100px - matches adapty.io design
  * - lg: 1152px (max-w-6xl)
- * - full: 1280px (max-w-7xl) - default, matches design system
+ * - full: 1280px (max-w-7xl)
  */
-export type ContainerSize = 'sm' | 'md' | 'lg' | 'full';
+export type ContainerSize = 'sm' | 'md' | 'default' | 'lg' | 'full';
 
 /**
  * Allowed HTML elements for semantic rendering
@@ -34,10 +35,11 @@ export interface ContainerProps extends HTMLAttributes<HTMLElement> {
  * Size variant to Tailwind class mapping
  */
 const sizeClasses: Record<ContainerSize, string> = {
-  sm: 'max-w-3xl',    // 768px
-  md: 'max-w-5xl',    // 1024px
-  lg: 'max-w-6xl',    // 1152px
-  full: 'max-w-7xl',  // 1280px - design system default
+  sm: 'max-w-3xl',         // 768px
+  md: 'max-w-5xl',         // 1024px
+  default: 'max-w-[1100px]', // 1100px - matches adapty.io
+  lg: 'max-w-6xl',         // 1152px
+  full: 'max-w-7xl',       // 1280px
 };
 
 /**
@@ -71,7 +73,7 @@ const sizeClasses: Record<ContainerSize, string> = {
 const Container = ({
   children,
   className = '',
-  size = 'full',
+  size = 'default',
   as: Element = 'div',
   ...props
 }: ContainerProps) => {

@@ -15,7 +15,7 @@ const FunnelFox = memo(function FunnelFox() {
         <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-gradient-to-r from-violet-50/50 to-transparent rounded-full blur-3xl -translate-y-1/2" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left side - Content */}
           <motion.div
