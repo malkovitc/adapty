@@ -6,6 +6,7 @@ import { Menu, ChevronDown, ChevronRight, Globe } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { navigation, productTabs, type NavigationItem } from '@/data';
+import { getAssetPath } from '@/lib/utils';
 import {
   Sheet,
   SheetTrigger,
@@ -322,7 +323,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center" aria-label="Adapty home">
               <Image
-                src="/images/adapty-logo.svg"
+                src={getAssetPath('/images/adapty-logo.svg')}
                 alt="Adapty"
                 width={120}
                 height={32}
@@ -478,7 +479,7 @@ export default function Header() {
                 <SheetClose asChild>
                   <Link href="/" className="flex items-center">
                     <Image
-                      src="/images/adapty-logo.svg"
+                      src={getAssetPath('/images/adapty-logo.svg')}
                       alt="Adapty"
                       width={100}
                       height={26}
