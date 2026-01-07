@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import { Button } from '@/components/ui';
 
 type Language = 'swift' | 'kotlin' | 'reactnative' | 'flutter' | 'unity';
 
@@ -447,17 +448,19 @@ export default function SDKMethods() {
             {/* Method Selector */}
             <div className="flex flex-wrap gap-2">
               {sdkMethods.map((method) => (
-                <button
+                <Button
                   key={method.id}
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setActiveMethod(method.id)}
                   className={`px-4 py-2 rounded-lg font-mono text-sm transition-all ${
                     activeMethod === method.id
-                      ? 'bg-slate-900 text-white'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-slate-900 text-white hover:bg-slate-800 hover:text-white'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-700'
                   }`}
                 >
                   {method.name}
-                </button>
+                </Button>
               ))}
             </div>
 
@@ -527,25 +530,29 @@ export default function SDKMethods() {
               {/* Language Tabs */}
               <div className="flex flex-wrap border-b border-slate-700">
                 {languageTabs.map((lang) => (
-                  <button
+                  <Button
                     key={lang.id}
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setActiveLanguage(lang.id)}
-                    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium rounded-none transition-colors ${
                       activeLanguage === lang.id
-                        ? 'text-white bg-slate-700/50 border-b-2 border-violet-500'
+                        ? 'text-white bg-slate-700/50 border-b-2 border-violet-500 hover:bg-slate-700/50 hover:text-white'
                         : 'text-slate-400 hover:text-white hover:bg-slate-700/30'
                     }`}
                   >
                     {lang.label}
-                  </button>
+                  </Button>
                 ))}
               </div>
 
               {/* Code Block */}
               <div className="relative">
-                <button
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={handleCopy}
-                  className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 text-xs text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors z-10"
+                  className="absolute top-4 right-4 flex items-center gap-2 text-xs text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 border-0 z-10"
                 >
                   {copied ? (
                     <>
@@ -558,7 +565,7 @@ export default function SDKMethods() {
                       Copy
                     </>
                   )}
-                </button>
+                </Button>
                 <pre className="p-6 text-sm text-slate-300 overflow-x-auto min-h-[280px]">
                   <code className="block whitespace-pre">{highlightCode(codeExamples[activeMethod][activeLanguage], activeLanguage)}</code>
                 </pre>

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, Calendar, User, Twitter, Linkedin, Facebook, Link as LinkIcon, ChevronRight } from 'lucide-react';
 import { posts, type BlogPost } from '@/data/blog';
 import { getAssetPath } from '@/lib/utils';
+import { Button } from '@/components/ui';
 
 function TableOfContents() {
   const sections = [
@@ -36,10 +37,10 @@ function ShareButtons() {
     <div className="flex items-center gap-3">
       <span className="text-sm font-medium text-[#64748B]">Share:</span>
       <div className="flex items-center gap-2">
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#F5F5F7] hover:bg-[#6366F1] text-[#64748B] hover:text-white transition-all" aria-label="Share on Twitter"><Twitter className="w-4 h-4" /></button>
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#F5F5F7] hover:bg-[#0077B5] text-[#64748B] hover:text-white transition-all" aria-label="Share on LinkedIn"><Linkedin className="w-4 h-4" /></button>
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#F5F5F7] hover:bg-[#1877F2] text-[#64748B] hover:text-white transition-all" aria-label="Share on Facebook"><Facebook className="w-4 h-4" /></button>
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#F5F5F7] hover:bg-[#0F172A] text-[#64748B] hover:text-white transition-all" aria-label="Copy link"><LinkIcon className="w-4 h-4" /></button>
+        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-lg bg-[#F5F5F7] hover:bg-[#6366F1] text-[#64748B] hover:text-white" aria-label="Share on Twitter"><Twitter className="w-4 h-4" /></Button>
+        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-lg bg-[#F5F5F7] hover:bg-[#0077B5] text-[#64748B] hover:text-white" aria-label="Share on LinkedIn"><Linkedin className="w-4 h-4" /></Button>
+        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-lg bg-[#F5F5F7] hover:bg-[#1877F2] text-[#64748B] hover:text-white" aria-label="Share on Facebook"><Facebook className="w-4 h-4" /></Button>
+        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-lg bg-[#F5F5F7] hover:bg-[#0F172A] text-[#64748B] hover:text-white" aria-label="Copy link"><LinkIcon className="w-4 h-4" /></Button>
       </div>
     </div>
   );
@@ -192,7 +193,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             <p className="text-[#94A3B8] mb-8">Get the latest insights on mobile app monetization.</p>
             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#6366F1]" />
-              <button type="submit" className="px-6 py-3 bg-[#6366F1] text-white font-medium rounded-lg hover:bg-[#4F46E5] transition-colors">Subscribe</button>
+              <Button type="submit" variant="primary" className="px-6 py-3">Subscribe</Button>
             </form>
           </motion.div>
         </div>

@@ -7,83 +7,13 @@ import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import { caseStudies as defaultCaseStudies, type CaseStudy } from '@/data/case-studies';
 
-const caseStudies = [
-  {
-    company: 'Productivity App',
-    category: 'Productivity',
-    metric: '+50% in total revenue',
-    description: 'How pricing tests unlocked app\'s potential',
-    icon: '/images/case-studies/app-icon-productivity-app@4x.webp',
-    href: 'https://adapty.io/case-studies/productivity-app-and-autopilot/',
-  },
-  {
-    company: 'Text on Pic',
-    category: 'Photo & Video',
-    metric: 'Over 30% MRR growth',
-    description: 'How to boost revenue with the right experiments',
-    icon: '/images/case-studies/app-icon-text-on-pic@3x.webp',
-    href: 'https://adapty.io/case-studies/photo-editing-app-and-autopilot/',
-  },
-  {
-    company: 'Trip Planning',
-    category: 'Travel',
-    metric: '+102% ARPU growth',
-    description: 'New onboarding and pricing strategy doubled revenue per user',
-    icon: '/images/case-studies/logo-secret-app@3x.webp',
-    href: 'https://adapty.io/case-studies/travel-app/',
-  },
-  {
-    company: 'Going Merry',
-    category: 'App publisher',
-    metric: '5x MRR growth',
-    description: 'How to scale subscription revenue with Paywall Builder',
-    icon: '/images/case-studies/going-merry-app-logo.webp',
-    href: 'https://adapty.io/case-studies/going-merry/',
-  },
-  {
-    company: 'Shmoody',
-    category: 'Mental health',
-    metric: 'ARR scaled from $0 to $2M',
-    description: 'How to grow from a free app to $2M ARR with Adapty',
-    icon: '/images/case-studies/app-logo-shmoody.webp',
-    href: 'https://adapty.io/case-studies/shmoody/',
-  },
-  {
-    company: 'Lively',
-    category: 'Health & Fitness',
-    metric: 'Refund rate dropped by 83%',
-    description: 'Saved 82% of potentially lost revenue',
-    icon: '/images/case-studies/app-logo-lively@2x.png',
-    href: 'https://adapty.io/case-studies/lively/',
-  },
-  {
-    company: 'Glam AI',
-    category: 'Makeup & Beauty',
-    metric: 'ROAS from Adapty – 108%',
-    description: 'How to scale to $1.2M ARR in 3 months',
-    icon: '/images/case-studies/app-logo-glam-ai.webp',
-    href: 'https://adapty.io/case-studies/glam-ai/',
-  },
-  {
-    company: 'Pepapp',
-    category: 'Health & Fitness',
-    metric: '400% ROI on Adapty',
-    description: 'How to make Adapty free with Refund Saver',
-    icon: '/images/case-studies/Pepapp-icon@2x.webp',
-    href: 'https://adapty.io/case-studies/pepapp/',
-  },
-  {
-    company: 'Fotorama',
-    category: 'Photo & Video',
-    metric: 'Refund rate dropped 40%',
-    description: 'How to decrease the refund rate with Adapty',
-    icon: '/images/case-studies/app-icon-fotorama-original.webp',
-    href: 'https://adapty.io/case-studies/fotorama/',
-  },
-];
+interface CaseStudiesProps {
+  caseStudies?: CaseStudy[];
+}
 
-export default function CaseStudies() {
+export default function CaseStudies({ caseStudies = defaultCaseStudies }: CaseStudiesProps) {
   return (
     <Section size="lg" background="gray">
       <Container>
@@ -120,7 +50,7 @@ export default function CaseStudies() {
                 <div className="flex items-center gap-[var(--spacing-sm)] mb-[var(--spacing-md)]">
                   <div className="w-12 h-12 rounded-xl overflow-hidden bg-[var(--bg-subtle)] flex items-center justify-center">
                     <Image
-                      src={getAssetPath(study.icon)}
+                      src={getAssetPath(study.logo)}
                       alt={study.company}
                       width={48}
                       height={48}

@@ -89,16 +89,16 @@ export const productTabs: ProductTab[] = [
           { name: 'Autopilot', href: 'https://adapty.io/autopilot/', icon: Bot },
           { name: 'Targeting', href: 'https://adapty.io/targeting/', icon: Target },
           { name: 'Localizations', href: 'https://adapty.io/localizations/', icon: Languages },
-          { name: 'Remote config', href: 'https://adapty.io/remote-config/', icon: Settings },
+          { name: 'Remote config', href: '/remote-config', icon: Settings },
         ],
       },
       {
         title: 'ANALYTICS',
         items: [
-          { name: 'Revenue analytics', href: 'https://adapty.io/analytics/', icon: TrendingUp },
-          { name: 'LTV analytics', href: 'https://adapty.io/ltv-analytics/', icon: LineChart },
-          { name: 'AI LTV and revenue predictions', href: 'https://adapty.io/ai-predictions/', icon: Brain },
-          { name: 'LTV prediction model', href: 'https://adapty.io/ltv-prediction/', icon: ChartLine },
+          { name: 'Revenue analytics', href: '/revenue-analytics', icon: TrendingUp },
+          { name: 'LTV analytics', href: '/ltv-analytics', icon: LineChart },
+          { name: 'Predictive analytics', href: '/predictive-analytics', icon: Brain },
+          { name: 'LTV prediction model', href: '/ltv-analytics', icon: ChartLine },
           { name: 'Apple ads manager', href: 'https://adapty.io/apple-ads/', icon: Apple },
         ],
       },
@@ -144,7 +144,7 @@ export const productTabs: ProductTab[] = [
   },
   {
     name: 'Integrations',
-    href: 'https://adapty.io/integrations/',
+    href: '/integrations',
     categories: [
       {
         title: 'ANALYTICS',

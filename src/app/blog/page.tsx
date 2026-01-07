@@ -8,6 +8,7 @@ import { ArrowLeft, Clock, ChevronRight, Search, Loader2 } from 'lucide-react';
 import { type BlogPost, type Category } from '@/data/blog';
 import { getAllPosts, getAllCategories } from '@/lib/blog-service';
 import { getAssetPath } from '@/lib/utils';
+import { Button } from '@/components/ui';
 
 const POSTS_PER_PAGE = 9;
 
@@ -59,28 +60,33 @@ function Pagination({
     <div className="flex items-center justify-center gap-2 mt-12">
       {getPageNumbers().map((page, index) => (
         typeof page === 'number' ? (
-          <button
+          <Button
             key={index}
+            variant="ghost"
+            size="icon"
             onClick={() => onPageChange(page)}
-            className={`w-10 h-10 rounded-full text-sm font-medium transition-all ${
+            className={`w-10 h-10 rounded-full text-sm font-medium ${
               currentPage === page
-                ? 'bg-[#0F172A] text-white'
+                ? 'bg-[#0F172A] text-white hover:bg-[#0F172A] hover:text-white'
                 : 'text-[#64748B] hover:bg-[#F5F5F7] hover:text-[#0F172A]'
             }`}
           >
             {page}
-          </button>
+          </Button>
         ) : (
           <span key={index} className="px-2 text-[#94A3B8]">{page}</span>
         )
       ))}
       {currentPage < totalPages && (
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={() => onPageChange(currentPage + 1)}
-          className="w-10 h-10 rounded-full text-[#64748B] hover:bg-[#F5F5F7] hover:text-[#0F172A] transition-all flex items-center justify-center"
+          className="w-10 h-10 rounded-full text-[#64748B] hover:bg-[#F5F5F7] hover:text-[#0F172A]"
+          icon={<ChevronRight className="w-5 h-5" />}
         >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+          <span className="sr-only">Next page</span>
+        </Button>
       )}
     </div>
   );
@@ -537,18 +543,20 @@ export default function BlogPage() {
               </>
             ) : (
               categories.map((category) => (
-                <button
+                <Button
                   key={category.slug}
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setActiveCategory(category.slug)}
-                  className={`px-4 py-2 text-sm font-medium rounded-full whitespace-nowrap transition-all ${
+                  className={`px-4 py-2 rounded-full whitespace-nowrap ${
                     activeCategory === category.slug
-                      ? 'bg-[#0F172A] text-white'
+                      ? 'bg-[#0F172A] text-white hover:bg-[#0F172A] hover:text-white'
                       : 'bg-[#F5F5F7] text-[#64748B] hover:bg-[#E5E7EB] hover:text-[#0F172A]'
                   }`}
                 >
                   {category.name}
                   <span className="ml-1.5 text-xs opacity-60">({category.count})</span>
-                </button>
+                </Button>
               ))
             )}
           </div>
@@ -566,12 +574,13 @@ export default function BlogPage() {
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-lg text-[#64748B]">No articles found matching your criteria.</p>
-              <button
+              <Button
+                variant="link"
                 onClick={() => { setActiveCategory(''); setSearchQuery(''); }}
-                className="mt-4 text-[#4F46E5] font-medium hover:underline"
+                className="mt-4 text-[#4F46E5] font-medium"
               >
                 Clear filters
-              </button>
+              </Button>
             </div>
           ) : (
             <>
@@ -704,13 +713,14 @@ export default function BlogPage() {
                   disabled={newsletterStatus === 'loading'}
                   className="flex-1 md:w-64 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] disabled:opacity-50"
                 />
-                <button
+                <Button
                   type="submit"
+                  variant="primary"
                   disabled={newsletterStatus === 'loading'}
-                  className="px-6 py-3 bg-[#4F46E5] text-white font-medium rounded-lg hover:bg-[#4338CA] transition-colors disabled:opacity-50"
+                  className="px-6 py-3 h-auto disabled:opacity-50"
                 >
                   {newsletterStatus === 'loading' ? '...' : 'Subscribe'}
-                </button>
+                </Button>
               </form>
             </div>
             {newsletterStatus === 'success' && (

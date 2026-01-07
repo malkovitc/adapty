@@ -6,8 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { getAssetPath } from '@/lib/utils';
-import Button from '@/components/ui/Button';
-import Input, { EmailIcon } from '@/components/ui/Input';
+import { Button, Input, EmailIcon, BadgeShadcn } from '@/components/ui';
 import Container from '@/components/ui/Container';
 
 export default function Hero() {
@@ -77,33 +76,35 @@ export default function Hero() {
           <motion.div variants={itemVariants} className="mb-[var(--spacing-lg)]">
             <Link
               href="https://adapty.io/ebooks/100k-app-playbook/"
-              className="group relative inline-flex items-center gap-2 rounded-full text-[var(--text-sm)] font-[var(--font-medium)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors animate-border"
-              style={{
-                background: `
-                  linear-gradient(white, white) padding-box,
-                  conic-gradient(
-                    from var(--border-angle),
-                    rgba(99, 102, 241, 0.15) 0%,
-                    rgba(59, 130, 246, 0.5) 25%,
-                    rgba(6, 182, 212, 0.5) 50%,
-                    rgba(59, 130, 246, 0.5) 75%,
-                    rgba(99, 102, 241, 0.15) 100%
-                  ) border-box
-                `,
-                border: '1.5px solid transparent',
-                padding: 'var(--spacing-sm) var(--spacing-md)',
-              }}
+              className="group inline-flex"
             >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              Ebook $100K playbook — download free
-              <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+              <BadgeShadcn
+                className="gap-2 rounded-full border-none text-[var(--text-sm)] font-[var(--font-medium)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors animate-border px-[var(--spacing-md)] py-[var(--spacing-sm)]"
+                style={{
+                  background: `
+                    linear-gradient(white, white) padding-box,
+                    conic-gradient(
+                      from var(--border-angle),
+                      rgba(99, 102, 241, 0.15) 0%,
+                      rgba(59, 130, 246, 0.5) 25%,
+                      rgba(6, 182, 212, 0.5) 50%,
+                      rgba(59, 130, 246, 0.5) 75%,
+                      rgba(99, 102, 241, 0.15) 100%
+                    ) border-box
+                  `,
+                }}
+              >
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                Ebook $100K playbook — download free
+                <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+              </BadgeShadcn>
             </Link>
           </motion.div>
 
           {/* Main Heading - Using typography tokens */}
           <motion.h1
             variants={itemVariants}
-            className="text-[var(--text-h1)] sm:text-[var(--text-display)] font-[var(--font-bold)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)] text-[var(--text-primary)] text-center mb-[var(--spacing-lg)]"
+            className="text-5xl sm:text-6xl lg:text-7xl font-[var(--font-bold)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)] text-[var(--text-primary)] text-center mb-[var(--spacing-lg)]"
           >
             Revenue management
             <br />
@@ -113,7 +114,7 @@ export default function Hero() {
           {/* Subheading */}
           <motion.p
             variants={itemVariants}
-            className="text-[var(--text-lg)] text-[var(--text-secondary)] text-center leading-[var(--leading-relaxed)] mb-[var(--spacing-xl)] max-w-[42rem]"
+            className="text-xl text-[var(--text-secondary)] text-center leading-[var(--leading-relaxed)] mb-[var(--spacing-xl)] max-w-[42rem]"
           >
             Save months on integrating subscriptions and double your app revenue with paywall management.
           </motion.p>

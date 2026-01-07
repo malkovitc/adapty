@@ -8,6 +8,13 @@ import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import {
+  Button,
+  TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from '@/components/ui';
 
 const platforms = [
   { id: 'swift', name: 'Swift', icon: '🍎' },
@@ -90,13 +97,13 @@ Adapty.MakePurchase(product, (profile, error) => {
 };
 
 export default function SDKSection() {
-  const [activeTab, setActiveTab] = useState('swift');
-  const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState(platforms[0].id);
+  const [copiedTab, setCopiedTab] = useState<string | null>(null);
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(codeExamples[activeTab]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async (tabId: string) => {
+    await navigator.clipboard.writeText(codeExamples[tabId]);
+    setCopiedTab(tabId);
+    setTimeout(() => setCopiedTab(null), 2000);
   };
 
   return (
@@ -165,49 +172,55 @@ export default function SDKSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="bg-[#1E293B] rounded-2xl overflow-hidden border border-slate-700 shadow-xl">
-              {/* Tabs */}
-              <div className="flex overflow-x-auto border-b border-slate-700">
+            <TabsRoot
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="bg-[#1E293B] rounded-2xl border border-slate-700 shadow-xl"
+            >
+              <TabsList className="w-full justify-start overflow-x-auto border-b border-slate-700 rounded-none bg-transparent px-2 sm:px-4">
                 {platforms.map((platform) => (
-                  <button
+                  <TabsTrigger
                     key={platform.id}
-                    onClick={() => setActiveTab(platform.id)}
-                    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-                      activeTab === platform.id
-                        ? 'text-white bg-slate-700/50 border-b-2 border-violet-500'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-700/30'
-                    }`}
+                    value={platform.id}
+                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap text-slate-400 hover:text-white rounded-md rounded-b-none border-b-2 border-transparent data-[state=active]:bg-slate-700/50 data-[state=active]:text-white data-[state=active]:border-violet-500"
                   >
                     <span>{platform.icon}</span>
                     <span>{platform.name}</span>
-                  </button>
+                  </TabsTrigger>
                 ))}
-              </div>
+              </TabsList>
 
-              {/* Code Block */}
-              <div className="relative overflow-hidden">
-                <button
-                  onClick={handleCopy}
-                  className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 text-xs text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors z-10"
+              {platforms.map((platform) => (
+                <TabsContent
+                  key={platform.id}
+                  value={platform.id}
+                  className="relative overflow-hidden focus-visible:outline-none focus-visible:ring-0"
                 >
-                  {copied ? (
-                    <>
-                      <Check className="w-3.5 h-3.5" />
-                      Copied
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      Copy
-                    </>
-                  )}
-                </button>
-                <pre className="p-4 sm:p-6 text-xs sm:text-sm text-slate-300 overflow-x-auto max-w-full">
-                  <code className="block whitespace-pre-wrap break-words sm:whitespace-pre">{codeExamples[activeTab]}</code>
-                </pre>
-              </div>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => handleCopy(platform.id)}
+                    className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 text-xs text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors z-10 border-0"
+                    aria-label={copiedTab === platform.id ? 'Copied to clipboard' : 'Copy code'}
+                  >
+                    {copiedTab === platform.id ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        Copied
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                  <pre className="p-4 sm:p-6 text-xs sm:text-sm text-slate-300 overflow-x-auto max-w-full">
+                    <code className="block whitespace-pre-wrap break-words sm:whitespace-pre">{codeExamples[platform.id]}</code>
+                  </pre>
+                </TabsContent>
+              ))}
 
-              {/* GitHub Link */}
               <div className="flex items-center justify-between px-6 py-4 bg-slate-900/50 border-t border-slate-700">
                 <div className="flex items-center gap-3 text-sm">
                   <Github className="w-5 h-5 text-slate-400" />
@@ -222,7 +235,7 @@ export default function SDKSection() {
                   Go to GitHub
                 </Link>
               </div>
-            </div>
+            </TabsRoot>
           </motion.div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Rocket } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 import Container from '@/components/ui/Container';
 
 /**

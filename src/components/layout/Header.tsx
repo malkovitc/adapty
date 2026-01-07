@@ -2,10 +2,20 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, ChevronRight, Globe } from 'lucide-react';
+import { Menu, ChevronDown, ChevronRight, Globe } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { navigation, productTabs, type NavigationItem } from '@/data';
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+} from '@/components/ui';
+// NavigationMenu available for future desktop dropdown enhancement
+// import { NavigationMenu, NavigationMenuList, ... } from '@/components/ui/navigation-menu';
 
 // Throttle function for performance optimization
 function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(
@@ -280,11 +290,6 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isLanguageMenuOpen]);
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-    setExpandedMobileItem(null);
-  };
-
   const currentLanguage =
     LANGUAGE_OPTIONS.find((language) => language.code === selectedLanguage) || LANGUAGE_OPTIONS[0];
 
@@ -454,77 +459,35 @@ export default function Header() {
             </motion.div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex items-center justify-center lg:hidden"
-            aria-label="Toggle menu"
-            whileTap={{ scale: 0.9 }}
-          >
-            <motion.div
-              initial={false}
-              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6 text-slate-900" />
-              ) : (
+          {/* Mobile Menu - Sheet */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <motion.button
+                className="flex items-center justify-center lg:hidden"
+                aria-label="Toggle menu"
+                whileTap={{ scale: 0.9 }}
+              >
                 <Menu className="h-6 w-6 text-slate-900" />
-              )}
-            </motion.div>
-          </motion.button>
-        </div>
-      </motion.header>
-
-      {/* Mobile Menu Drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-md lg:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={closeMobileMenu}
-            />
-
-            {/* Drawer */}
-            <motion.div
-              className="fixed right-0 top-0 z-50 h-full w-full max-w-sm bg-[#0F172A] border-l border-slate-800 shadow-2xl lg:hidden overflow-y-auto"
-              initial={{ x: '100%', opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '100%', opacity: 0 }}
-              transition={{
-                type: 'spring',
-                damping: 25,
-                stiffness: 250,
-                opacity: { duration: 0.3 },
-              }}
+              </motion.button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-full max-w-sm bg-[#0F172A] border-l border-slate-800 p-0 overflow-y-auto"
             >
-              <div className="flex h-16 items-center justify-between px-4">
-                <Link
-                  href="/"
-                  className="flex items-center"
-                  onClick={closeMobileMenu}
-                >
-                  <Image
-                    src="/images/adapty-logo.svg"
-                    alt="Adapty"
-                    width={100}
-                    height={26}
-                    className="h-6 w-auto brightness-0 invert"
-                  />
-                </Link>
-                <button
-                  onClick={closeMobileMenu}
-                  className="flex items-center justify-center"
-                  aria-label="Close menu"
-                >
-                  <X className="h-6 w-6 text-white" />
-                </button>
-              </div>
+              <SheetHeader className="flex h-16 flex-row items-center justify-between px-4 border-b border-slate-800">
+                <SheetClose asChild>
+                  <Link href="/" className="flex items-center">
+                    <Image
+                      src="/images/adapty-logo.svg"
+                      alt="Adapty"
+                      width={100}
+                      height={26}
+                      className="h-6 w-auto brightness-0 invert"
+                    />
+                  </Link>
+                </SheetClose>
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              </SheetHeader>
 
               <div className="px-4 pt-4">
                 <button
@@ -606,14 +569,14 @@ export default function Header() {
                               <div className="pl-4 py-2 space-y-1">
                                 {item.dropdown
                                   ? item.dropdown.map((subItem) => (
-                                      <Link
-                                        key={subItem.name}
-                                        href={subItem.href}
-                                        onClick={closeMobileMenu}
-                                        className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
-                                      >
-                                        {subItem.name}
-                                      </Link>
+                                      <SheetClose asChild key={subItem.name}>
+                                        <Link
+                                          href={subItem.href}
+                                          className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                                        >
+                                          {subItem.name}
+                                        </Link>
+                                      </SheetClose>
                                     ))
                                   : item.productTabs?.map((tab) => (
                                       <div key={tab.name} className="mb-3">
@@ -622,14 +585,14 @@ export default function Header() {
                                         </div>
                                         {tab.categories?.map((cat) =>
                                           cat.items.map((catItem) => (
-                                            <Link
-                                              key={catItem.name}
-                                              href={catItem.href}
-                                              onClick={closeMobileMenu}
-                                              className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
-                                            >
-                                              {catItem.name}
-                                            </Link>
+                                            <SheetClose asChild key={catItem.name}>
+                                              <Link
+                                                href={catItem.href}
+                                                className="block px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                                              >
+                                                {catItem.name}
+                                              </Link>
+                                            </SheetClose>
                                           ))
                                         )}
                                       </div>
@@ -640,69 +603,55 @@ export default function Header() {
                         </AnimatePresence>
                       </div>
                     ) : (
-                      <Link
-                        href={item.href}
-                        className={`block px-4 py-3 text-base font-medium rounded-lg transition-colors ${
-                          item.highlight && item.highlightColor === 'orange'
-                            ? 'text-orange-400 hover:bg-slate-800/70 hover:text-orange-300'
-                            : item.highlight
-                              ? 'text-emerald-400 hover:bg-slate-800/70 hover:text-emerald-300'
-                              : 'text-slate-300 hover:bg-slate-800/70 hover:text-white'
-                        }`}
-                        onClick={closeMobileMenu}
-                      >
-                        {item.name}
-                      </Link>
+                      <SheetClose asChild>
+                        <Link
+                          href={item.href}
+                          className={`block px-4 py-3 text-base font-medium rounded-lg transition-colors ${
+                            item.highlight && item.highlightColor === 'orange'
+                              ? 'text-orange-400 hover:bg-slate-800/70 hover:text-orange-300'
+                              : item.highlight
+                                ? 'text-emerald-400 hover:bg-slate-800/70 hover:text-emerald-300'
+                                : 'text-slate-300 hover:bg-slate-800/70 hover:text-white'
+                          }`}
+                        >
+                          {item.name}
+                        </Link>
+                      </SheetClose>
                     )}
                   </motion.div>
                 ))}
               </nav>
 
-              <div className="flex flex-col gap-3 px-4 mt-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.3 }}
-                >
+              <div className="flex flex-col gap-3 px-4 mt-4 pb-8">
+                <SheetClose asChild>
                   <Link
                     href="https://app.adapty.io/login"
                     className="block rounded-lg border border-slate-700 px-4 py-3 text-center text-base font-medium text-slate-300 transition-all duration-300 hover:bg-slate-800 hover:border-slate-600"
-                    onClick={closeMobileMenu}
                   >
                     Log in
                   </Link>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35, duration: 0.3 }}
-                >
+                </SheetClose>
+                <SheetClose asChild>
                   <Link
                     href="https://app.adapty.io/signup"
                     className="block rounded-lg bg-white px-4 py-3 text-center text-base font-semibold text-slate-900 transition-all duration-300 hover:bg-slate-100"
-                    onClick={closeMobileMenu}
                   >
                     Sign up
                   </Link>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.3 }}
-                >
+                </SheetClose>
+                <SheetClose asChild>
                   <Link
                     href="https://adapty.io/contact-sales/"
                     className="block rounded-lg bg-[#6720FF] px-4 py-3 text-center text-base font-semibold text-white transition-all duration-300 hover:bg-[#5B1FD9]"
-                    onClick={closeMobileMenu}
                   >
                     Contact sales
                   </Link>
-                </motion.div>
+                </SheetClose>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </motion.header>
     </>
   );
 }

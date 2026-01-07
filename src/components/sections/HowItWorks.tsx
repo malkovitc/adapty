@@ -5,6 +5,7 @@ import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import { Button } from '@/components/ui';
 
 const steps = [
   {
@@ -81,13 +82,14 @@ function SDKInstallation() {
       {/* Tabs */}
       <div className="flex border-b border-slate-800 bg-slate-800/50">
         {platforms.map((platform) => (
-          <button
+          <Button
             key={platform.id}
+            variant="ghost"
             onClick={() => setActiveTab(platform.id)}
-            className={`flex-1 px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium transition-colors relative ${
+            className={`flex-1 px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium transition-colors relative rounded-none ${
               activeTab === platform.id
                 ? 'text-[var(--text-light)] bg-[var(--bg-dark)]'
-                : 'text-slate-400 hover:text-slate-300'
+                : 'text-slate-400 hover:text-slate-300 hover:bg-transparent'
             }`}
           >
             <span className="flex items-center justify-center gap-1.5 sm:gap-2">
@@ -101,7 +103,7 @@ function SDKInstallation() {
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               />
             )}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -122,9 +124,9 @@ function SDKInstallation() {
       {/* Footer with copy button */}
       <div className="px-4 sm:px-6 py-3 bg-slate-800/30 border-t border-slate-800 flex justify-between items-center">
         <span className="text-xs text-slate-500">Installation code</span>
-        <button className="text-xs text-indigo-400 hover:text-purple-300 transition-colors">
+        <Button variant="link" size="sm" className="text-xs text-indigo-400 hover:text-purple-300 transition-colors h-auto p-0">
           Copy
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -194,9 +196,9 @@ function DashboardConfig() {
 
       {/* Footer */}
       <div className="px-4 sm:px-6 py-3 bg-[var(--bg-subtle)] border-t border-[var(--border-default)] flex justify-end">
-        <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-[var(--text-light)] text-xs font-medium rounded-lg hover:shadow-lg transition-shadow">
+        <Button variant="primary" size="sm" className="bg-gradient-to-r from-blue-500 to-blue-600 text-[var(--text-light)] text-xs font-medium rounded-lg hover:shadow-lg transition-shadow shadow-none">
           Save Product
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -245,9 +247,9 @@ function PaywallBuilder() {
           </div>
 
           {/* Price button */}
-          <button className="w-full bg-gradient-to-r from-indigo-500 to-indigo-500 text-[var(--text-light)] font-semibold py-3 sm:py-4 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-xl transition-shadow">
+          <Button variant="primary" fullWidth className="bg-gradient-to-r from-indigo-500 to-indigo-500 text-[var(--text-light)] font-semibold py-3 sm:py-4 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-xl transition-shadow h-auto">
             Start Free Trial
-          </button>
+          </Button>
 
           <p className="text-center text-xs text-[var(--text-tertiary)] mt-3">
             $9.99/month after trial

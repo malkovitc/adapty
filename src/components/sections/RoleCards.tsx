@@ -7,6 +7,7 @@ import { getAssetPath } from '@/lib/utils';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
 import Card from '@/components/ui/Card';
+import { BadgeShadcn } from '@/components/ui';
 
 const roles = [
   {
@@ -87,12 +88,13 @@ export default function RoleCards() {
                 {/* Features as pills/tags */}
                 <div className="flex flex-wrap gap-[var(--spacing-sm)]">
                   {role.features.map((feature) => (
-                    <span
+                    <BadgeShadcn
                       key={feature}
-                      className="inline-block px-[var(--spacing-sm)] py-[var(--spacing-xs)] text-[var(--text-sm)] text-[var(--text-secondary)] bg-[var(--bg-primary)] rounded-full border border-[var(--border-default)]"
+                      variant="outline"
+                      className="px-[var(--spacing-sm)] py-[var(--spacing-xs)] text-[var(--text-sm)] text-[var(--text-secondary)] bg-[var(--bg-primary)] border-[var(--border-default)]"
                     >
                       {feature}
-                    </span>
+                    </BadgeShadcn>
                   ))}
                 </div>
               </Card>

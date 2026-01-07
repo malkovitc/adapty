@@ -3,6 +3,7 @@
 import { memo, useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X, ChevronDown, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui';
 
 // Types
 type FeatureValue = boolean | string;
@@ -180,8 +181,9 @@ const CategoryRow = memo(function CategoryRow({
           colSpan={5}
           className="py-4 px-4 sm:px-6"
         >
-          <button
-            className="flex items-center gap-3 w-full text-left touch-manipulation"
+          <Button
+            variant="ghost"
+            className="flex items-center gap-3 w-full text-left touch-manipulation justify-start h-auto py-0"
             aria-expanded={isExpanded}
           >
             <motion.div
@@ -196,7 +198,7 @@ const CategoryRow = memo(function CategoryRow({
             <span className="text-sm text-slate-500">
               ({category.features.length} features)
             </span>
-          </button>
+          </Button>
         </td>
       </motion.tr>
 
@@ -303,9 +305,10 @@ const MobilePlanCard = memo(function MobilePlanCard({
       <div className="divide-y divide-slate-100">
         {categories.map((category, categoryIndex) => (
           <div key={category.name}>
-            <button
+            <Button
+              variant="ghost"
               onClick={() => onToggleCategory(categoryIndex)}
-              className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors touch-manipulation"
+              className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors touch-manipulation h-auto rounded-none"
             >
               <span className="font-medium text-slate-900">{category.name}</span>
               <motion.div
@@ -314,7 +317,7 @@ const MobilePlanCard = memo(function MobilePlanCard({
               >
                 <ChevronDown className="w-5 h-5 text-slate-400" />
               </motion.div>
-            </button>
+            </Button>
 
             <AnimatePresence initial={false}>
               {expandedCategories.has(categoryIndex) && (
@@ -445,19 +448,21 @@ export default function PricingTable() {
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center justify-center gap-4"
           >
-            <button
+            <Button
+              variant="ghost"
               onClick={expandAll}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors touch-manipulation px-4 py-2"
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors touch-manipulation px-4 py-2 h-auto"
             >
               Expand all
-            </button>
+            </Button>
             <span className="text-slate-300">|</span>
-            <button
+            <Button
+              variant="ghost"
               onClick={collapseAll}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors touch-manipulation px-4 py-2"
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors touch-manipulation px-4 py-2 h-auto"
             >
               Collapse all
-            </button>
+            </Button>
           </motion.div>
         </div>
 

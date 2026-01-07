@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, type ReactNode } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import { BadgeShadcn } from '@/components/ui';
+import { enterpriseStats, type Stat } from '@/data/stats';
 
 interface CounterProps {
   end: number;
@@ -57,37 +59,25 @@ function AnimatedCounter({ end, prefix = '', suffix = '', decimals = 0, duration
   );
 }
 
-const stats = [
-  {
-    value: 2,
-    suffix: 'B',
-    prefix: '$',
-    label: 'tracked revenue',
-    decimals: 0,
-  },
-  {
-    value: 99.99,
-    suffix: '%',
-    label: 'historical uptime',
-    decimals: 2,
-  },
-  {
-    value: 2.5,
-    suffix: 'B',
-    label: 'users served',
-    decimals: 1,
-  },
-  {
-    value: 60,
-    suffix: 'B',
-    label: 'API calls / month',
-    decimals: 0,
-  },
-];
+interface StatsSectionProps {
+  stats?: Stat[];
+  title?: ReactNode;
+  subtitle?: ReactNode;
+  size?: 'sm' | 'default' | 'lg';
+  background?: 'white' | 'gray' | 'dark' | 'gradient';
+  badgeLabel?: string;
+}
 
-export default function StatsSection() {
+export default function StatsSection({
+  stats = enterpriseStats,
+  title = 'Adapty processes subscription revenue with the industry\'s highest SLA Rate',
+  subtitle,
+  size = 'default',
+  background = 'dark',
+  badgeLabel = '99.99% SLA • Enterprise-grade uptime',
+}: StatsSectionProps = {}) {
   return (
-    <Section size="default" background="dark">
+    <Section size={size} background={background}>
       <Container>
         {/* Section Header */}
         <motion.div
@@ -95,11 +85,26 @@ export default function StatsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
-            Adapty processes subscription revenue with the industry&apos;s highest SLA Rate
-          </h2>
+          {badgeLabel && (
+            <BadgeShadcn
+              variant="secondary"
+              className="inline-flex items-center justify-center px-4 py-1 text-xs font-semibold text-[var(--text-secondary)] bg-white/10 border-white/20 text-white uppercase tracking-wide mb-4"
+            >
+              {badgeLabel}
+            </BadgeShadcn>
+          )}
+          {title && (
+            <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p className="text-lg text-[var(--text-secondary)] mt-4 max-w-3xl mx-auto">
+              {subtitle}
+            </p>
+          )}
         </motion.div>
 
         {/* Stats Grid */}

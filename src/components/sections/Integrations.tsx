@@ -6,28 +6,14 @@ import Link from 'next/link';
 import { getAssetPath } from '@/lib/utils';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-
-const integrations = [
-  { name: 'Stripe', icon: '/logos/icon-stripe-logo.svg', href: 'https://adapty.io/integrations/stripe/' },
-  { name: 'Apple Ads', icon: '/logos/icon-apple-ads-text.svg', href: 'https://adapty.io/integrations/apple-search-ads/' },
-  { name: 'PostHog', icon: '/logos/posthog-logo-colorfull.svg', href: 'https://adapty.io/integrations/posthog/' },
-  { name: 'Branch', icon: '/logos/logo-branch.svg', href: 'https://adapty.io/integrations/branch/' },
-  { name: 'Braze', icon: '/logos/logo-braze.svg', href: 'https://adapty.io/integrations/braze/' },
-  { name: 'Amazon S3', icon: '/logos/logo-amazon-s3.svg', href: 'https://adapty.io/integrations/amazon-s3/' },
-  { name: 'Firebase', icon: '/logos/logo-firebase-and-ga.svg', href: 'https://adapty.io/integrations/google-analytics-firebase/' },
-  { name: 'Mixpanel', icon: '/logos/logo-mixpanel.svg', href: 'https://adapty.io/integrations/mixpanel/' },
-  { name: 'Airbridge', icon: '/logos/logo-airbridge.svg', href: 'https://adapty.io/integrations/airbridge/' },
-  { name: 'Facebook', icon: '/logos/logo-facebook-blue-text.svg', href: 'https://adapty.io/integrations/facebook-ads/' },
-  { name: 'AppsFlyer', icon: '/logos/logo-appsflyer.svg', href: 'https://adapty.io/integrations/appsflyer/' },
-  { name: 'Adjust', icon: '/logos/logo-adjust.svg', href: 'https://adapty.io/integrations/adjust/' },
-];
+import { integrations as defaultIntegrations, type Integration } from '@/data/integrations';
 
 // Memoized Integration Card Component
 const IntegrationCard = memo(function IntegrationCard({
   integration,
   index,
 }: {
-  integration: typeof integrations[0];
+  integration: Integration;
   index: number;
 }) {
   return (
@@ -50,7 +36,7 @@ const IntegrationCard = memo(function IntegrationCard({
         <div className="h-12 sm:h-14 flex items-center justify-center w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={getAssetPath(integration.icon)}
+            src={getAssetPath(integration.logo)}
             alt={integration.name}
             className="object-contain max-h-12 sm:max-h-14 max-w-[140px] sm:max-w-[160px] w-auto"
           />
@@ -60,7 +46,11 @@ const IntegrationCard = memo(function IntegrationCard({
   );
 });
 
-export default function Integrations() {
+interface IntegrationsProps {
+  integrations?: Integration[];
+}
+
+export default function Integrations({ integrations = defaultIntegrations }: IntegrationsProps = {}) {
   return (
     <Section id="integrations" size="lg" background="gray" className="overflow-hidden">
       <Container>
@@ -104,7 +94,7 @@ export default function Integrations() {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-[var(--spacing-md)]"
         >
           {integrations.map((integration, index) => (
-            <IntegrationCard key={integration.name} integration={integration} index={index} />
+            <IntegrationCard key={integration.id} integration={integration} index={index} />
           ))}
         </motion.div>
 

@@ -4,18 +4,62 @@ import { motion } from 'framer-motion';
 import { CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
+import { Button, BadgeShadcn } from '@/components/ui';
+import type { ReactNode } from 'react';
 
-const benefits = [
+interface CTAButtonProps {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
+  icon?: ReactNode;
+  iconPosition?: 'left' | 'right';
+}
+
+interface CTAProps {
+  id?: string;
+  title?: string;
+  highlight?: string;
+  description?: string;
+  primaryCTA?: CTAButtonProps;
+  secondaryCTA?: CTAButtonProps;
+  benefits?: string[];
+  background?: 'white' | 'gray' | 'gradient';
+}
+
+const defaultBenefits = [
   'Free plan available',
   'No credit card required',
   '5-minute integration',
   'Cancel anytime',
 ];
 
-export default function CTA() {
+const defaultPrimaryCTA: CTAButtonProps = {
+  label: 'Start for free',
+  href: '#',
+  variant: 'primary',
+  icon: <Sparkles className="w-5 h-5" />,
+  iconPosition: 'left',
+};
+
+const defaultSecondaryCTA: CTAButtonProps = {
+  label: 'Book a demo',
+  href: 'https://adapty.io/schedule-demo/',
+  variant: 'secondary',
+  icon: <ArrowRight className="w-5 h-5" />,
+};
+
+export default function CTA({
+  id = 'cta',
+  title = 'Ready to boost your',
+  highlight = 'app revenue?',
+  description = 'Join 15,000+ apps that use Adapty to manage and grow their subscription business. Get started in minutes.',
+  primaryCTA = defaultPrimaryCTA,
+  secondaryCTA = defaultSecondaryCTA,
+  benefits = defaultBenefits,
+  background = 'gradient',
+}: CTAProps) {
   return (
-    <Section size="lg" background="gradient" id="cta" className="relative overflow-hidden">
+    <Section size="lg" background={background} id={id} className="relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Main gradient orb */}
@@ -75,10 +119,12 @@ export default function CTA() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="text-[var(--text-h2)] sm:text-[var(--text-h1)] font-[var(--font-bold)] text-[var(--text-primary)] mb-[var(--spacing-lg)]"
           >
-            Ready to boost your{' '}
-            <span className="bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
-              app revenue?
-            </span>
+            {title}{' '}
+            {highlight && (
+              <span className="bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                {highlight}
+              </span>
+            )}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -87,8 +133,7 @@ export default function CTA() {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-[var(--text-lg)] text-[var(--text-secondary)] max-w-[42rem] mx-auto mb-[var(--spacing-2xl)]"
           >
-            Join 15,000+ apps that use Adapty to manage and grow their subscription business.
-            Get started in minutes.
+            {description}
           </motion.p>
         </div>
 
@@ -101,46 +146,55 @@ export default function CTA() {
           className="flex flex-col sm:flex-row gap-[var(--spacing-lg)] justify-center mb-[var(--spacing-2xl)]"
         >
           <Button
-            variant="primary"
+            variant={primaryCTA.variant ?? 'primary'}
             size="lg"
-            href="#"
-            icon={<Sparkles className="w-5 h-5" />}
-            iconPosition="left"
+            href={primaryCTA.href}
+            icon={primaryCTA.icon}
+            iconPosition={primaryCTA.iconPosition}
           >
-            Start for free
+            {primaryCTA.label}
           </Button>
-          <Button
-            variant="secondary"
-            size="lg"
-            href="https://adapty.io/schedule-demo/"
-            icon={<ArrowRight className="w-5 h-5" />}
-          >
-            Book a demo
-          </Button>
+          {secondaryCTA && (
+            <Button
+              variant={secondaryCTA.variant ?? 'secondary'}
+              size="lg"
+              href={secondaryCTA.href}
+              icon={secondaryCTA.icon}
+              iconPosition={secondaryCTA.iconPosition}
+            >
+              {secondaryCTA.label}
+            </Button>
+          )}
         </motion.div>
 
         {/* Benefits */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-x-[var(--spacing-xl)] gap-y-[var(--spacing-md)]"
-        >
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={benefit}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-              className="flex items-center gap-[var(--spacing-xs)] text-[var(--text-secondary)]"
-            >
-              <CheckCircle className="w-5 h-5 text-emerald-500" />
-              <span className="font-[var(--font-medium)]">{benefit}</span>
-            </motion.div>
-          ))}
-        </motion.div>
+        {benefits.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-x-[var(--spacing-xl)] gap-y-[var(--spacing-md)]"
+          >
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={benefit}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+              >
+                <BadgeShadcn
+                  variant="secondary"
+                  className="flex items-center gap-[var(--spacing-xs)] px-[var(--spacing-md)] py-[var(--spacing-xs)] text-[var(--text-secondary)] border-[var(--border-default)] bg-white/80"
+                >
+                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <span className="font-[var(--font-medium)] text-[var(--text-sm)]">{benefit}</span>
+                </BadgeShadcn>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </Container>
     </Section>
   );
