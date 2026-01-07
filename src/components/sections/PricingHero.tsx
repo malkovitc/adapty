@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
+import { BadgeShadcn } from '@/components/ui';
 
 export default function PricingHero() {
   const shouldReduceMotion = useReducedMotion();
@@ -50,9 +51,12 @@ export default function PricingHero() {
         >
           {/* Badge */}
           <motion.div variants={itemVariants} className="mb-6">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider text-[#6366F1] bg-indigo-50 border border-indigo-100">
+            <BadgeShadcn
+              variant="secondary"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider text-[#6366F1] bg-indigo-50 border border-indigo-100"
+            >
               Pricing
-            </span>
+            </BadgeShadcn>
           </motion.div>
 
           {/* Main Heading */}

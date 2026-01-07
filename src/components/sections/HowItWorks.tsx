@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-import { Button } from '@/components/ui';
+import { Button, BadgeShadcn } from '@/components/ui';
 
 const steps = [
   {
@@ -614,13 +614,17 @@ export default function HowItWorks() {
 
                     {/* Badge(s) */}
                     <div className="absolute -top-3 -right-3 z-20 flex gap-2">
-                      <span className={`px-3 py-1.5 bg-gradient-to-r ${step.badgeColor} text-white text-xs font-semibold rounded-full shadow-lg`}>
+                      <BadgeShadcn
+                        className={`px-3 py-1.5 text-white text-xs font-semibold rounded-full shadow-lg border-none bg-gradient-to-r ${step.badgeColor}`}
+                      >
                         {step.badge}
-                      </span>
+                      </BadgeShadcn>
                       {step.badge2 && (
-                        <span className={`px-3 py-1.5 bg-gradient-to-r ${step.badgeColor} text-white text-xs font-semibold rounded-full shadow-lg`}>
+                        <BadgeShadcn
+                          className={`px-3 py-1.5 text-white text-xs font-semibold rounded-full shadow-lg border-none bg-gradient-to-r ${step.badgeColor}`}
+                        >
                           {step.badge2}
-                        </span>
+                        </BadgeShadcn>
                       )}
                     </div>
 

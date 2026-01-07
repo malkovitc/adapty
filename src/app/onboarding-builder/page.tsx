@@ -1,15 +1,13 @@
 'use client';
 
 import { motion, useReducedMotion, useInView } from 'framer-motion';
-import { useRef, useEffect, useState, useCallback, memo, FormEvent } from 'react';
+import { useRef, useEffect, useState, useCallback, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Header, Footer } from '@/components/layout';
-import { BackToTop, SectionErrorBoundary } from '@/components/ui';
+import { BackToTop, SectionErrorBoundary, Button } from '@/components/ui';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
 import { getAssetPath } from '@/lib/utils';
 import {
   ArrowRight,
@@ -25,6 +23,8 @@ import {
   Target,
 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
+import VideoGateForm from '@/components/sections/VideoGateForm';
+import TabNavigation from '@/components/ui/TabNavigation';
 
 // Metadata is handled server-side, so we export it from a separate file or use generateMetadata
 // For client component, metadata should be in layout or a server component wrapper
@@ -264,87 +264,9 @@ function HeroSection() {
 }
 
 // ============================================================================
-// Video Demo Section with Form
-// ============================================================================
-function VideoDemoSection() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-  };
-
-  return (
-    <Section id="demo" size="lg" background="white">
-      <Container size="md">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-            Watch what you can build in two minutes
-            <span className="text-slate-400"> (or less)</span>
-          </h2>
-
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 justify-center mt-8 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                size="lg"
-                fullWidth
-                required
-              />
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                loading={isSubmitting}
-                icon={<Play className="w-4 h-4" fill="currentColor" />}
-                iconPosition="left"
-              >
-                Watch the demo
-              </Button>
-            </form>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mt-8"
-            >
-              {/* Video embed placeholder */}
-              <div className="aspect-video max-w-3xl mx-auto rounded-2xl overflow-hidden bg-slate-900 shadow-2xl">
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-900 to-slate-900">
-                  <button className="group flex items-center justify-center w-20 h-20 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all hover:scale-110">
-                    <Play className="w-8 h-8 text-white ml-1" fill="white" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </motion.div>
-      </Container>
-    </Section>
-  );
-}
-
-// ============================================================================
 // Feature Navigation Tabs
 // ============================================================================
-const features = [
+const featureNavItems = [
   { id: 'drag-drop', label: 'Drag-and-drop', icon: MousePointerClick },
   { id: 'personalization', label: 'Personalization', icon: Users },
   { id: 'ab-testing', label: 'A/B testing', icon: FlaskConical },
@@ -355,7 +277,7 @@ const features = [
 function FeatureNavigation() {
   const [activeFeature, setActiveFeature] = useState('drag-drop');
 
-  const scrollToFeature = (id: string) => {
+  const handleSelect = (id: string) => {
     setActiveFeature(id);
     const element = document.getElementById(id);
     if (element) {
@@ -366,28 +288,11 @@ function FeatureNavigation() {
   return (
     <Section size="sm" background="gray">
       <Container>
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            const isActive = activeFeature === feature.id;
-            return (
-              <button
-                key={feature.id}
-                onClick={() => scrollToFeature(feature.id)}
-                className={`
-                  flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all
-                  ${isActive
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
-                  }
-                `}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{feature.label}</span>
-              </button>
-            );
-          })}
-        </div>
+        <TabNavigation
+          items={featureNavItems}
+          activeId={activeFeature}
+          onSelect={handleSelect}
+        />
       </Container>
     </Section>
   );
@@ -1126,7 +1031,12 @@ export default function OnboardingBuilderPage() {
 
         {/* Video Demo Section with Form */}
         <SectionErrorBoundary sectionName="VideoDemo">
-          <VideoDemoSection />
+          <VideoGateForm
+            id="demo"
+            title="Watch what you can build in two minutes"
+            subtitle="(or less)"
+            ctaLabel="Watch the demo"
+          />
         </SectionErrorBoundary>
 
         {/* Feature Navigation Tabs */}

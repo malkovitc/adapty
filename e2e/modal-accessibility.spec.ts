@@ -22,7 +22,6 @@ test.describe('Modal Accessibility', () => {
     // Tab through all elements and verify focus stays in modal
     for (let i = 0; i < count + 1; i++) {
       await page.keyboard.press('Tab');
-      const focusedElement = page.locator(':focus');
 
       // Verify focused element is within the modal
       const isInModal = await modal.locator(':focus').count();

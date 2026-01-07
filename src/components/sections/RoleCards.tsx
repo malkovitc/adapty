@@ -42,7 +42,7 @@ export default function RoleCards() {
           transition={{ duration: 0.5 }}
           className="text-center mb-[var(--spacing-2xl)]"
         >
-          <h2 className="text-[var(--text-3xl)] sm:text-[var(--text-4xl)] font-bold text-[var(--text-primary)] leading-tight">
+          <h2 className="text-[var(--text-4xl)] sm:text-[var(--text-5xl)] lg:text-[var(--text-display)] font-[var(--font-bold)] text-[var(--text-primary)] leading-[1.1] px-4">
             Help your team run the mobile subscription business.
             <br />
             <span className="text-[var(--text-primary)]">
