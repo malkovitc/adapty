@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ChevronRight, Globe } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { navigation, productTabs, type NavigationItem } from '@/data';
 
 // Throttle function for performance optimization
@@ -21,21 +22,21 @@ function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(
   };
 }
 
-// Adapty Logo SVG component
-function AdaptyLogo({ className = '' }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0z"
-        fill="#3B1F6B"
-      />
-      <path
-        d="M22.4 12.8c0-3.535-2.865-6.4-6.4-6.4s-6.4 2.865-6.4 6.4v12.8h4.267v-4.267h4.266v4.267H22.4V12.8zm-6.4 4.267h-2.133V12.8a2.133 2.133 0 114.266 0v4.267H16z"
-        fill="#fff"
-      />
-    </svg>
-  );
-}
+const LANGUAGE_OPTIONS = [
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'uk', label: 'Українська', flag: '🇺🇦' },
+  { code: 'pl', label: 'Polski', flag: '🇵🇱' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'ja', label: '日本語', flag: '🇯🇵' },
+  { code: 'ko', label: '한국어', flag: '🇰🇷' },
+  { code: 'zh', label: '中文', flag: '🇨🇳' },
+  { code: 'pt', label: 'Português', flag: '🇵🇹' },
+];
+
 
 // Product Mega Menu Component
 function ProductMegaMenu({
@@ -225,6 +226,10 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
   const [activeProductTab, setActiveProductTab] = useState('Product');
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [isMobileLanguageMenuOpen, setIsMobileLanguageMenuOpen] = useState(false);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
     const scrollPosition = window.scrollY;
@@ -256,9 +261,43 @@ export default function Header() {
     return () => window.removeEventListener('keydown', handleEscapeKey);
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const storedLanguage = localStorage.getItem('preferredLanguage');
+    if (storedLanguage && LANGUAGE_OPTIONS.some((lang) => lang.code === storedLanguage)) {
+      setSelectedLanguage(storedLanguage);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLanguageMenuOpen) return;
+    function handleClickOutside(event: MouseEvent) {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
+        setIsLanguageMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isLanguageMenuOpen]);
+
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setExpandedMobileItem(null);
+  };
+
+  const currentLanguage =
+    LANGUAGE_OPTIONS.find((language) => language.code === selectedLanguage) || LANGUAGE_OPTIONS[0];
+
+  const handleLanguageSelect = (code: string) => {
+    setSelectedLanguage(code);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferredLanguage', code);
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', code);
+      window.history.replaceState(null, '', url.toString());
+    }
+    setIsLanguageMenuOpen(false);
+    setIsMobileLanguageMenuOpen(false);
   };
 
   return (
@@ -276,23 +315,59 @@ export default function Header() {
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo with icon and language selector */}
           <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2" aria-label="Adapty home">
-              <AdaptyLogo className="w-7 h-7" />
-              <motion.div
-                className="text-xl font-bold text-slate-900 transition-all duration-500"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-              >
-                adapty
-              </motion.div>
+            <Link href="/" className="flex items-center" aria-label="Adapty home">
+              <Image
+                src="/images/adapty-logo.svg"
+                alt="Adapty"
+                width={120}
+                height={32}
+                className="h-7 w-auto"
+                priority
+              />
             </Link>
 
             {/* Language selector */}
-            <button className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 bg-slate-100 rounded hover:bg-slate-200 transition-colors">
-              <Globe className="w-3 h-3" />
-              EN
-              <ChevronDown className="w-3 h-3" />
-            </button>
+            <div className="relative" ref={languageMenuRef}>
+              <button
+                className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-600 bg-slate-100 rounded hover:bg-slate-200 transition-colors"
+                onClick={() => setIsLanguageMenuOpen((prev) => !prev)}
+                aria-haspopup="menu"
+                aria-expanded={isLanguageMenuOpen}
+              >
+                <Globe className="w-3 h-3" />
+                <span className="text-sm">{currentLanguage.flag}</span>
+                {currentLanguage.code.toUpperCase()}
+                <ChevronDown className="w-3 h-3" />
+              </button>
+              <AnimatePresence>
+                {isLanguageMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 mt-2 w-44 rounded-xl border border-slate-200 bg-white shadow-xl overflow-hidden z-50"
+                  >
+                    <div className="py-2">
+                      {LANGUAGE_OPTIONS.map((lang) => (
+                        <button
+                          key={lang.code}
+                          className={`flex w-full items-center gap-2 px-4 py-2 text-sm transition-colors ${
+                            lang.code === selectedLanguage
+                              ? 'bg-violet-50 text-violet-600'
+                              : 'text-slate-700 hover:bg-slate-50'
+                          }`}
+                          onClick={() => handleLanguageSelect(lang.code)}
+                        >
+                          <span className="text-lg leading-none">{lang.flag}</span>
+                          {lang.label}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -371,7 +446,7 @@ export default function Header() {
             <motion.div whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="https://adapty.io/contact-sales/"
-                className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold bg-[#FF6B4A] text-white hover:bg-[#FF5733] transition-all duration-300 shadow-md hover:shadow-lg"
+                className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold bg-[#6720FF] text-white hover:bg-[#5B1FD9] transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Contact sales
                 <ChevronRight className="w-4 h-4" />
@@ -431,11 +506,16 @@ export default function Header() {
               <div className="flex h-16 items-center justify-between px-4">
                 <Link
                   href="/"
-                  className="flex items-center gap-2"
+                  className="flex items-center"
                   onClick={closeMobileMenu}
                 >
-                  <AdaptyLogo className="w-6 h-6" />
-                  <span className="text-xl font-bold text-white">adapty</span>
+                  <Image
+                    src="/images/adapty-logo.svg"
+                    alt="Adapty"
+                    width={100}
+                    height={26}
+                    className="h-6 w-auto brightness-0 invert"
+                  />
                 </Link>
                 <button
                   onClick={closeMobileMenu}
@@ -444,6 +524,49 @@ export default function Header() {
                 >
                   <X className="h-6 w-6 text-white" />
                 </button>
+              </div>
+
+              <div className="px-4 pt-4">
+                <button
+                  onClick={() => setIsMobileLanguageMenuOpen((prev) => !prev)}
+                  className="flex w-full items-center justify-between rounded-lg bg-slate-800/50 px-4 py-3 text-sm font-medium text-slate-200"
+                >
+                  <span className="flex items-center gap-2">
+                    <Globe className="w-4 h-4" />
+                    {currentLanguage.flag} {currentLanguage.label}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      isMobileLanguageMenuOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {isMobileLanguageMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-2 rounded-lg border border-slate-700 bg-slate-900/60"
+                    >
+                      {LANGUAGE_OPTIONS.map((lang) => (
+                        <button
+                          key={lang.code}
+                          className={`flex w-full items-center gap-3 px-4 py-2 text-left text-sm transition-colors ${
+                            lang.code === selectedLanguage
+                              ? 'text-white bg-slate-800'
+                              : 'text-slate-300 hover:bg-slate-800/60'
+                          }`}
+                          onClick={() => handleLanguageSelect(lang.code)}
+                        >
+                          <span className="text-lg leading-none">{lang.flag}</span>
+                          {lang.label}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <nav className="flex flex-col gap-1 px-4 py-6">
@@ -569,7 +692,7 @@ export default function Header() {
                 >
                   <Link
                     href="https://adapty.io/contact-sales/"
-                    className="block rounded-lg bg-[#FF6B4A] px-4 py-3 text-center text-base font-semibold text-white transition-all duration-300 hover:bg-[#FF5733]"
+                    className="block rounded-lg bg-[#6720FF] px-4 py-3 text-center text-base font-semibold text-white transition-all duration-300 hover:bg-[#5B1FD9]"
                     onClick={closeMobileMenu}
                   >
                     Contact sales
