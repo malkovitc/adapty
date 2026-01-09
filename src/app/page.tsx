@@ -1,7 +1,6 @@
 import { Header, Footer } from '@/components/layout';
 import { BackToTop, SectionErrorBoundary } from '@/components/ui';
 import Hero from '@/components/sections/Hero';
-import LogosMarquee from '@/components/sections/LogosMarquee';
 import RoleCards from '@/components/sections/RoleCards';
 import StatsSection from '@/components/sections/StatsSection';
 import SDKSection from '@/components/sections/SDKSection';
@@ -23,11 +22,6 @@ export default function Home() {
         {/* Hero with email form and dashboard preview */}
         <SectionErrorBoundary sectionName="Hero">
           <Hero />
-        </SectionErrorBoundary>
-
-        {/* Trusted by logos */}
-        <SectionErrorBoundary sectionName="LogosMarquee">
-          <LogosMarquee />
         </SectionErrorBoundary>
 
         {/* Role-based cards: For developers, app owners, marketers */}
