@@ -19,10 +19,10 @@ export default function LogosMarquee() {
   return (
     <section className="relative w-full py-12 sm:py-16 md:py-20 bg-white overflow-hidden">
       {/* Heading */}
-      <div className="mb-12 px-4 max-w-4xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">
+      <div className="mb-8 px-4 max-w-4xl mx-auto">
+        <p className="text-sm sm:text-base text-gray-500 text-center">
           Trusted by 15,000+ apps and the world's largest app publishers
-        </h2>
+        </p>
       </div>
 
       {/* Logos Container */}

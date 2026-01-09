@@ -4,7 +4,6 @@ import { useEffect, useState, useRef, type ReactNode } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-import { BadgeShadcn } from '@/components/ui';
 import { enterpriseStats, type Stat } from '@/data/stats';
 
 interface CounterProps {
@@ -65,71 +64,66 @@ interface StatsSectionProps {
   subtitle?: ReactNode;
   size?: 'sm' | 'default' | 'lg';
   background?: 'white' | 'gray' | 'dark' | 'gradient';
-  badgeLabel?: string;
 }
 
 export default function StatsSection({
   stats = enterpriseStats,
-  title = 'Adapty processes subscription revenue with the industry\'s highest SLA Rate',
-  subtitle,
-  size = 'default',
-  background = 'dark',
-  badgeLabel = '99.99% SLA • Enterprise-grade uptime',
+  title = 'Infrastructure at scale',
+  background = 'white',
 }: StatsSectionProps = {}) {
   return (
-    <Section size={size} background={background}>
+    <Section size="sm" background={background} className="py-10 sm:py-12">
       <Container>
-        {/* Section Header */}
+        {/* Section Header - Left aligned, technical style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12 sm:mb-16"
+          className="mb-2"
         >
-          {badgeLabel && (
-            <BadgeShadcn
-              variant="secondary"
-              className="inline-flex items-center justify-center px-4 py-1 text-xs font-semibold text-[var(--text-secondary)] bg-white/10 border-white/20 text-white uppercase tracking-wide mb-4"
-            >
-              {badgeLabel}
-            </BadgeShadcn>
-          )}
           {title && (
-            <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
+            <h2 className="text-xs font-medium text-gray-400 uppercase tracking-[0.1em]">
               {title}
             </h2>
           )}
-          {subtitle && (
-            <p className="text-lg text-[var(--text-secondary)] mt-4 max-w-3xl mx-auto">
-              {subtitle}
-            </p>
-          )}
         </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center"
-            >
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2">
-                <AnimatedCounter
-                  end={stat.value}
-                  prefix={stat.prefix}
-                  suffix={stat.suffix}
-                  decimals={stat.decimals}
-                />
+        {/* Stats Grid - Dashboard style with borders, more breathing room */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="border-y border-gray-200/80 py-10 sm:py-12 lg:py-14"
+        >
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`
+                  ${index < 3 ? 'lg:border-r lg:border-gray-200/60' : ''}
+                  ${index < 2 ? 'border-b lg:border-b-0 border-gray-200/60 pb-8 lg:pb-0' : 'pt-8 lg:pt-0'}
+                  lg:pr-10 last:lg:pr-0
+                `}
+              >
+                {/* Label - above number, uppercase, muted */}
+                <p className="text-[10px] sm:text-[11px] font-medium uppercase tracking-widest text-gray-400/80 mb-3">
+                  {stat.label}
+                </p>
+                {/* Number - large, bold */}
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight tabular-nums">
+                  <AnimatedCounter
+                    end={stat.value}
+                    prefix={stat.prefix}
+                    suffix={stat.suffix}
+                    decimals={stat.decimals}
+                  />
+                </div>
               </div>
-              <p className="text-[var(--text-secondary)] text-sm sm:text-base">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </motion.div>
       </Container>
     </Section>
   );

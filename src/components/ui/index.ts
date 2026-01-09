@@ -86,3 +86,8 @@ export {
 export { Progress, progressVariants, indicatorVariants } from './progress';
 export { Separator, separatorVariants } from './separator';
 export { ScrollArea, ScrollBar } from './scroll-area';
+
+export { FeatureSteps } from './feature-steps';
+export type { Feature, FeatureStepsProps } from './feature-steps';
+
+export { Marquee } from './marquee';
