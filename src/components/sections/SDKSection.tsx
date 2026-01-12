@@ -14,7 +14,6 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
-  Marquee,
 } from '@/components/ui';
 
 const platforms = [
@@ -25,21 +24,18 @@ const platforms = [
   { id: 'unity', name: 'Unity' },
 ];
 
-// SDK platform links for "Get the SDK for your platform" section - split into two rows
-const sdkPlatformsRow1 = [
-  { name: 'Swift SDK', href: 'https://adapty.io/sdk/ios/', icon: '/logos/icon-swift-64x64-1.svg' },
-  { name: 'Kotlin SDK', href: 'https://adapty.io/sdk/android/', icon: '/logos/icon-kotlin-64x64-1.svg' },
-  { name: 'React Native SDK', href: 'https://adapty.io/sdk/react-native/', icon: '/logos/icon-react-native-64x64-1.svg' },
-  { name: 'Unity SDK', href: 'https://adapty.io/sdk/unity/', icon: '/logos/icon-unity-64x64-1.svg' },
-  { name: 'Flutter SDK', href: 'https://adapty.io/sdk/flutter/', icon: '/logos/icon-flutter-64x64-1.svg' },
-];
-
-const sdkPlatformsRow2 = [
-  { name: 'Capacitor SDK', href: 'https://adapty.io/sdk/capacitor/', icon: '/logos/capacitor-logo.svg' },
-  { name: 'Kotlin Multiplatform', href: 'https://adapty.io/sdk/kmp/', icon: '/logos/icon-kotlin-64x64-1.svg' },
-  { name: 'FlutterFlow', href: 'https://adapty.io/sdk/flutterflow/', icon: '/logos/icon-flutterflow-64x64-1.svg' },
-  { name: 'Web API', href: 'https://adapty.io/sdk/web/', icon: '/logos/icon-web-64x64-1.svg' },
-  { name: 'Stripe', href: 'https://adapty.io/integrations/stripe/', icon: '/logos/icon-stripe-64x64-1.svg' },
+// SDK platforms with install commands for hover reveal
+const sdkPlatforms = [
+  { name: 'Swift', href: 'https://adapty.io/sdk/ios/', icon: '/logos/icon-swift-64x64-1.svg', install: "pod 'Adapty'" },
+  { name: 'Kotlin', href: 'https://adapty.io/sdk/android/', icon: '/logos/icon-kotlin-64x64-1.svg', install: "implementation 'io.adapty:android-sdk'" },
+  { name: 'React Native', href: 'https://adapty.io/sdk/react-native/', icon: '/logos/icon-react-native-64x64-1.svg', install: 'npm i react-native-adapty' },
+  { name: 'Flutter', href: 'https://adapty.io/sdk/flutter/', icon: '/logos/icon-flutter-64x64-1.svg', install: 'flutter pub add adapty_flutter' },
+  { name: 'Unity', href: 'https://adapty.io/sdk/unity/', icon: '/logos/icon-unity-64x64-1.svg', install: 'Package Manager' },
+  { name: 'Capacitor', href: 'https://adapty.io/sdk/capacitor/', icon: '/logos/capacitor-logo.svg', install: 'npm i @adapty/capacitor' },
+  { name: 'KMP', href: 'https://adapty.io/sdk/kmp/', icon: '/logos/icon-kotlin-64x64-1.svg', install: "implementation 'io.adapty:adapty-kmp'" },
+  { name: 'FlutterFlow', href: 'https://adapty.io/sdk/flutterflow/', icon: '/logos/icon-flutterflow-64x64-1.svg', install: 'Custom Action' },
+  { name: 'Web API', href: 'https://adapty.io/sdk/web/', icon: '/logos/icon-web-64x64-1.svg', install: 'REST API' },
+  { name: 'Stripe', href: 'https://adapty.io/integrations/stripe/', icon: '/logos/icon-stripe-64x64-1.svg', install: 'Dashboard' },
 ];
 
 const codeExamples: Record<string, string> = {
@@ -304,79 +300,63 @@ export default function SDKSection() {
       </Container>
     </Section>
 
-    {/* Get the SDK for your platform - light section with two-row Marquee */}
-    <Section size="lg" background="gray">
-      <Container size="full">
+    {/* Native SDKs - Static Grid with hover effects */}
+    <Section size="lg" className="relative !bg-transparent">
+      <Container size="lg" className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-10"
+          className="mb-10"
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
-            Get the SDK for your platform
+            Native SDKs for every stack.
           </h2>
         </motion.div>
 
-        <div className="relative space-y-4">
-          {/* Fade edges - left and right */}
-          <div className="pointer-events-none absolute left-0 -top-4 -bottom-4 w-24 sm:w-32 lg:w-48 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 -top-4 -bottom-4 w-24 sm:w-32 lg:w-48 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10" />
-
-          {/* Row 1 - scrolls left (default) */}
-          <Marquee pauseOnHover className="[--duration:25s] [--gap:1rem]">
-            {sdkPlatformsRow1.map((sdk) => (
+        {/* SDK Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {sdkPlatforms.map((sdk, index) => (
+            <motion.div
+              key={sdk.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+            >
               <Link
-                key={sdk.name}
                 href={sdk.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center justify-center p-6 bg-white hover:bg-gray-50 rounded-2xl border border-gray-200 hover:border-gray-300 shadow-sm transition-all duration-300 min-w-[180px] min-h-[140px]"
+                className="group relative flex flex-col items-center justify-center h-[140px] bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:-translate-y-1 hover:border-[#6720FF] hover:shadow-[0_10px_30px_-10px_rgba(103,32,255,0.3)] overflow-hidden"
               >
-                <div className="mb-3 h-12 flex items-center justify-center">
-                  <Image
-                    src={getAssetPath(sdk.icon)}
-                    alt={sdk.name}
-                    width={58}
-                    height={58}
-                    className="object-contain"
-                    unoptimized
-                  />
+                {/* Default state - grayscale icons, color on hover */}
+                <div className="flex flex-col items-center justify-center transition-all duration-300 group-hover:-translate-y-3">
+                  <div className="mb-3 h-10 w-10 flex items-center justify-center">
+                    <Image
+                      src={getAssetPath(sdk.icon)}
+                      alt={sdk.name}
+                      width={40}
+                      height={40}
+                      className="object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                      unoptimized
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700 group-hover:text-gray-900 transition-colors duration-300">
+                    {sdk.name}
+                  </span>
                 </div>
-                <h3 className="text-sm font-medium text-gray-900 group-hover:text-gray-600 transition-colors text-center">
-                  {sdk.name}
-                </h3>
-              </Link>
-            ))}
-          </Marquee>
 
-          {/* Row 2 - scrolls right (reverse) */}
-          <Marquee pauseOnHover reverse className="[--duration:25s] [--gap:1rem]">
-            {sdkPlatformsRow2.map((sdk) => (
-              <Link
-                key={sdk.name}
-                href={sdk.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col items-center justify-center p-6 bg-white hover:bg-gray-50 rounded-2xl border border-gray-200 hover:border-gray-300 shadow-sm transition-all duration-300 min-w-[180px] min-h-[140px]"
-              >
-                <div className="mb-3 h-12 flex items-center justify-center">
-                  <Image
-                    src={getAssetPath(sdk.icon)}
-                    alt={sdk.name}
-                    width={58}
-                    height={58}
-                    className="object-contain"
-                    unoptimized
-                  />
+                {/* Hover reveal - install command */}
+                <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gray-50/95 backdrop-blur-sm border-t border-gray-100 px-3 py-2.5">
+                  <code className="text-xs font-mono text-[#6720FF] truncate block text-center">
+                    {sdk.install}
+                  </code>
                 </div>
-                <h3 className="text-sm font-medium text-gray-900 group-hover:text-gray-600 transition-colors text-center">
-                  {sdk.name}
-                </h3>
               </Link>
-            ))}
-          </Marquee>
+            </motion.div>
+          ))}
         </div>
       </Container>
     </Section>

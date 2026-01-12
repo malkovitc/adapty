@@ -60,8 +60,8 @@ const featureCards: StackingCardData[] = [
 
 export default function FeatureSections() {
   return (
-    <section className="py-12 lg:py-20 bg-[#FAFAFA]">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+    <section className="py-12 lg:py-20 relative">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 relative z-10">
         <StackingCards cards={featureCards} />
       </div>
     </section>

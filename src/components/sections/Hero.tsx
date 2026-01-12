@@ -6,20 +6,23 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAssetPath } from '@/lib/utils';
-import { Button } from '@/components/ui';
 
 // Logos for trust bar
 const logos = [
   { name: 'Feeld', src: '/logos/logo-feeld-gray.svg' },
   { name: 'Bumble', src: '/logos/logo-bumble-gray.svg' },
-  { name: 'HUBX', src: '/logos/logo-hubx-gray.svg' },
+  { name: 'Weewoo', src: '/logos/weewoo.svg' },
+  { name: 'AppNation', src: '/logos/appnation.webp' },
+  { name: 'Almus', src: '/logos/almus.svg' },
   { name: 'Impala Studios', src: '/logos/logo-text-impala-studios-gray.svg' },
+  { name: 'HUBX', src: '/logos/logo-hubx-gray.svg' },
 ];
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
@@ -61,6 +64,13 @@ export default function Hero() {
     },
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      window.location.href = `https://adapty.io/signup/?email=${encodeURIComponent(email)}`;
+    }
+  };
+
   return (
     <section
       id="hero"
@@ -69,13 +79,14 @@ export default function Hero() {
       aria-label="Hero section"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-center min-h-[calc(100vh-80px)] py-16 lg:py-24">
+        {/* Main Hero Content - Two Column Layout */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center pt-28 lg:pt-36 pb-16 lg:pb-20">
           {/* Left Side - Text Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col"
+            className="flex flex-col w-full lg:w-1/2 lg:flex-shrink-0"
           >
             {/* Badge */}
             <motion.div variants={itemVariants} className="mb-6">
@@ -89,64 +100,61 @@ export default function Hero() {
               </Link>
             </motion.div>
 
-            {/* Main Heading */}
+            {/* Main Heading with Gradient */}
             <motion.h1
               variants={itemVariants}
-              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.15] tracking-[-0.02em] bg-gradient-to-b from-gray-900 via-gray-800 to-gray-500 bg-clip-text text-transparent mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold leading-[1.1] tracking-[-0.02em] mb-6"
+              style={{ textWrap: 'balance' } as React.CSSProperties}
             >
-              The scalable IAP
+              <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-violet-500 bg-clip-text text-transparent">
+                Revenue management
+              </span>
               <br />
-              infrastructure
+              <span className="text-gray-900">
+                for in-app purchases
+              </span>
             </motion.h1>
 
             {/* Subheading */}
             <motion.p
               variants={itemVariants}
-              className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-8 max-w-lg"
+              className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-8"
             >
-              Save months on integrating subscriptions. Double your app revenue with intelligent paywall management.
+              Save months on integrating subscriptions and double your app revenue with paywall management.
             </motion.p>
 
-            {/* Two Buttons */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row gap-3 mb-10"
-            >
-              <Button
-                variant="primary"
-                size="lg"
-                href="https://adapty.io/signup/"
-                className="sm:w-auto"
-              >
-                Start Building
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                href="https://adapty.io/schedule-demo/"
-                className="sm:w-auto"
-              >
-                Book a Demo
-              </Button>
-            </motion.div>
+            {/* Email Form + Demo Link */}
+            <motion.div variants={itemVariants} className="space-y-3">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full sm:w-56 lg:w-64 h-14 px-4 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="h-14 px-6 rounded-xl bg-[#6720FF] text-white font-semibold hover:bg-[#5B1FD9] transition-all shadow-md hover:shadow-lg whitespace-nowrap"
+                >
+                  Start for free
+                </button>
+              </form>
 
-            {/* Trust Logos */}
-            <motion.div variants={itemVariants}>
-              <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">
-                Trusted by leading apps
-              </p>
-              <div className="flex flex-wrap gap-6 items-center">
-                {logos.map((logo) => (
-                  <LogoItem key={logo.name} name={logo.name} src={logo.src} />
-                ))}
-              </div>
+              <Link
+                href="https://adapty.io/schedule-demo/"
+                className="group inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Book a demo
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </Link>
             </motion.div>
           </motion.div>
 
           {/* Right Side - Dashboard Image with Tilt Effect */}
           <div
-            className="relative"
+            className="relative w-full lg:w-1/2 lg:flex-shrink-0"
             style={{ perspective: '1200px' }}
           >
             {/* Glow effect */}
@@ -160,8 +168,9 @@ export default function Hero() {
                 rotateX: rotate,
                 scale,
                 translateY,
+                boxShadow: '0 24px 48px -12px rgba(16, 24, 40, 0.18)',
               }}
-              className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200/50 bg-white"
+              className="relative rounded-2xl overflow-hidden border border-gray-200/50 bg-white"
             >
               <Image
                 src={getAssetPath('/images/hero/adapty-overview.webp')}
@@ -175,6 +184,23 @@ export default function Hero() {
             </motion.div>
           </div>
         </div>
+
+        {/* Trust Strip - Full Width Logo Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="border-t border-gray-100 py-12 lg:py-16"
+        >
+          <p className="text-sm text-gray-500 text-center mb-8">
+            Trusted by 15,000+ apps and the world's largest app publishers
+          </p>
+          <div className="flex flex-wrap justify-center gap-8 lg:gap-16 items-center">
+            {logos.map((logo) => (
+              <LogoItem key={logo.name} name={logo.name} src={logo.src} />
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -182,13 +208,13 @@ export default function Hero() {
 
 const LogoItem = memo(function LogoItem({ name, src }: { name: string; src: string }) {
   return (
-    <div className="h-8 flex items-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+    <div className="h-10 flex items-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
       <Image
         src={getAssetPath(src)}
         alt={name}
-        width={100}
-        height={32}
-        className="h-6 w-auto object-contain"
+        width={120}
+        height={40}
+        className="h-7 w-auto object-contain"
         unoptimized
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
       />

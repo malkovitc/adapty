@@ -88,9 +88,9 @@ export function StackingCards({ cards, className, stickyTop = 100 }: StackingCar
             'sticky bg-white shadow-xl border border-slate-200'
           )}
           style={{
-            top: `${stickyTop}px`,
+            top: `${stickyTop + (index * 20)}px`,
             zIndex: index + 1,
-            marginBottom: '500px'
+            marginBottom: index < cards.length - 1 ? '60vh' : '0px',
           }}
         >
           {/* Content Side - Always Left */}

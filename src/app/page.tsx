@@ -1,5 +1,6 @@
 import { Header, Footer } from '@/components/layout';
 import { BackToTop, SectionErrorBoundary } from '@/components/ui';
+import { LightRays } from '@/components/ui/light-rays';
 import Hero from '@/components/sections/Hero';
 import RoleCards from '@/components/sections/RoleCards';
 import StatsSection from '@/components/sections/StatsSection';
@@ -34,12 +35,15 @@ export default function Home() {
           <StatsSection />
         </SectionErrorBoundary>
 
-        {/* SDK integration code examples with tabs */}
-        <SectionErrorBoundary sectionName="SDKSection">
-          <SDKSection />
-        </SectionErrorBoundary>
+        {/* SDK with light rays background */}
+        <div className="relative overflow-hidden bg-[#FAFAFA]">
+          <LightRays color="rgba(103, 32, 255, 0.3)" />
+          <SectionErrorBoundary sectionName="SDKSection">
+            <SDKSection />
+          </SectionErrorBoundary>
+        </div>
 
-        {/* Feature sections with testimonials */}
+        {/* Feature Cards - outside overflow container for sticky to work */}
         <SectionErrorBoundary sectionName="FeatureSections">
           <FeatureSections />
         </SectionErrorBoundary>
